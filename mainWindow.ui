@@ -90,40 +90,40 @@
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>QNH</string>
+             <string>HPA</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="edtQNH"/>
+           <widget class="QLineEdit" name="edtHPA"/>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,15">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>QFE</string>
+             <string>MM</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="edtQFE"/>
+           <widget class="QLineEdit" name="edtMMRT"/>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,15">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>QNE</string>
+             <string>INCH</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="edtQNE"/>
+           <widget class="QLineEdit" name="edtENCHRT"/>
           </item>
          </layout>
         </item>

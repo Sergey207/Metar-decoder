@@ -19,9 +19,9 @@ class Window(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
-        self.edtQNH.textChanged.connect(self.onQChanged)
-        self.edtQFE.textChanged.connect(self.onQChanged)
-        self.edtQNE.textChanged.connect(self.onQChanged)
+        self.edtMMRT.textChanged.connect(self.onQChanged)
+        self.edtMMRT.textChanged.connect(self.onQChanged)
+        self.edtENCHRT.textChanged.connect(self.onQChanged)
 
         self.tblResult.setRowCount(10)
         self.tblResult.setColumnCount(2)
@@ -49,6 +49,8 @@ class Window(QMainWindow, Ui_MainWindow):
         except ValueError:
             self.statusBar().showMessage('Uncorrect input data!', 5000)
             return
+        # if sender == self.edtHPA:
+        #     print(True)
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
@@ -56,7 +58,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def updateMetar(self):
         try:
-            metar = M(self.edtAirportCode.text())
+            metar = M(self.edtAirportCode.text().upper())
             # metar = M(self.edtAirportCode.text())
             metar_text = metar.metar.split()
         except NOAAServError:
@@ -90,9 +92,6 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.tblResult.setItem(8, 0, QTableWidgetItem('Forecast'))
         self.tblResult.setItem(8, 1, QTableWidgetItem(f'{m.max_temp_24hr}'))  # TODO
-
-        self.tblResult.setItem(9, 0, QTableWidgetItem('Visibility'))
-        self.tblResult.setItem(9, 1, QTableWidgetItem(f'{metar.vmc}'))  # TODO
 
 
 def main():

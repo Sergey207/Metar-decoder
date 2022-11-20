@@ -79,49 +79,45 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.label_2)
 
-        self.edtQNH = QLineEdit(self.tab_2)
-        self.edtQNH.setObjectName(u"edtQNH")
+        self.edtHPA = QLineEdit(self.tab_2)
+        self.edtHPA.setObjectName(u"edtHPA")
 
-        self.horizontalLayout_4.addWidget(self.edtQNH)
+        self.horizontalLayout_4.addWidget(self.edtHPA)
 
         self.horizontalLayout_4.setStretch(0, 1)
         self.horizontalLayout_4.setStretch(1, 15)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_4)
 
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label_3 = QLabel(self.tab_2)
         self.label_3.setObjectName(u"label_3")
 
-        self.horizontalLayout_3.addWidget(self.label_3)
+        self.horizontalLayout_2.addWidget(self.label_3)
 
-        self.edtQFE = QLineEdit(self.tab_2)
-        self.edtQFE.setObjectName(u"edtQFE")
+        self.edtMMRT = QLineEdit(self.tab_2)
+        self.edtMMRT.setObjectName(u"edtMMRT")
 
-        self.horizontalLayout_3.addWidget(self.edtQFE)
+        self.horizontalLayout_2.addWidget(self.edtMMRT)
 
-        self.horizontalLayout_3.setStretch(0, 1)
-        self.horizontalLayout_3.setStretch(1, 15)
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_4 = QLabel(self.tab_2)
         self.label_4.setObjectName(u"label_4")
 
-        self.horizontalLayout_2.addWidget(self.label_4)
+        self.horizontalLayout_3.addWidget(self.label_4)
 
-        self.edtQNE = QLineEdit(self.tab_2)
-        self.edtQNE.setObjectName(u"edtQNE")
+        self.edtENCHRT = QLineEdit(self.tab_2)
+        self.edtENCHRT.setObjectName(u"edtENCHRT")
 
-        self.horizontalLayout_2.addWidget(self.edtQNE)
+        self.horizontalLayout_3.addWidget(self.edtENCHRT)
 
-        self.horizontalLayout_2.setStretch(0, 1)
-        self.horizontalLayout_2.setStretch(1, 15)
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -148,9 +144,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMetar), QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"QNH", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"QFE", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"QNE", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"HPA", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"MM", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"INCH", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Calculator", None))
     # retranslateUi
 
