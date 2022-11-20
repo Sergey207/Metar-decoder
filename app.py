@@ -48,6 +48,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         sender: QLineEdit = self.sender()
         if not isinstance(sender, QLineEdit):
+            self.isEditing = False
             return
         text = sender.text().replace(',', '.')
         if text == '':
@@ -58,6 +59,7 @@ class Window(QMainWindow, Ui_MainWindow):
         try:
             text = float(text)
         except ValueError:
+            self.isEditing = False
             self.statusBar.showMessage('Uncorrect input data!', 5000)
             return
         if sender == self.edtHPA:
