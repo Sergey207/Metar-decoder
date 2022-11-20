@@ -23,6 +23,8 @@ class Window(QMainWindow, Ui_MainWindow):
         self.edtMMRT.textChanged.connect(self.onQChanged)
         self.edtENCHRT.textChanged.connect(self.onQChanged)
 
+        self.isEditing = False
+
         self.tblResult.setRowCount(10)
         self.tblResult.setColumnCount(2)
         self.tblResult.setHorizontalHeaderLabels(("Name", "Value", "Code"))
@@ -40,6 +42,10 @@ class Window(QMainWindow, Ui_MainWindow):
         # self.tblResult.setColumnWidth(1, 10)
 
     def onQChanged(self):
+        if self.isEditing:
+            return
+        self.isEditing = True
+
         sender: QLineEdit = self.sender()
         if not isinstance(sender, QLineEdit):
             return
@@ -57,6 +63,13 @@ class Window(QMainWindow, Ui_MainWindow):
         if sender == self.edtHPA:
             self.edtMMRT.setText(str(text * 0.750064))
             self.edtENCHRT.setText(str(text * 0.02953))
+        elif sender == self.edtMMRT:
+            self.edtHPA.setText(str(text * 1.33322390232))
+            self.edtENCHRT.setText(str(text * 0.039370068943645))
+        elif sender == self.edtENCHRT:
+            self.edtHPA.setText(str(text * 33.86389))
+            self.edtMMRT.setText(str(text * 25.40000632032))
+        self.isEditing = False
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
