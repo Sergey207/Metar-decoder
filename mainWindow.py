@@ -85,7 +85,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.edtHPA)
 
         self.horizontalLayout_4.setStretch(0, 1)
-        self.horizontalLayout_4.setStretch(1, 15)
+        self.horizontalLayout_4.setStretch(1, 14)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_4)
 
@@ -101,6 +101,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.edtMMRT)
 
+        self.horizontalLayout_2.setStretch(0, 1)
+        self.horizontalLayout_2.setStretch(1, 14)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
 
@@ -116,6 +118,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.edtENCHRT)
 
+        self.horizontalLayout_3.setStretch(0, 1)
+        self.horizontalLayout_3.setStretch(1, 14)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
 

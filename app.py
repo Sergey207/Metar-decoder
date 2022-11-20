@@ -19,7 +19,7 @@ class Window(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
-        self.edtMMRT.textChanged.connect(self.onQChanged)
+        self.edtHPA.textChanged.connect(self.onQChanged)
         self.edtMMRT.textChanged.connect(self.onQChanged)
         self.edtENCHRT.textChanged.connect(self.onQChanged)
 
@@ -43,14 +43,20 @@ class Window(QMainWindow, Ui_MainWindow):
         sender: QLineEdit = self.sender()
         if not isinstance(sender, QLineEdit):
             return
-        text = sender.text()
+        text = sender.text().replace(',', '.')
+        if text == '':
+            self.edtHPA.clear()
+            self.edtMMRT.clear()
+            self.edtENCHRT.clear()
+
         try:
             text = float(text)
         except ValueError:
-            self.statusBar().showMessage('Uncorrect input data!', 5000)
+            self.statusBar.showMessage('Uncorrect input data!', 5000)
             return
-        # if sender == self.edtHPA:
-        #     print(True)
+        if sender == self.edtHPA:
+            self.edtMMRT.setText(str(text * 0.750064))
+            self.edtENCHRT.setText(str(text * 0.02953))
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
@@ -62,7 +68,7 @@ class Window(QMainWindow, Ui_MainWindow):
             # metar = M(self.edtAirportCode.text())
             metar_text = metar.metar.split()
         except NOAAServError:
-            self.statusBar.showMessage('Error updating metar data -> check your internet and code!')
+            self.statusBar.showMessage('Error updating metar data -> check your internet and code!', 5000)
             return
         m = Metar(' '.join(metar_text))
 
