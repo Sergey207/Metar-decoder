@@ -3,7 +3,7 @@ import sys
 from pprint import pprint
 
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QButtonGroup, QPushButton
 from PythonMETAR import Metar as M, NOAAServError
 from metar.Metar import Metar
 
@@ -14,11 +14,13 @@ TEST_DATA = [
 ]
 APP_DIR = pathlib.Path(__file__).parent
 
-DEBUG = '.idea' in map(lambda x: x.name, APP_DIR.iterdir())
+DEBUG = '.idea1' in map(lambda x: x.name, APP_DIR.iterdir())
 TIME_TO_ERROR_MESSAGE = 2000  # milliseconds
 
 
 class Window(QMainWindow, Ui_MainWindow):
+    EXPRESSION_SYMBOLS = '1234567890()^:*+-. '
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -26,6 +28,8 @@ class Window(QMainWindow, Ui_MainWindow):
         self.edtHPA.textChanged.connect(self.onQChanged)
         self.edtMMRT.textChanged.connect(self.onQChanged)
         self.edtENCHRT.textChanged.connect(self.onQChanged)
+        self.grpDigits.buttonClicked.connect(self.onDigitalClick)
+        self.grpActions.buttonClicked.connect(self.onActionClick)
 
         self.isEditing = False
 
@@ -37,9 +41,35 @@ class Window(QMainWindow, Ui_MainWindow):
         if DEBUG:
             self.edtAirportCode.setText('UUWW')
 
-    def updateTableSize(self):
-        self.tblResult.setColumnWidth(0, 200)
-        self.tblResult.setColumnWidth(1, 540)
+    def check_expression(self) -> bool:
+        return all([i in self.EXPRESSION_SYMBOLS for i in self.edtExpression.text()])
+
+    def resolveExpression(self):
+        if not self.check_expression():
+            self.statusBar.showMessage('Wrong expression!', TIME_TO_ERROR_MESSAGE)
+            return
+        e = self.edtExpression.text()
+        e = e.replace(':', '/')
+        if '^' in e:
+            e = '(' + e
+            e = e.replace('^', ')**(')
+            e += ')'
+        self.edtExpression.setText(str(float(eval(e))))
+
+    def onDigitalClick(self, sender: QPushButton):
+        if not isinstance(sender, QPushButton):
+            return
+        self.edtExpression.setText(self.edtExpression.text() + sender.text())
+
+    def onActionClick(self, sender: QPushButton):
+        if not isinstance(sender, QPushButton):
+            return
+        if sender == self.btnClear:
+            self.edtExpression.clear()
+        elif sender == self.btnRes:
+            self.resolveExpression()
+        else:
+            self.edtExpression.setText(self.edtExpression.text() + sender.text())
 
     def onQChanged(self):
         if self.isEditing:
@@ -72,6 +102,10 @@ class Window(QMainWindow, Ui_MainWindow):
             self.edtHPA.setText(str(text * 33.86389))
             self.edtMMRT.setText(str(text * 25.40000632032))
         self.isEditing = False
+
+    def updateTableSize(self):
+        self.tblResult.setColumnWidth(0, 200)
+        self.tblResult.setColumnWidth(1, 540)
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
