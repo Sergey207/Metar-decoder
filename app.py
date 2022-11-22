@@ -30,6 +30,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.edtENCHRT.textChanged.connect(self.onQChanged)
         self.grpDigits.buttonClicked.connect(self.onDigitalClick)
         self.grpActions.buttonClicked.connect(self.onActionClick)
+        self.edtExpression.returnPressed.connect(self.resolveExpression)
 
         self.isEditing = False
 
@@ -54,7 +55,10 @@ class Window(QMainWindow, Ui_MainWindow):
             e = '(' + e
             e = e.replace('^', ')**(')
             e += ')'
-        self.edtExpression.setText(str(float(eval(e))))
+        if e != '':
+            self.edtExpression.setText(str(float(eval(e))))
+        else:
+            self.edtExpression.setText('0')
 
     def onDigitalClick(self, sender: QPushButton):
         if not isinstance(sender, QPushButton):
