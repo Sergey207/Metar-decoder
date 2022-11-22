@@ -34,7 +34,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.isEditing = False
 
-        self.tblResult.setRowCount(10)
+        self.tblResult.setRowCount(9)
         self.tblResult.setColumnCount(2)
         self.tblResult.setHorizontalHeaderLabels(("Name", "Value"))
 
@@ -135,7 +135,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setItem(2, 1, QTableWidgetItem(f"Direction: {m.wind_dir} Speed: {m.wind_speed}"))
 
         self.tblResult.setItem(3, 0, QTableWidgetItem('Visibility'))
-        self.tblResult.setItem(3, 1, QTableWidgetItem(str(m.visibility('M'))))
+        self.tblResult.setItem(3, 1, QTableWidgetItem(str(m.visibility())))
 
         self.tblResult.setItem(4, 0, QTableWidgetItem('Weather'))
         self.tblResult.setItem(4, 1, QTableWidgetItem(str(metar.weather)))  # TODO
@@ -152,8 +152,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setItem(8, 0, QTableWidgetItem('Forecast'))
         self.tblResult.setItem(8, 1, QTableWidgetItem(f'{m.max_temp_24hr}'))  # TODO
 
-        self.tblResult.setItem(9, 0, QTableWidgetItem('Metar text'))
-        self.tblResult.setItem(9, 1, QTableWidgetItem(str(m.code)))
+        self.edtMetarCode.setText(m.code)
 
 
 def main():

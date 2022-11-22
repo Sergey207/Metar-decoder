@@ -77,6 +77,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
+        self.edtMetarCode = QLineEdit(self.tabMetar)
+        self.edtMetarCode.setObjectName(u"edtMetarCode")
+        font1 = QFont()
+        font1.setPointSize(8)
+        self.edtMetarCode.setFont(font1)
+        self.edtMetarCode.setReadOnly(True)
+
+        self.verticalLayout_2.addWidget(self.edtMetarCode)
+
         self.tabWidget.addTab(self.tabMetar, "")
         self.tabCalculator = QWidget()
         self.tabCalculator.setObjectName(u"tabCalculator")
@@ -167,10 +176,10 @@ class Ui_MainWindow(object):
         self.btnLS.setObjectName(u"btnLS")
         self.btnLS.setMinimumSize(QSize(50, 50))
         self.btnLS.setMaximumSize(QSize(50, 50))
-        font1 = QFont()
-        font1.setPointSize(15)
-        font1.setBold(False)
-        self.btnLS.setFont(font1)
+        font2 = QFont()
+        font2.setPointSize(15)
+        font2.setBold(False)
+        self.btnLS.setFont(font2)
 
         self.gridLayout.addWidget(self.btnLS, 0, 0, 1, 1)
 
@@ -179,7 +188,7 @@ class Ui_MainWindow(object):
         self.btnRS.setObjectName(u"btnRS")
         self.btnRS.setMinimumSize(QSize(50, 50))
         self.btnRS.setMaximumSize(QSize(50, 50))
-        self.btnRS.setFont(font1)
+        self.btnRS.setFont(font2)
 
         self.gridLayout.addWidget(self.btnRS, 0, 1, 1, 1)
 
@@ -188,7 +197,7 @@ class Ui_MainWindow(object):
         self.btnStepen.setObjectName(u"btnStepen")
         self.btnStepen.setMinimumSize(QSize(50, 50))
         self.btnStepen.setMaximumSize(QSize(50, 50))
-        self.btnStepen.setFont(font1)
+        self.btnStepen.setFont(font2)
 
         self.gridLayout.addWidget(self.btnStepen, 0, 2, 1, 1)
 
@@ -197,7 +206,7 @@ class Ui_MainWindow(object):
         self.btnPlus.setObjectName(u"btnPlus")
         self.btnPlus.setMinimumSize(QSize(50, 50))
         self.btnPlus.setMaximumSize(QSize(50, 50))
-        self.btnPlus.setFont(font1)
+        self.btnPlus.setFont(font2)
 
         self.gridLayout.addWidget(self.btnPlus, 0, 3, 1, 1)
 
@@ -208,7 +217,7 @@ class Ui_MainWindow(object):
         self.btn1.setObjectName(u"btn1")
         self.btn1.setMinimumSize(QSize(50, 50))
         self.btn1.setMaximumSize(QSize(50, 50))
-        self.btn1.setFont(font1)
+        self.btn1.setFont(font2)
 
         self.gridLayout.addWidget(self.btn1, 1, 0, 1, 1)
 
@@ -217,7 +226,7 @@ class Ui_MainWindow(object):
         self.btn2.setObjectName(u"btn2")
         self.btn2.setMinimumSize(QSize(50, 50))
         self.btn2.setMaximumSize(QSize(50, 50))
-        self.btn2.setFont(font1)
+        self.btn2.setFont(font2)
 
         self.gridLayout.addWidget(self.btn2, 1, 1, 1, 1)
 
@@ -226,7 +235,7 @@ class Ui_MainWindow(object):
         self.btn3.setObjectName(u"btn3")
         self.btn3.setMinimumSize(QSize(50, 50))
         self.btn3.setMaximumSize(QSize(50, 50))
-        self.btn3.setFont(font1)
+        self.btn3.setFont(font2)
 
         self.gridLayout.addWidget(self.btn3, 1, 2, 1, 1)
 
@@ -235,7 +244,7 @@ class Ui_MainWindow(object):
         self.btnMinus.setObjectName(u"btnMinus")
         self.btnMinus.setMinimumSize(QSize(50, 50))
         self.btnMinus.setMaximumSize(QSize(50, 50))
-        self.btnMinus.setFont(font1)
+        self.btnMinus.setFont(font2)
 
         self.gridLayout.addWidget(self.btnMinus, 1, 3, 1, 1)
 
@@ -244,7 +253,7 @@ class Ui_MainWindow(object):
         self.btn4.setObjectName(u"btn4")
         self.btn4.setMinimumSize(QSize(50, 50))
         self.btn4.setMaximumSize(QSize(50, 50))
-        self.btn4.setFont(font1)
+        self.btn4.setFont(font2)
 
         self.gridLayout.addWidget(self.btn4, 2, 0, 1, 1)
 
@@ -253,7 +262,7 @@ class Ui_MainWindow(object):
         self.btn5.setObjectName(u"btn5")
         self.btn5.setMinimumSize(QSize(50, 50))
         self.btn5.setMaximumSize(QSize(50, 50))
-        self.btn5.setFont(font1)
+        self.btn5.setFont(font2)
 
         self.gridLayout.addWidget(self.btn5, 2, 1, 1, 1)
 
@@ -262,7 +271,7 @@ class Ui_MainWindow(object):
         self.btn6.setObjectName(u"btn6")
         self.btn6.setMinimumSize(QSize(50, 50))
         self.btn6.setMaximumSize(QSize(50, 50))
-        self.btn6.setFont(font1)
+        self.btn6.setFont(font2)
 
         self.gridLayout.addWidget(self.btn6, 2, 2, 1, 1)
 
@@ -271,7 +280,7 @@ class Ui_MainWindow(object):
         self.btnUmno.setObjectName(u"btnUmno")
         self.btnUmno.setMinimumSize(QSize(50, 50))
         self.btnUmno.setMaximumSize(QSize(50, 50))
-        self.btnUmno.setFont(font1)
+        self.btnUmno.setFont(font2)
 
         self.gridLayout.addWidget(self.btnUmno, 2, 3, 1, 1)
 
@@ -281,7 +290,7 @@ class Ui_MainWindow(object):
         self.btn7.setMinimumSize(QSize(50, 50))
         self.btn7.setMaximumSize(QSize(50, 50))
         self.btn7.setBaseSize(QSize(50, 50))
-        self.btn7.setFont(font1)
+        self.btn7.setFont(font2)
 
         self.gridLayout.addWidget(self.btn7, 3, 0, 1, 1)
 
@@ -290,7 +299,7 @@ class Ui_MainWindow(object):
         self.btn8.setObjectName(u"btn8")
         self.btn8.setMinimumSize(QSize(50, 50))
         self.btn8.setMaximumSize(QSize(50, 50))
-        self.btn8.setFont(font1)
+        self.btn8.setFont(font2)
 
         self.gridLayout.addWidget(self.btn8, 3, 1, 1, 1)
 
@@ -299,7 +308,7 @@ class Ui_MainWindow(object):
         self.btn9.setObjectName(u"btn9")
         self.btn9.setMinimumSize(QSize(50, 50))
         self.btn9.setMaximumSize(QSize(50, 50))
-        self.btn9.setFont(font1)
+        self.btn9.setFont(font2)
 
         self.gridLayout.addWidget(self.btn9, 3, 2, 1, 1)
 
@@ -308,7 +317,7 @@ class Ui_MainWindow(object):
         self.btnDel.setObjectName(u"btnDel")
         self.btnDel.setMinimumSize(QSize(50, 50))
         self.btnDel.setMaximumSize(QSize(50, 50))
-        self.btnDel.setFont(font1)
+        self.btnDel.setFont(font2)
 
         self.gridLayout.addWidget(self.btnDel, 3, 3, 1, 1)
 
@@ -317,7 +326,7 @@ class Ui_MainWindow(object):
         self.btn0.setObjectName(u"btn0")
         self.btn0.setMinimumSize(QSize(50, 50))
         self.btn0.setMaximumSize(QSize(50, 50))
-        self.btn0.setFont(font1)
+        self.btn0.setFont(font2)
 
         self.gridLayout.addWidget(self.btn0, 4, 0, 1, 1)
 
@@ -326,7 +335,7 @@ class Ui_MainWindow(object):
         self.btnDot.setObjectName(u"btnDot")
         self.btnDot.setMinimumSize(QSize(50, 50))
         self.btnDot.setMaximumSize(QSize(50, 50))
-        self.btnDot.setFont(font1)
+        self.btnDot.setFont(font2)
 
         self.gridLayout.addWidget(self.btnDot, 4, 1, 1, 1)
 
@@ -335,7 +344,7 @@ class Ui_MainWindow(object):
         self.btnClear.setObjectName(u"btnClear")
         self.btnClear.setMinimumSize(QSize(50, 50))
         self.btnClear.setMaximumSize(QSize(50, 50))
-        self.btnClear.setFont(font1)
+        self.btnClear.setFont(font2)
 
         self.gridLayout.addWidget(self.btnClear, 4, 2, 1, 1)
 
@@ -344,7 +353,7 @@ class Ui_MainWindow(object):
         self.btnRes.setObjectName(u"btnRes")
         self.btnRes.setMinimumSize(QSize(50, 50))
         self.btnRes.setMaximumSize(QSize(50, 50))
-        self.btnRes.setFont(font1)
+        self.btnRes.setFont(font2)
 
         self.gridLayout.addWidget(self.btnRes, 4, 3, 1, 1)
 
