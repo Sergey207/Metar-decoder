@@ -1,3 +1,4 @@
+import pathlib
 import sys
 from pprint import pprint
 
@@ -10,8 +11,10 @@ from mainWindow import Ui_MainWindow
 TEST_DATA = [
     "UUWW", "UUEE", "KJFK"
 ]
+APP_DIR = pathlib.Path(__file__).parent
 
-DEBUG = True
+DEBUG = '.idea' in map(lambda x: x.name, APP_DIR.iterdir())
+TIME_TO_ERROR_MESSAGE = 2000  # milliseconds
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -27,19 +30,15 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.tblResult.setRowCount(10)
         self.tblResult.setColumnCount(2)
-        self.tblResult.setHorizontalHeaderLabels(("Name", "Value", "Code"))
+        self.tblResult.setHorizontalHeaderLabels(("Name", "Value"))
 
         self.updateTableSize()
         if DEBUG:
             self.edtAirportCode.setText('UUWW')
-            # self.onAirportCodeChanged()
 
     def updateTableSize(self):
         self.tblResult.setColumnWidth(0, 200)
-        self.tblResult.setColumnWidth(1, 400)
-        self.tblResult.setColumnWidth(2, 150)
-        # self.tblResult.setColumnWidth(0, 100)
-        # self.tblResult.setColumnWidth(1, 10)
+        self.tblResult.setColumnWidth(1, 540)
 
     def onQChanged(self):
         if self.isEditing:
@@ -60,7 +59,7 @@ class Window(QMainWindow, Ui_MainWindow):
             text = float(text)
         except ValueError:
             self.isEditing = False
-            self.statusBar.showMessage('Uncorrect input data!', 5000)
+            self.statusBar.showMessage('Uncorrect input data!', TIME_TO_ERROR_MESSAGE)
             return
         if sender == self.edtHPA:
             self.edtMMRT.setText(str(text * 0.750064))
@@ -80,10 +79,10 @@ class Window(QMainWindow, Ui_MainWindow):
     def updateMetar(self):
         try:
             metar = M(self.edtAirportCode.text().upper())
-            # metar = M(self.edtAirportCode.text())
             metar_text = metar.metar.split()
         except NOAAServError:
-            self.statusBar.showMessage('Error updating metar data -> check your internet and code!', 5000)
+            self.statusBar.showMessage('Error updating metar data -> check your internet and code!',
+                                       TIME_TO_ERROR_MESSAGE)
             return
         m = Metar(' '.join(metar_text))
 
@@ -113,6 +112,9 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.tblResult.setItem(8, 0, QTableWidgetItem('Forecast'))
         self.tblResult.setItem(8, 1, QTableWidgetItem(f'{m.max_temp_24hr}'))  # TODO
+
+        self.tblResult.setItem(9, 0, QTableWidgetItem('Metar text'))
+        self.tblResult.setItem(9, 1, QTableWidgetItem(str(m.code)))
 
 
 def main():
