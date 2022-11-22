@@ -39,7 +39,6 @@ class Ui_MainWindow(object):
         self.tabMetar = QWidget()
         self.tabMetar.setObjectName(u"tabMetar")
         self.verticalLayout_2 = QVBoxLayout(self.tabMetar)
-        self.verticalLayout_2.setSpacing(20)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -56,6 +55,8 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.tblResult = QTableWidget(self.tabMetar)
         self.tblResult.setObjectName(u"tblResult")
         self.tblResult.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -65,7 +66,15 @@ class Ui_MainWindow(object):
         self.tblResult.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.tblResult.verticalHeader().setVisible(False)
 
-        self.verticalLayout_2.addWidget(self.tblResult)
+        self.horizontalLayout_5.addWidget(self.tblResult)
+
+        self.lblBall = QLabel(self.tabMetar)
+        self.lblBall.setObjectName(u"lblBall")
+
+        self.horizontalLayout_5.addWidget(self.lblBall)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
         self.tabWidget.addTab(self.tabMetar, "")
         self.tab_2 = QWidget()
@@ -147,6 +156,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
+        self.lblBall.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMetar), QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"HPA", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"MM", None))
