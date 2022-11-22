@@ -2,6 +2,7 @@ import pathlib
 import sys
 from pprint import pprint
 
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit
 from PythonMETAR import Metar as M, NOAAServError
 from metar.Metar import Metar
@@ -119,6 +120,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
 def main():
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon(f'{APP_DIR.absolute() / "Icon.png"}'))
     window = Window()
     window.show()
     app.exec()
