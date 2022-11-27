@@ -1,12 +1,12 @@
 import pathlib
 import sys
-from pprint import pprint
 
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QButtonGroup, QPushButton
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton
 from PythonMETAR import Metar as M, NOAAServError
 from metar.Metar import Metar
 
+from ArrowLabel import ArrowLabel
 from mainWindow import Ui_MainWindow
 
 TEST_DATA = [
@@ -14,7 +14,7 @@ TEST_DATA = [
 ]
 APP_DIR = pathlib.Path(__file__).parent
 
-DEBUG = '.idea1' in map(lambda x: x.name, APP_DIR.iterdir())
+DEBUG = '.idea' in map(lambda x: x.name, APP_DIR.iterdir())
 TIME_TO_ERROR_MESSAGE = 2000  # milliseconds
 
 
@@ -24,6 +24,11 @@ class Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        arrLabel = ArrowLabel()
+        self.horizontalLayout_5.replaceWidget(self.lblArrow, arrLabel)
+        self.lblArrow.deleteLater()
+        self.lblArrow = arrLabel
+
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
         self.edtHPA.textChanged.connect(self.onQChanged)
         self.edtMMRT.textChanged.connect(self.onQChanged)
@@ -153,6 +158,9 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setItem(8, 1, QTableWidgetItem(f'{m.max_temp_24hr}'))  # TODO
 
         self.edtMetarCode.setText(m.code)
+
+        self.lblArrow.setDeg(metar.wind['direction'])
+        self.lblArrow.repaint()
 
 
 def main():

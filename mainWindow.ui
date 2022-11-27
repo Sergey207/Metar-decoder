@@ -78,7 +78,13 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="lblBall">
+           <widget class="QLabel" name="lblArrow">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="text">
              <string/>
             </property>

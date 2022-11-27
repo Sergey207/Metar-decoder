@@ -69,10 +69,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.tblResult)
 
-        self.lblBall = QLabel(self.tabMetar)
-        self.lblBall.setObjectName(u"lblBall")
+        self.lblArrow = QLabel(self.tabMetar)
+        self.lblArrow.setObjectName(u"lblArrow")
+        self.lblArrow.setMinimumSize(QSize(0, 0))
 
-        self.horizontalLayout_5.addWidget(self.lblBall)
+        self.horizontalLayout_5.addWidget(self.lblArrow)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_5)
@@ -391,7 +392,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
-        self.lblBall.setText("")
+        self.lblArrow.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMetar), QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"HPA", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"MM", None))
