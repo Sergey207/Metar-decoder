@@ -114,7 +114,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def updateTableSize(self):
         self.tblResult.setColumnWidth(0, 200)
-        self.tblResult.setColumnWidth(1, 540)
+        self.tblResult.setColumnWidth(1, 601)
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
