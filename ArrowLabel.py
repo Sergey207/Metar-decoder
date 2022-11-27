@@ -30,11 +30,15 @@ class ArrowLabel(QLabel):
         qp.drawText(QPoint((w // 2 + we) + 10, (h // 2 + 10)), '90')  # type: ignore
 
         if self.deg is not None:
-            print(self.deg)
             deg = radians(self.deg - 90)
+            deg2 = radians(self.deg + 90)
             qp.drawLine(w // 2, h // 2,
                         int((w // 2) + (we * cos(deg))),
                         int((h // 2) + (he * sin(deg))))
+            qp.setPen(QPen(QColor(255, 0, 0), 4))
+            qp.drawLine(w // 2, h // 2,
+                        int((w // 2) + (we * cos(deg2))),
+                        int((h // 2) + (he * sin(deg2))))
 
     def setDeg(self, deg: int):
         self.deg = deg
