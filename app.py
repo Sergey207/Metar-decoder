@@ -148,9 +148,9 @@ class Window(QMainWindow, Ui_MainWindow):
 
         for i in metar_text:
             if i[:3] in CLOUDS.keys():
-                to_show.append(('Sky conditions', CLOUDS[i[:3]]))
+                to_show.append(('Sky conditions', i))
             elif i[:2] == 'CB':
-                to_show.append(('Sky conditions', CLOUDS[i[:2]]))
+                to_show.append(('Sky conditions', i))
 
         to_show.append(('Wind Temperatures', f'Temperature: {m.temp} Dewpoint: {m.dewpt}'))
         to_show.append(('Altimeter setting', str(m.press)))
