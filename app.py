@@ -147,7 +147,7 @@ class Window(QMainWindow, Ui_MainWindow):
                 to_show.append(('Weather', ' '.join(res)))
 
         for i in metar_text:
-            if i[:3] in CLOUDS.keys():
+            if i[:3] in CLOUDS:
                 to_show.append(('Sky conditions', i))
             elif i[:2] == 'CB':
                 to_show.append(('Sky conditions', i))
