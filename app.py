@@ -7,8 +7,8 @@ from PythonMETAR import Metar as M, NOAAServError
 from metar.Metar import Metar
 
 from ArrowLabel import ArrowLabel
-from mainWindow import Ui_MainWindow
 from CONSTANTS import *
+from mainWindow import Ui_MainWindow
 
 TEST_DATA = [
     "UUWW", "UUEE", "KJFK"

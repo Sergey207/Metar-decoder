@@ -19,7 +19,7 @@ class ArrowLabel(QLabel):
 
         qp = QPainter(self)
         qp.setPen(QPen(QColor(0, 0, 0), 4))
-        qp.setFont(QFont("Arial", 16))
+        qp.setFont(QFont("Arial", 10))
 
         we, he = w // 2.5, h // 2.5
         qp.drawEllipse(QPoint(w // 2, h // 2), we, he)
@@ -35,10 +35,28 @@ class ArrowLabel(QLabel):
             qp.drawLine(w // 2, h // 2,
                         int((w // 2) + (we * cos(deg))),
                         int((h // 2) + (he * sin(deg))))
+            if self.deg not in (0, 90, 180, 270):
+                if self.deg < 180 or self.deg > 330:
+                    new_x = int((w // 2) + ((we + 15) * cos(deg)))
+                    new_y = int((h // 2) + ((he + 15) * sin(deg)))
+                else:
+                    new_x = int((w // 2) + ((we + 35) * cos(deg)))
+                    new_y = int((h // 2) + ((he + 35) * sin(deg)))
+                qp.drawText(new_x, new_y, str(self.deg))
+
             qp.setPen(QPen(QColor(255, 0, 0), 4))
             qp.drawLine(w // 2, h // 2,
                         int((w // 2) + (we * cos(deg2))),
                         int((h // 2) + (he * sin(deg2))))
+            d = self.deg + 180 if self.deg < 180 else self.deg - 180
+            if d not in (0, 90, 180, 270):
+                if d < 180 or d > 330:
+                    new_x = int((w // 2) + ((we + 15) * cos(deg2)))
+                    new_y = int((h // 2) + ((he + 15) * sin(deg2)))
+                else:
+                    new_x = int((w // 2) + ((we + 35) * cos(deg2)))
+                    new_y = int((h // 2) + ((he + 35) * sin(deg2)))
+                qp.drawText(new_x, new_y, str(d))
 
     def setDeg(self, deg: int):
         self.deg = deg
