@@ -8,6 +8,7 @@ from metar.Metar import Metar
 
 from ArrowLabel import ArrowLabel
 from mainWindow import Ui_MainWindow
+from CONSTANTS import *
 
 TEST_DATA = [
     "UUWW", "UUEE", "KJFK"
@@ -123,42 +124,45 @@ class Window(QMainWindow, Ui_MainWindow):
     def updateMetar(self):
         try:
             metar = M(self.edtAirportCode.text().upper())
-            metar_text = metar.metar.split()
+            metar_text: list[str] = metar.metar.split()
         except NOAAServError:
             self.statusBar.showMessage('Error updating metar data -> check your internet and code!',
                                        TIME_TO_ERROR_MESSAGE)
             return
         m = Metar(' '.join(metar_text))
+        to_show: list[tuple[str, str]] = []
 
-        self.tblResult.setItem(0, 0, QTableWidgetItem('Airport code'))
-        self.tblResult.setItem(0, 1, QTableWidgetItem(str(m.station_id)))
+        to_show.append(('Airport code', str(m.station_id)))
+        to_show.append(('Date and time', str(m.time)))
+        to_show.append(('Wind direction and speed', f"Direction: {m.wind_dir} Speed: {m.wind_speed}"))
+        to_show.append(('Visibility', str(m.visibility())))
 
-        self.tblResult.setItem(1, 0, QTableWidgetItem('Date and time'))
-        self.tblResult.setItem(1, 1, QTableWidgetItem(str(m.time)))
+        for code in metar_text:
+            res = []
+            if code[0] in ('-', '+'):
+                res.append(weather_prefixes[code[0]])
+                code = code[1:]
+            if code in weathers_codes.keys():
+                res.append(weathers_codes[code])
+                to_show.append(('Weather', ' '.join(res)))
 
-        self.tblResult.setItem(2, 0, QTableWidgetItem('Wind direction and speed'))
-        self.tblResult.setItem(2, 1, QTableWidgetItem(f"Direction: {m.wind_dir} Speed: {m.wind_speed}"))
+        for i in metar_text:
+            if i[:3] in CLOUDS.keys():
+                to_show.append(('Sky conditions', CLOUDS[i[:3]]))
+            elif i[:2] == 'CB':
+                to_show.append(('Sky conditions', CLOUDS[i[:2]]))
 
-        self.tblResult.setItem(3, 0, QTableWidgetItem('Visibility'))
-        self.tblResult.setItem(3, 1, QTableWidgetItem(str(m.visibility())))
+        to_show.append(('Wind Temperatures', f'Temperature: {m.temp} Dewpoint: {m.dewpt}'))
+        to_show.append(('Altimeter setting', str(m.press)))
 
-        self.tblResult.setItem(4, 0, QTableWidgetItem('Weather'))
-        self.tblResult.setItem(4, 1, QTableWidgetItem(str(metar.weather)))  # TODO
-
-        self.tblResult.setItem(5, 0, QTableWidgetItem('Overcast'))
-        self.tblResult.setItem(5, 1, QTableWidgetItem(str('OVC 006')))  # TODO
-
-        self.tblResult.setItem(6, 0, QTableWidgetItem('Wind Temperatures'))
-        self.tblResult.setItem(6, 1, QTableWidgetItem(f'Temperature: {m.temp} Dewpoint: {m.dewpt}'))
-
-        self.tblResult.setItem(7, 0, QTableWidgetItem('Altimeter setting'))
-        self.tblResult.setItem(7, 1, QTableWidgetItem(f'{m.press}'))
-
-        self.tblResult.setItem(8, 0, QTableWidgetItem('Forecast'))
-        self.tblResult.setItem(8, 1, QTableWidgetItem(f'{m.max_temp_24hr}'))  # TODO
+        self.tblResult.clear()
+        self.tblResult.setHorizontalHeaderLabels(('Name', 'Value'))
+        self.tblResult.setRowCount(len(to_show))
+        for index, line in enumerate(to_show):
+            self.tblResult.setItem(index, 0, QTableWidgetItem(line[0]))
+            self.tblResult.setItem(index, 1, QTableWidgetItem(line[1]))
 
         self.edtMetarCode.setText(m.code)
-
         self.lblArrow.setDeg(metar.wind['direction'])
         self.lblArrow.repaint()
 

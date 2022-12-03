@@ -21,7 +21,7 @@ class ArrowLabel(QLabel):
         qp.setPen(QPen(QColor(0, 0, 0), 4))
         qp.setFont(QFont("Arial", 16))
 
-        we, he = w // 2.4, h // 2.4
+        we, he = w // 2.5, h // 2.5
         qp.drawEllipse(QPoint(w // 2, h // 2), we, he)
 
         qp.drawText(QPoint(w // 2 - 10, (h // 2 - he) - 10), '0')  # type: ignore
