@@ -1,11 +1,10 @@
 import pathlib
 import sys
 
+import requests
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton
-from PythonMETAR import Metar as M, NOAAServError
-from metar.Metar import Metar
-
+from Metar import Metar
 from ArrowLabel import ArrowLabel
 from CONSTANTS import *
 from mainWindow import Ui_MainWindow
@@ -114,8 +113,8 @@ class Window(QMainWindow, Ui_MainWindow):
         self.isEditing = False
 
     def updateTableSize(self):
-        self.tblResult.setColumnWidth(0, 200)
-        self.tblResult.setColumnWidth(1, 601)
+        self.tblResult.setColumnWidth(0, 350)
+        self.tblResult.setColumnWidth(1, 430)
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
@@ -123,37 +122,73 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def updateMetar(self):
         try:
-            metar = M(self.edtAirportCode.text().upper())
-            metar_text: list[str] = metar.metar.split()
-        except NOAAServError:
-            self.statusBar.showMessage('Error updating metar data -> check your internet and code!',
-                                       TIME_TO_ERROR_MESSAGE)
+            metar = Metar(self.edtAirportCode.text().upper())
+        except ValueError:
+            self.status_bar.showMessage("Value Error -> Error airport code", TIME_TO_ERROR_MESSAGE)
             return
-        m = Metar(' '.join(metar_text))
+        except requests.RequestException:
+            self.status_bar.showMessage("Internet Error -> Check your internet connection or Airport code",
+                                        TIME_TO_ERROR_MESSAGE)
+            return
+
         to_show: list[tuple[str, str]] = []
 
-        to_show.append(('Airport code', str(m.station_id)))
-        to_show.append(('Date and time', str(m.time)))
-        to_show.append(('Wind direction and speed', f"Direction: {m.wind_dir} Speed: {m.wind_speed}"))
-        to_show.append(('Visibility', str(m.visibility())))
+        to_show.append(('Airport code', metar.airport_code))
+        to_show.append(('Date and time', metar.date_time.strftime("%H:%M:%S")))
+        for i in range(len(metar.wind)):
+            name_prefix = f" {i + 1}" if len(metar.wind) > 1 else ''
+            wind = metar.wind[i]
 
-        for code in metar_text:
-            res = []
-            if code[0] in ('-', '+'):
-                res.append(weather_prefixes[code[0]])
-                code = code[1:]
-            if code in weathers_codes.keys():
-                res.append(weathers_codes[code])
-                to_show.append(('Weather', ' '.join(res)))
+            to_show.append((f'Wind direction' + name_prefix, f"{wind.direction}°"))
+            to_show.append(("Wind speed", f"{wind.speed} {wind.unit_of_measurement}"))
+            if wind.gust:
+                to_show.append(("Wind gust" + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
 
-        for i in metar_text:
-            if i[:3] in CLOUDS:
-                to_show.append(('Sky conditions', i))
-            elif i[:2] == 'CB':
-                to_show.append(('Sky conditions', i))
+        for i in range(len(metar.visibility)):
+            visibility = metar.visibility[i]
+            name_prefix = f" {i + 1}" if len(metar.visibility) > 1 else ""
 
-        to_show.append(('Wind Temperatures', f'Temperature: {m.temp} Dewpoint: {m.dewpt}'))
-        to_show.append(('Altimeter setting', str(m.press)))
+            if visibility.direction != 'CAVOK':
+                to_show.append(("Visibility" + name_prefix, "> 10 km"))
+            else:
+                to_show.append(("Visibility" + name_prefix,
+                                f"Distance: {visibility.distance} Direction: {visibility.direction}"))
+
+        # for i in range(len(metar.vpp_visibility)):
+        #     vpp_visibility = metar.vpp_visibility[i]
+        #     name_prefix = f" {i + 1}" if len(metar.vpp_visibility) > 1 else ""
+
+        to_show.append((f"VPP Visibility", 'Write Issue)'))
+
+        for i, rvr_weather in enumerate(metar.rvr_weather):
+            name = f"RVR {rvr_weather.RVR_number}"
+            if rvr_weather.RVR_parallel:
+                name += f" parralel {rvr_weather.RVR_parallel}"
+
+            to_show.append((name + ' visibility prefix', f'{rvr_weather.visibility_prefix}'))
+
+            to_show.append((name + ' runway deposit', str(rvr_weather.runway_deposit)))
+            to_show.append((name + ' extend of contamination', str(rvr_weather.extend_of_contamination)))
+            to_show.append((name + ' depth of deposit', str(rvr_weather.depth_of_deposit)))
+            to_show.append((name + ' braking friction coeficient', str(rvr_weather.braking_friction_coeficient)))
+
+        for i, weather in enumerate(metar.weather):
+            name_prefix = f' {i + 1}' if len(metar.weather) > 1 else ''
+            to_show.append(('Weather' + name_prefix, weather.__repr__()))
+
+        for i, cloudiness in enumerate(metar.cloudiness):
+            name_prefix = f' {i + 1}' if len(metar.cloudiness) > 1 else ''
+            to_show.append(('Cloudiness' + ' height' + name_prefix, str(cloudiness.height_of_lower_bound)))
+            to_show.append(('Cloudiness' + ' number of clouds' + name_prefix, str(cloudiness.number_of_clouds)))
+
+        for i, temperature_dewpoint in enumerate(metar.temperature_and_dewpoint):
+            name_prefix = f' {i + 1}' if len(metar.cloudiness) > 1 else ''
+            to_show.append(('Temperature' + name_prefix, str(temperature_dewpoint.temperature)))
+            to_show.append(('Dewpoint' + name_prefix, str(temperature_dewpoint.dewpoint)))
+
+        for i, pressure in enumerate(metar.pressure):
+            name_prefix = f' {i + 1}' if len(metar.pressure) > 1 else ''
+            to_show.append(('Pressure' + name_prefix, str(pressure.QNH) + ' QNH'))
 
         self.tblResult.clear()
         self.tblResult.setHorizontalHeaderLabels(('Name', 'Value'))
@@ -162,9 +197,10 @@ class Window(QMainWindow, Ui_MainWindow):
             self.tblResult.setItem(index, 0, QTableWidgetItem(line[0]))
             self.tblResult.setItem(index, 1, QTableWidgetItem(line[1]))
 
-        self.edtMetarCode.setText(m.code)
-        self.lblArrow.setDeg(metar.wind['direction'])
-        self.lblArrow.repaint()
+        self.edtMetarCode.setText(metar.metar)
+        if metar.wind:
+            self.lblArrow.setDeg(metar.wind[0].direction)
+            self.lblArrow.repaint()
 
 
 def main():

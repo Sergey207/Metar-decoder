@@ -804,12 +804,12 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="status_bar"/>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="grpActions"/>
   <buttongroup name="grpDigits"/>
+  <buttongroup name="grpActions"/>
  </buttongroups>
 </ui>

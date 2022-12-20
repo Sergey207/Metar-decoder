@@ -378,9 +378,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.tabWidget)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusBar = QStatusBar(MainWindow)
-        self.statusBar.setObjectName(u"statusBar")
-        MainWindow.setStatusBar(self.statusBar)
+        self.status_bar = QStatusBar(MainWindow)
+        self.status_bar.setObjectName(u"status_bar")
+        MainWindow.setStatusBar(self.status_bar)
 
         self.retranslateUi(MainWindow)
 
