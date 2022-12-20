@@ -4,9 +4,9 @@ import sys
 import requests
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton
-from Metar import Metar
+
 from ArrowLabel import ArrowLabel
-from CONSTANTS import *
+from Metar import Metar
 from mainWindow import Ui_MainWindow
 
 TEST_DATA = [
