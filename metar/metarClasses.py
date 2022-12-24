@@ -1,4 +1,4 @@
-from metarConstants import *
+from metar.metarConstants import *
 
 
 class Wind:

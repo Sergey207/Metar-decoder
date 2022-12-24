@@ -5,9 +5,9 @@ import requests
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton
 
-from ArrowLabel import ArrowLabel
-from Metar import Metar
-from mainWindow import Ui_MainWindow
+from Designs.arrowLabel import ArrowLabel
+from Designs.mainWindow import Ui_MainWindow
+from metar.metarEngine import Metar
 
 TEST_DATA = [
     "UUWW", "UUEE", "KJFK"

@@ -3,7 +3,8 @@ import re
 
 import requests
 
-from MetarClasses import *
+from metar.metarClasses import *
+from metar.metarConstants import *
 
 
 class Metar:
@@ -99,16 +100,3 @@ class Metar:
 
     def __str__(self):
         return ' '.join(self.metar.split())
-
-
-error_data = {
-    "icao": "UNKL", "name": "Емельяново. Красноярск",
-    "metar": "2022-12-24 17:30:00\nUNKL 241730Z 18003MPS 9999 -SN NSC "
-             "M11/M15 Q1030 R29/450050 NOSIG RMK QFE747",
-    "taf": "2022-12-24 13:56:00\nTAF UNKL 241356Z 2415/2515 20003G08MPS 6000 -SN SCT017 TEMPO "
-           "2415/2418 2000 SN TEMPO 2422/2501 1000 SN"
-}
-if __name__ == '__main__':
-    m = Metar('UNKL', custom_server_data=error_data)
-    print(m)
-    print(m.weather)
