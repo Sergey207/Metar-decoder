@@ -121,6 +121,25 @@ RVR_visibility_changements_prefixes_russian = {
     'N': 'Нет изменений в видимости'
 }
 
+RVR_deposit_russian = {
+    '0': 'Чисто и сухо',
+    '1': 'Влажно',
+    '2': 'Мокро',
+    '4': 'Иней изморозь',
+    '5': 'Мокрый снег',
+    '6': 'Слякоть',
+    '7': 'Лёд',
+    '8': 'Укатанный снег',
+    '9': 'Мёрзлая неровная ВПП'
+}
+
+RVR_extend_of_contamination_russian = {
+    '1': '<10%',
+    '2': '11-25%',
+    '5': '26-51%',
+    '9': '51-100%',
+}
+
 intensivity_re = [r'\-', r'\+', 'VC', '']
 descriptor_re = descriptor_english.keys()
 precipitation_re = precipitation_english.keys()
@@ -129,8 +148,8 @@ other_weather_events_re = other_weather_events_english.keys()
 
 weather_regular_expression = r'\s' + f'({"|".join(intensivity_re)})' \
                                      f'({"|".join(descriptor_re)})?' \
-                                     f'({"|".join(precipitation_re)})' \
-                                     f'({"|".join(precipitation_re)})' \
+                                     f'({"|".join(precipitation_re)})?' \
+                                     f'({"|".join(precipitation_re)})?' \
                                      f'({"|".join(bad_visibility_weather_events_re)})?' \
                                      f'({"|".join(other_weather_events_re)})?' + \
                              r'\s'

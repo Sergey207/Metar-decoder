@@ -1,22 +1,24 @@
 import datetime
 import re
-from pprint import pprint
 
 import requests
 
-from metarConstants import *
 from MetarClasses import *
 
 
 class Metar:
-    metars_server = 'http://metartaf.ru/'
+    metars_server = 'https://metartaf.ru/'
 
-    def __init__(self, airport_code: str):
-        if not isinstance(airport_code, str) or len(airport_code) != 4:
-            raise ValueError
+    def __init__(self, airport_code: str, custom_server_data: dict[str, str] = None):
+        if not custom_server_data:
+            if not isinstance(airport_code, str) or len(airport_code) != 4:
+                raise ValueError
+            self.airport_code = airport_code
+            self.server_data = self.get_server_data()
+        else:
+            self.airport_code = custom_server_data['icao']
+            self.server_data = custom_server_data
 
-        self.airport_code = airport_code
-        self.server_data = self.get_server_data()
         self.name = self.server_data['name']
         self.metar = ' '.join(self.server_data['metar'].split())
         self.taf = ' '.join(self.server_data['taf'])
@@ -24,7 +26,6 @@ class Metar:
         self.date_time = self.analyze_date_time()
         self.wind = self.analyze_wind_gust()
         self.visibility = self.analyze_visibility()
-        self.vpp_visibility = self.analyze_vpp_visibility()
         self.rvr_weather = self.analyze_rvr_weather()
         self.weather = self.analyze_weather()
         self.cloudiness = self.analyze_cloudiness()
@@ -54,13 +55,6 @@ class Metar:
         for re_expr in re_expressions:
             for i in re.findall(re_expr, self.metar):
                 res.append(Visibility(*i))
-        return res
-
-    def analyze_vpp_visibility(self):
-        res = []
-        for i in re.findall(r'R(\d{2})([LCR]?)/([PM]?)(\d{4})([UDN]?)', self.metar):
-            # print(i)
-            pass  # TODO
         return res
 
     def analyze_rvr_weather(self):
@@ -107,10 +101,14 @@ class Metar:
         return ' '.join(self.metar.split())
 
 
+error_data = {
+    "icao": "UNKL", "name": "Емельяново. Красноярск",
+    "metar": "2022-12-24 17:30:00\nUNKL 241730Z 18003MPS 9999 -SN NSC "
+             "M11/M15 Q1030 R29/450050 NOSIG RMK QFE747",
+    "taf": "2022-12-24 13:56:00\nTAF UNKL 241356Z 2415/2515 20003G08MPS 6000 -SN SCT017 TEMPO "
+           "2415/2418 2000 SN TEMPO 2422/2501 1000 SN"
+}
 if __name__ == '__main__':
-    m = Metar('URWW')
+    m = Metar('UNKL', custom_server_data=error_data)
     print(m)
-    # pprint(m.wind, sort_dicts=False)
-    # print(Metar('UUWW'))
-    # print(Metar('KJFK'))
-    # print(Metar('UUYH'))
+    print(m.weather)

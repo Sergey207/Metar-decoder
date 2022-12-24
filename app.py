@@ -121,6 +121,8 @@ class Window(QMainWindow, Ui_MainWindow):
             self.updateMetar()
 
     def updateMetar(self):
+        self.tblResult.clear()
+        self.tblResult.setHorizontalHeaderLabels(('Name', 'Value'))
         try:
             metar = Metar(self.edtAirportCode.text().upper())
         except ValueError:
@@ -159,14 +161,13 @@ class Window(QMainWindow, Ui_MainWindow):
         #     vpp_visibility = metar.vpp_visibility[i]
         #     name_prefix = f" {i + 1}" if len(metar.vpp_visibility) > 1 else ""
 
-        to_show.append((f"VPP Visibility", 'Write Issue)'))
-
         for i, rvr_weather in enumerate(metar.rvr_weather):
             name = f"RVR {rvr_weather.RVR_number}"
             if rvr_weather.RVR_parallel:
                 name += f" parralel {rvr_weather.RVR_parallel}"
 
-            to_show.append((name + ' visibility prefix', f'{rvr_weather.visibility_prefix}'))
+            if rvr_weather.visibility_prefix:
+                to_show.append((name + ' visibility prefix', f'{rvr_weather.visibility_prefix}'))
 
             to_show.append((name + ' runway deposit', str(rvr_weather.runway_deposit)))
             to_show.append((name + ' extend of contamination', str(rvr_weather.extend_of_contamination)))
@@ -174,8 +175,19 @@ class Window(QMainWindow, Ui_MainWindow):
             to_show.append((name + ' braking friction coeficient', str(rvr_weather.braking_friction_coeficient)))
 
         for i, weather in enumerate(metar.weather):
-            name_prefix = f' {i + 1}' if len(metar.weather) > 1 else ''
-            to_show.append(('Weather' + name_prefix, weather.__repr__()))
+            name = f'Weather {i + 1}' if len(metar.weather) > 1 else 'Weather'
+            if weather.intensivity:
+                to_show.append((name + ' intensivity', weather.intensivity))
+            if weather.descriptor:
+                to_show.append((name + ' descriptor', weather.descriptor))
+            if weather.precipitations[0]:
+                to_show.append((name + ' precipitations', weather.precipitations[0]))
+            if weather.precipitations[1]:
+                to_show.append((name + ' precipitations', weather.precipitations[1]))
+            if weather.bad_visibility_weather_events:
+                to_show.append((name + ' bad visibility weather events', weather.bad_visibility_weather_events))
+            if weather.other_weather_events:
+                to_show.append((name + ' other weather events', weather.other_weather_events))
 
         for i, cloudiness in enumerate(metar.cloudiness):
             name_prefix = f' {i + 1}' if len(metar.cloudiness) > 1 else ''
@@ -191,8 +203,6 @@ class Window(QMainWindow, Ui_MainWindow):
             name_prefix = f' {i + 1}' if len(metar.pressure) > 1 else ''
             to_show.append(('Pressure' + name_prefix, str(pressure.QNH) + ' QNH'))
 
-        self.tblResult.clear()
-        self.tblResult.setHorizontalHeaderLabels(('Name', 'Value'))
         self.tblResult.setRowCount(len(to_show))
         for index, line in enumerate(to_show):
             self.tblResult.setItem(index, 0, QTableWidgetItem(line[0]))

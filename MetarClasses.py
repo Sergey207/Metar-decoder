@@ -30,9 +30,9 @@ class RVRWeather:
         self.RVR_number = int(RVR_number)
         self.RVR_parallel = RVR_prefixes_english.get(RVR_parallel)
         self.visibility_prefix = RVR_visibilty_prefixes_english.get(visibility_prefix)
-        self.runway_deposit = runway_deposit
-        self.extend_of_contamination = int(extend_of_contamination)
-        self.depth_of_deposit = int(depth_of_deposit)
+        self.runway_deposit = str(RVR_deposit_russian.get(runway_deposit)) + f' - {runway_deposit}'
+        self.extend_of_contamination = RVR_extend_of_contamination_russian.get(extend_of_contamination)
+        self.depth_of_deposit = str(int(depth_of_deposit)) + ' mm'
         self.braking_friction_coeficient = int(braking_friction_coeficient) / 100
         self.visibility_changes = RVR_visibility_changements_prefixes_english.get(visibility_changes)
 
