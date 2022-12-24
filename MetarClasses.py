@@ -71,7 +71,7 @@ class Cloudiness:
         self.height_of_lower_bound = int(height_of_lower_bound) * 100
 
     def __repr__(self):
-        return f"Number_of_clouds = {self.number_of_clouds}" \
+        return f"Number_of_clouds = {self.number_of_clouds} " \
                f"Height_of_lower_bound = {self.height_of_lower_bound}"
 
 

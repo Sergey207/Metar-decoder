@@ -114,7 +114,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def updateTableSize(self):
         self.tblResult.setColumnWidth(0, 350)
-        self.tblResult.setColumnWidth(1, 430)
+        self.tblResult.setColumnWidth(1, 420)
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
@@ -134,7 +134,8 @@ class Window(QMainWindow, Ui_MainWindow):
         to_show: list[tuple[str, str]] = []
 
         to_show.append(('Airport code', metar.airport_code))
-        to_show.append(('Date and time', metar.date_time.strftime("%H:%M:%S")))
+        to_show.append(('Airport name', metar.name))
+        to_show.append(('Date and time', metar.date_time.strftime("%d/%m/%Y %H:%M:%S")))
         for i in range(len(metar.wind)):
             name_prefix = f" {i + 1}" if len(metar.wind) > 1 else ''
             wind = metar.wind[i]
@@ -178,13 +179,13 @@ class Window(QMainWindow, Ui_MainWindow):
 
         for i, cloudiness in enumerate(metar.cloudiness):
             name_prefix = f' {i + 1}' if len(metar.cloudiness) > 1 else ''
-            to_show.append(('Cloudiness' + ' height' + name_prefix, str(cloudiness.height_of_lower_bound)))
-            to_show.append(('Cloudiness' + ' number of clouds' + name_prefix, str(cloudiness.number_of_clouds)))
+            to_show.append(('Cloudiness' + name_prefix, f'Высота {cloudiness.height_of_lower_bound} метров; '
+                                                        f'{cloudiness.number_of_clouds}'))
 
         for i, temperature_dewpoint in enumerate(metar.temperature_and_dewpoint):
             name_prefix = f' {i + 1}' if len(metar.cloudiness) > 1 else ''
-            to_show.append(('Temperature' + name_prefix, str(temperature_dewpoint.temperature)))
-            to_show.append(('Dewpoint' + name_prefix, str(temperature_dewpoint.dewpoint)))
+            to_show.append(('Temperature' + name_prefix, f'{temperature_dewpoint.temperature}°'))
+            to_show.append(('Dewpoint' + name_prefix, f'{temperature_dewpoint.dewpoint}°'))
 
         for i, pressure in enumerate(metar.pressure):
             name_prefix = f' {i + 1}' if len(metar.pressure) > 1 else ''

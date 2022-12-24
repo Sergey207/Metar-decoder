@@ -9,14 +9,18 @@ from MetarClasses import *
 
 
 class Metar:
-    metars_server = 'https://tgftp.nws.noaa.gov/data/observations/metar/stations/'
+    metars_server = 'http://metartaf.ru/'
 
     def __init__(self, airport_code: str):
         if not isinstance(airport_code, str) or len(airport_code) != 4:
             raise ValueError
 
         self.airport_code = airport_code
-        self.metar = self.get_metar()
+        self.server_data = self.get_server_data()
+        self.name = self.server_data['name']
+        self.metar = ' '.join(self.server_data['metar'].split())
+        self.taf = ' '.join(self.server_data['taf'])
+
         self.date_time = self.analyze_date_time()
         self.wind = self.analyze_wind_gust()
         self.visibility = self.analyze_visibility()
@@ -28,15 +32,15 @@ class Metar:
         self.pressure = self.analyze_pressure()
         self.add_info = self.analyze_add_info()
 
-    def get_metar(self):
-        response = requests.get(self.metars_server + self.airport_code + '.TXT')
+    def get_server_data(self):
+        response = requests.get(self.metars_server + self.airport_code + '.json')
         if not response:
             raise requests.RequestException
-        return ' '.join(response.text.split())
+        return response.json()
 
     def analyze_date_time(self):
         s = self.metar.split()
-        return datetime.datetime(*map(int, s[0].split('/')), *map(int, s[1].split(':')))
+        return datetime.datetime(*map(int, s[0].split('-')), *map(int, s[1].split(':')))
 
     def analyze_wind_gust(self):
         res = []
@@ -76,6 +80,7 @@ class Metar:
         res = []
         for i in re.findall(cloudiness_re, self.metar):
             res.append(Cloudiness(*i))
+        # print(res)
         return res
 
     def analyze_temperature_devpoint(self):
@@ -103,7 +108,7 @@ class Metar:
 
 
 if __name__ == '__main__':
-    m = Metar('UUWW')
+    m = Metar('URWW')
     print(m)
     # pprint(m.wind, sort_dicts=False)
     # print(Metar('UUWW'))
