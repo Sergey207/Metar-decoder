@@ -7,24 +7,27 @@
     <x>0</x>
     <y>0</y>
     <width>1300</width>
-    <height>600</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1300</width>
-    <height>600</height>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1300</width>
-    <height>600</height>
+    <height>650</height>
    </size>
   </property>
   <property name="font">
    <font>
+    <family>Calibri</family>
     <pointsize>11</pointsize>
+    <italic>true</italic>
+    <bold>true</bold>
    </font>
   </property>
   <property name="windowTitle">
@@ -78,6 +81,9 @@
             <property name="horizontalScrollMode">
              <enum>QAbstractItemView::ScrollPerPixel</enum>
             </property>
+            <property name="gridStyle">
+             <enum>Qt::SolidLine</enum>
+            </property>
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
@@ -102,7 +108,10 @@
          <widget class="QLineEdit" name="edtMetarCode">
           <property name="font">
            <font>
+            <family>Calibri</family>
             <pointsize>8</pointsize>
+            <italic>true</italic>
+            <bold>true</bold>
            </font>
           </property>
           <property name="readOnly">
@@ -229,8 +238,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -257,8 +268,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -285,8 +298,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -313,8 +328,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -341,8 +358,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -369,8 +388,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -397,8 +418,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -425,8 +448,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -453,8 +478,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -481,8 +508,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -509,8 +538,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -537,8 +568,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -571,8 +604,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -599,8 +634,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -627,8 +664,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -655,8 +694,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -683,8 +724,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -711,8 +754,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -739,8 +784,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -767,8 +814,10 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>15</pointsize>
-                  <bold>false</bold>
+                  <family>Calibri</family>
+                  <pointsize>20</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -809,7 +858,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="grpDigits"/>
   <buttongroup name="grpActions"/>
+  <buttongroup name="grpDigits"/>
  </buttongroups>
 </ui>
