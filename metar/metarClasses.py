@@ -1,4 +1,4 @@
-from metar.metarConstantsRussian import *
+from metar.metarConstantsEnglish import *
 
 
 class Wind:

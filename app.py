@@ -169,7 +169,7 @@ class Window(QMainWindow, Ui_MainWindow):
             if rvr_weather.visibility_prefix:
                 to_show.append((name + ' visibility prefix', f'{rvr_weather.visibility_prefix}'))
 
-            to_show.append((name + ' runway deposit', str(rvr_weather.runway_deposit)))
+            to_show.append((name + ' runway deposit', str(rvr_weather.runway_deposit).capitalize()))
             to_show.append((name + ' extend of contamination', str(rvr_weather.extend_of_contamination)))
             to_show.append((name + ' depth of deposit', str(rvr_weather.depth_of_deposit)))
             to_show.append((name + ' braking friction coeficient', str(rvr_weather.braking_friction_coeficient)))
@@ -191,7 +191,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         for i, cloudiness in enumerate(metar.cloudiness):
             name_prefix = f' {i + 1}' if len(metar.cloudiness) > 1 else ''
-            to_show.append(('Cloudiness' + name_prefix, f'Высота {cloudiness.height_of_lower_bound} метров; '
+            to_show.append(('Cloudiness' + name_prefix, f'Height {cloudiness.height_of_lower_bound} m; '
                                                         f'{cloudiness.number_of_clouds}'))
 
         for i, temperature_dewpoint in enumerate(metar.temperature_and_dewpoint):
