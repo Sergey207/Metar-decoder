@@ -1,9 +1,9 @@
-from metar.metarConstantsEnglish import descriptor, precipitation, bad_visibility_weather_events, other_weather_events, \
-    cloudiness
+from metar.metarConstantsEnglish import bad_visibility_weather_events, \
+    other_weather_events, cloudiness, precipitations, descriptors
 
 intensivity_re = [r'\-', r'\+', 'VC', '']
-descriptor_re = descriptor.keys()
-precipitation_re = precipitation.keys()
+descriptor_re = descriptors.keys()
+precipitation_re = precipitations.keys()
 bad_visibility_weather_events_re = bad_visibility_weather_events.keys()
 other_weather_events_re = other_weather_events.keys()
 

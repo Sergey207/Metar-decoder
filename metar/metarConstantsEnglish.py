@@ -1,11 +1,11 @@
-intensivity = {
+intensivities = {
     '-': 'Light',
     '': 'Moderate',
     '+': 'Heavy',
     'VC': 'In the vicinity'
 }
 
-descriptor = {
+descriptors = {
     'MI': 'Shallow',
     'BC': 'Patches',
     'PR': 'Partial',
@@ -16,7 +16,7 @@ descriptor = {
     'FZ': 'Freezing'
 }
 
-precipitation = {
+precipitations = {
     'DZ': 'Drizzle',
     'RA': 'Rain',
     'SN': 'Snow',

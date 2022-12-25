@@ -1,11 +1,11 @@
-intensivity = {
+intensivities = {
     '-': 'Слабая',
     '': 'Умеренная',
     '+': 'Сильная',
     'VC': 'Вблизи'
 }
 
-descriptor = {
+descriptors = {
     'MI': 'Тонкий (поземный)',
     'BC': 'Обрывки, клочья',
     'PR': 'Частичный',
@@ -16,7 +16,7 @@ descriptor = {
     'FZ': 'Замерзающий'
 }
 
-precipitation = {
+precipitations = {
     'DZ': 'Морось',
     'RA': 'Дождь',
     'SN': 'Снег',
