@@ -209,6 +209,7 @@ class Window(QMainWindow, Ui_MainWindow):
         if metar.wind:
             self.lblArrow.setDeg(metar.wind[0].direction)
             self.lblArrow.repaint()
+        self.tblResult.resizeColumnsToContents()
 
 
 def main():
