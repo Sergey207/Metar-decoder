@@ -10,12 +10,11 @@ from Designs.mainWindow import Ui_MainWindow
 from metar.metarEngine import Metar
 
 TEST_DATA = [
-    "UUWW", "UUEE", "KJFK"
+    "UUWW", "UUEE", "KJFK", "URWW"
 ]
 APP_DIR = pathlib.Path(__file__).parent
 
 DEBUG = '.idea' in map(lambda x: x.name, APP_DIR.iterdir())
-TIME_TO_ERROR_MESSAGE = 2000  # milliseconds
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -52,7 +51,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def resolveExpression(self):
         if not self.check_expression():
-            self.statusBar.showMessage('Wrong expression!', TIME_TO_ERROR_MESSAGE)
+            self.edtExpression.setText('Error!')
             return
         e = self.edtExpression.text()
         e = e.replace(':', '/')
@@ -99,7 +98,6 @@ class Window(QMainWindow, Ui_MainWindow):
             text = float(text)
         except ValueError:
             self.isEditing = False
-            self.statusBar.showMessage('Uncorrect input data!', TIME_TO_ERROR_MESSAGE)
             return
         if sender == self.edtHPA:
             self.edtMMRT.setText(str(text * 0.750064))
@@ -126,11 +124,10 @@ class Window(QMainWindow, Ui_MainWindow):
         try:
             metar = Metar(self.edtAirportCode.text().upper())
         except ValueError:
-            self.status_bar.showMessage("Value Error -> Error airport code", TIME_TO_ERROR_MESSAGE)
+            self.edtMetarCode.setText("Value Error -> Error airport code")
             return
         except requests.RequestException:
-            self.status_bar.showMessage("Internet Error -> Check your internet connection or Airport code",
-                                        TIME_TO_ERROR_MESSAGE)
+            self.edtMetarCode.setText("Internet Error -> Check your internet connection or Airport code")
             return
 
         to_show: list[tuple[str, str]] = []
