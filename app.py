@@ -316,7 +316,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
 
 def load_settings():
-    settings_path = APP_DIR / 'settings.json'
+    settings_path = EXE_DIR / 'settings.json'
     if not settings_path.exists():
         return DEFAULT_SETTINGS
     with settings_path.open() as f:
