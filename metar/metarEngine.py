@@ -4,11 +4,12 @@ import re
 import requests
 
 from metar.metarClasses import *
-from metar.metarConstants import *
+from metar.metarConstants import weather_regular_expression, cloudiness_re
 
 
 class Metar:
     metars_server = 'https://metartaf.ru/'
+    backup_metars_server = 'https://beta.aviationweather.gov/cgi-bin/data/metar.php'
 
     def __init__(self, airport_code: str, custom_server_data: dict[str, str] = None):
         if not custom_server_data:
@@ -22,11 +23,12 @@ class Metar:
 
         self.name = self.server_data['name']
         self.metar = ' '.join(self.server_data['metar'].split())
-        self.taf = ' '.join(self.server_data['taf'])
+        self.taf = ' '.join(self.server_data['taf'].split())
 
         self.date_time = self.analyze_date_time()
         self.wind = self.analyze_wind_gust()
         self.visibility = self.analyze_visibility()
+        self.rvr_visibility = self.analyze_rvr_visibility()
         self.rvr_weather = self.analyze_rvr_weather()
         self.weather = self.analyze_weather()
         self.cloudiness = self.analyze_cloudiness()
@@ -46,22 +48,28 @@ class Metar:
 
     def analyze_wind_gust(self):
         res = []
-        for i in re.findall(r'(VRB|\d{3})(P\d{2}|\d{2})(G\d{2}|)(MPS|KT)', self.metar):
+        for i in re.findall(r'(VRB|\d{3})(P\d{2}|\d{2})(G\d{2}|)(MPS|KMH|KT)', self.metar):
             res.append(Wind(*i))
         return res
 
     def analyze_visibility(self):
         res = []
-        re_expressions = (r'\s(\d{4})(W|S|E|N|)\s', r'\s(\d{4})(NW|NE|SW|SE)\s', '(CAVOK)()')
+        re_expressions = (r'\s(\d{4}|\d{1,2}SM)(W|S|E|N|)\s', r'\s(\d{4}|\d{2}SM)(NW|NE|SW|SE)\s', '(CAVOK)()')
         for re_expr in re_expressions:
             for i in re.findall(re_expr, self.metar):
                 res.append(Visibility(*i))
         return res
 
+    def analyze_rvr_visibility(self):
+        res = []
+        for i in re.findall(r'R(\d{2})(L|C|R|)/(M|P|)(\d{4})(U|N|D|)', self.metar):
+            res.append(RVRVisibility(i[0], i[1], i[2], i[3], i[4]))
+        return res
+
     def analyze_rvr_weather(self):
         res = []
-        for i in re.findall(r'R(\d{2})(L|C|R|)/(M|P|)(\d)(\d)(\d{2})(\d{2})(U|D|N|)', self.metar):
-            res.append(RVRWeather(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]))
+        for i in re.findall(r'R(\d{2})(L|C|R|)/(M|P|)(\d{4}|CLSD|CLRD|SNOKLO)(\d{2})(U|D|N|)', self.metar):
+            res.append(RVRWeather(i[0], i[1], i[2], i[3], i[4], i[5]))
         return res
 
     def analyze_weather(self):
@@ -75,7 +83,6 @@ class Metar:
         res = []
         for i in re.findall(cloudiness_re, self.metar):
             res.append(Cloudiness(*i))
-        # print(res)
         return res
 
     def analyze_temperature_devpoint(self):
@@ -86,8 +93,8 @@ class Metar:
 
     def analyze_pressure(self):
         res = []
-        for i in re.findall(r'Q(\d{4})', self.metar):
-            res.append(Pressure(i))
+        for i in re.findall(r'([QA])(\d{4})', self.metar):
+            res.append(Pressure(*i))
         return res
 
     def analyze_add_info(self):

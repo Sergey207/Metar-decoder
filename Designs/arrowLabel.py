@@ -1,28 +1,27 @@
-from math import cos, sin, radians, pi, degrees
+from math import cos, sin, radians
 
 from PySide6.QtCore import QPoint
-from PySide6.QtGui import QPainter, QPaintEvent, QBrush, QColor, QPen, QFont
+from PySide6.QtGui import QPainter, QPaintEvent, QColor, QPen, QFont
 from PySide6.QtWidgets import QLabel
 
 
 class ArrowLabel(QLabel):
-    def __init__(self):
+    def __init__(self, width, height):
         super().__init__()
+        self.setMinimumSize(width, height)
+        self.setMaximumSize(width, height)
         self.deg = None
 
     def paintEvent(self, arg__1: QPaintEvent) -> None:
         super(ArrowLabel, self).paintEvent(arg__1)
-
-        self.setMinimumSize(self.height(), self.height())
-        self.setMaximumSize(self.height(), self.height())
         w, h = self.width(), self.height()
 
         qp = QPainter(self)
-        qp.setPen(QPen(QColor(0, 0, 0), 4))
-        qp.setFont(QFont("Arial", 10))
+        qp.setPen(QPen(QColor(0, 0, 0), 2))
+        qp.setFont(QFont("Arial", 6))
 
-        we, he = w // 2.5, h // 2.5
-        qp.drawEllipse(QPoint(w // 2, h // 2), we, he)
+        we, he = w // 3, h // 3
+        qp.drawEllipse(w // 2 - we, h // 2 - he, we, he)
 
         qp.drawText(QPoint(w // 2 - 10, (h // 2 - he) - 10), '0')  # type: ignore
         qp.drawText(QPoint(w // 2 - 20, (h // 2 + he) + 25), '180')  # type: ignore

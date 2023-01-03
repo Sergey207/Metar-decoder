@@ -1,6 +1,3 @@
-from metar.metarConstantsEnglish import *
-
-
 class Wind:
     def __init__(self, direction, speed, gust, unit_of_measurement):
         self.direction = int(direction) if direction != "VRB" else "Variable"
@@ -11,64 +8,101 @@ class Wind:
 
     def __repr__(self):
         return f"Direction: {self.direction}, Speed: {self.speed}, " \
-               f"Speed > 50 mps: {self.speed_more_then_50mps} " \
+               f"Speed >50mps: {self.speed_more_then_50mps}, " \
                f"Gust: {self.gust}, Unit of measurement: {self.unit_of_measurement}"
 
 
 class Visibility:
     def __init__(self, distance, direction):
-        self.distance = int(distance) if distance != 'CAVOK' else distance
+        if distance == 'CAVOK':
+            self.distance = ">10km"
+        else:
+            if distance.endswith('SM'):
+                distance = str(int(distance[:-2]) * 1609)
+            self.distance = int(distance)
+            if self.distance >= 9999:
+                self.distance = '>10km'
+            else:
+                self.distance = str(self.distance) + ' m'
         self.direction = direction if direction else None
 
     def __repr__(self):
         return f"Distance: {self.distance}, Direction: {self.direction}"
 
 
-class RVRWeather:
-    def __init__(self, RVR_number, RVR_parallel, visibility_prefix, runway_deposit,
-                 extend_of_contamination, depth_of_deposit, braking_friction_coeficient, visibility_changes):
-        self.RVR_number = int(RVR_number)
-        self.RVR_parallel = RVR_prefixes.get(RVR_parallel)
-        self.visibility_prefix = RVR_visibilty_prefixes.get(visibility_prefix)
-        self.runway_deposit = str(RVR_deposit.get(runway_deposit)) + f' - {runway_deposit}'
-        self.extend_of_contamination = RVR_extend_of_contamination.get(extend_of_contamination)
-        self.depth_of_deposit = str(int(depth_of_deposit)) + ' mm'
-        self.braking_friction_coeficient = int(braking_friction_coeficient) / 100
-        self.visibility_changes = RVR_visibility_changements_prefixes.get(visibility_changes)
+class RVRVisibility:
+    def __init__(self, RVR_number, RVR_parallel, visibility_prefix, visibility, visibility_changes):
+        self.RVR_number = RVR_number
+        self.RVR_parallel = RVR_parallel
+        self.visibility_prefix = visibility_prefix
+        self.visibility = visibility
+        self.visibility_changes = visibility_changes
 
     def __repr__(self):
-        return f"RVR_number = {self.RVR_number} " \
-               f"RVR_parallel = {self.RVR_parallel} " \
-               f"visibility_prefix = {self.visibility_prefix} " \
-               f"runway_deposit = {self.runway_deposit} " \
-               f"extend_of_contamination = {self.extend_of_contamination} " \
-               f"depth_of_deposit = {self.depth_of_deposit} " \
-               f"braking_friction_coeficient = {self.braking_friction_coeficient} " \
-               f"visibility_changes = {self.visibility_changes} "
+        return f"""self.RVR_number = RVR_number
+RVR_parallel = {self.RVR_parallel}
+visibility_prefix = {self.visibility_prefix}
+visibility = {self.visibility}
+visibility_changes = {self.visibility_changes}"""
+
+
+class RVRWeather:
+    def __init__(self, RVR_number, RVR_parallel, visibility_prefix,
+                 rvr_weather_info, braking_friction_coeficient, visibility_changes):
+        self.RVR_number = int(RVR_number)
+        self.RVR_parallel = RVR_parallel
+        self.visibility_prefix = visibility_prefix
+
+        if rvr_weather_info in ('CLSD', 'CLRD', 'SNOKLO'):
+            self.RVR_weather = rvr_weather_info
+            self.runway_deposit = None
+            self.extend_of_contamination = None
+            self.depth_of_deposit = None
+        else:
+            self.RVR_weather = None
+            self.runway_deposit = rvr_weather_info[0]
+            self.extend_of_contamination = rvr_weather_info[1]
+            self.depth_of_deposit = str(int(rvr_weather_info[2:]))
+
+        self.braking_friction_coeficient = int(braking_friction_coeficient) / 100
+        self.visibility_changes = visibility_changes
+
+    def __repr__(self):
+        return f"""RVR_number = {self.RVR_number}
+RVR_parallel = {self.RVR_parallel}
+visibility_prefix = {self.visibility_prefix}
+RVR_weather = {self.RVR_weather}
+runway_deposit = {self.runway_deposit}
+extend_of_contamination = {self.extend_of_contamination}
+depth_of_deposit = {self.depth_of_deposit}
+braking_friction_coeficient = {self.braking_friction_coeficient}
+visibility_changes = {self.visibility_changes}"""
 
 
 class Weather:
     def __init__(self, intensivity, descriptor, precipitation1, precipitation2,
                  bad_visibility_weather_event, other_weather_event):
-        self.intensivity = intensivities.get(intensivity)
-        self.descriptor = descriptors.get(descriptor)
-        self.precipitations = (precipitations.get(precipitation1),
-                               precipitations.get(precipitation2))
-        self.bad_visibility_weather_events = bad_visibility_weather_events.get(bad_visibility_weather_event)
-        self.other_weather_events = other_weather_events.get(other_weather_event)
+        self.intensivity = intensivity
+        self.descriptor = descriptor
+        self.precipitations = (precipitation1, precipitation2)
+        self.bad_visibility_weather_events = bad_visibility_weather_event
+        self.other_weather_events = other_weather_event
 
     def __repr__(self):
         return f"Intensivity = {self.intensivity} " \
                f"Descriptor = {self.descriptor} " \
                f"Precipitation = {self.precipitations} " \
                f"Bad_visibility_weather_events = {self.bad_visibility_weather_events} " \
-               f"Other_weather_events = {self.other_weather_events} "
+               f"Other_weather_events = {self.other_weather_events}"
 
 
 class Cloudiness:
     def __init__(self, number_of_clouds, height_of_lower_bound):
-        self.number_of_clouds = cloudiness.get(number_of_clouds)
-        self.height_of_lower_bound = int(height_of_lower_bound) * 100
+        self.number_of_clouds = number_of_clouds
+        if height_of_lower_bound:
+            self.height_of_lower_bound = int(height_of_lower_bound) * 100
+        else:
+            self.height_of_lower_bound = None
 
     def __repr__(self):
         return f"Number_of_clouds = {self.number_of_clouds} " \
@@ -89,8 +123,13 @@ class TemperatureDewpoint:
 
 
 class Pressure:
-    def __init__(self, QNH):
-        self.QNH = QNH
+    units_of_measurement = {'Q': 'QNH', 'A': 'inHg'}
+
+    def __init__(self, unit_of_measurement, value):
+        self.value = value
+        if unit_of_measurement == 'A':
+            self.value = format(int(self.value) / 100, '.2f')
+        self.unit_of_measurement = self.units_of_measurement.get(unit_of_measurement)
 
     def __repr__(self):
-        return f"QNH = {self.QNH}"
+        return f"{self.value} {self.unit_of_measurement}"

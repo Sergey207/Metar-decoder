@@ -63,7 +63,7 @@ RVR_visibility_changements_prefixes = {
     'N': 'Нет изменений в видимости'
 }
 
-RVR_deposit = {
+RVR_deposits = {
     '0': 'Чисто и сухо',
     '1': 'Влажно',
     '2': 'Мокро',
@@ -76,7 +76,7 @@ RVR_deposit = {
     '9': 'Мёрзлая неровная ВПП'
 }
 
-RVR_extend_of_contamination = {
+RVR_extends_of_contamination = {
     '1': '<10%',
     '2': '11-25%',
     '5': '26-51%',
@@ -94,4 +94,46 @@ cloudiness = {
     "SKC": "Ясно",
     "CB": "Кучево-дождевые облака",
     "TCU": "Мощно-кучевые"
+}
+
+RVR_weathers = {
+    'CLSD': 'ВПП закрыта',
+    'CLRD': 'Чисто',
+    'SNOKLO': 'ВПП закрыта снегом'
+}
+
+not_found_message = 'Не найдено! Напишите issue с фото)'
+
+value_error = "Неверный код аэропорта"
+internet_error = "Проверьте подключение к интернету и код аэропорта"
+
+app_locale = {
+    'Airport code': 'Код аэропорта (icao)',
+    'Airport name': 'Название аэропорта',
+    'Date and time': 'Дата и время',
+    'Wind direction': 'Направление ветра',
+    'Wind speed': 'Скорость ветра',
+    'Wind gust': 'Порывы ветра',
+    'RVR': 'ВПП',
+    'parallel': 'Параллельная',
+    'visibility prefix': 'visibility prefix',
+    'visibility changes': 'visibility changes',
+    'Weather': 'Погода',
+    'RVR deposit': 'Состояние полосы',
+    'braking friction coefficient': 'Коэффициент сцепления',
+    'intensivity': 'Интенсивность',
+    'descriptor': 'Декскриптор',
+    'precipitations': 'Осадки',
+    'bad visibility weather events': 'Плохая видимость из-за погодных явлений',
+    'other weather events': 'Другие погодные явления',
+    'Cloudiness': 'Облачность',
+    'Height': 'Высота',
+    'Temperature': 'Температура',
+    'Dewpoint': 'Точка росы',
+    'Pressure': 'Давление',
+    'Name': 'Название',
+    'Value': 'Значение',
+    'Visibility': 'Видимость',
+    'extend of contamination': 'Степень загрязнения',
+    'depth of deposit': 'depth of deposit'
 }

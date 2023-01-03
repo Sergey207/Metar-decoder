@@ -7,11 +7,11 @@ precipitation_re = precipitations.keys()
 bad_visibility_weather_events_re = bad_visibility_weather_events.keys()
 other_weather_events_re = other_weather_events.keys()
 
-weather_regular_expression = r'\s' + f'({"|".join(intensivity_re)})' \
-                                     f'({"|".join(descriptor_re)})?' \
-                                     f'({"|".join(precipitation_re)})?' \
-                                     f'({"|".join(precipitation_re)})?' \
-                                     f'({"|".join(bad_visibility_weather_events_re)})?' \
-                                     f'({"|".join(other_weather_events_re)})?' + \
-                             r'\s'
-cloudiness_re = '(' + '|'.join(cloudiness.keys()) + '|VV)' + r'(\d{3})'
+weather_regular_expression = f'({"|".join(intensivity_re)})' \
+                             f'({"|".join(descriptor_re)})?' \
+                             f'({"|".join(precipitation_re)})?' \
+                             f'({"|".join(precipitation_re)})?' \
+                             f'({"|".join(bad_visibility_weather_events_re)})?' \
+                             f'({"|".join(other_weather_events_re)})?'
+weather_regular_expression = r'\s' + weather_regular_expression + r'\s'
+cloudiness_re = '(' + '|'.join(cloudiness.keys()) + '|VV)' + r'(\d{3}|)'

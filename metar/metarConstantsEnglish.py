@@ -63,7 +63,7 @@ RVR_visibility_changements_prefixes = {
     'N': 'No changes of visibility'
 }
 
-RVR_deposit = {
+RVR_deposits = {
     '0': 'dry and clear',
     '1': 'damp',
     '2': 'wet or water patches',
@@ -76,7 +76,7 @@ RVR_deposit = {
     '9': 'frozen ruls or ridges'
 }
 
-RVR_extend_of_contamination = {
+RVR_extends_of_contamination = {
     '1': '<10%',
     '2': '11-25%',
     '5': '26-51%',
@@ -94,4 +94,43 @@ cloudiness = {
     "SKC": "Sky clear",
     "CB": "Сumulonimbus clouds",
     "TCU": "Lowering cumulus"
+}
+
+RVR_weathers = {
+    'CLSD': 'RVR closed',
+    'CLRD': 'RVR cleared',
+    'SNOKLO': 'RVR snow closed'
+}
+
+not_found_message = 'Not found! Write issue with photos)'
+
+value_error = "Value Error -> Error airport code"
+internet_error = "Internet Error -> Check your internet connection or Airport code"
+
+app_locale = {
+    'Wind direction': 'Wind direction',
+    'Wind speed': 'Wind speed',
+    'Wind gust': 'Wind gust',
+    'RVR': 'RVR',
+    'parallel': 'parallel',
+    'visibility prefix': 'visibility prefix',
+    'visibility changes': 'visibility changes',
+    'weather': 'weather',
+    'RVR deposit': 'RVR deposit',
+    'braking friction coefficient': 'braking friction coefficient',
+    'intensivity': 'intensivity',
+    'descriptor': 'descriptor',
+    'precipitations': 'precipitations',
+    'bad visibility weather events': 'bad visibility weather events',
+    'other weather events': 'other weather events',
+    'Cloudiness': 'Cloudiness',
+    'Height': 'Height',
+    'Temperature': 'Temperature',
+    'Dewpoint': 'Dewpoint',
+    'Pressure': 'Pressure',
+    'Name': 'Name',
+    'Value': 'Value',
+    'Visibility': 'Visibility',
+    'extend of contamination': 'extend of contamination',
+    'depth of deposit': 'depth of deposit'
 }
