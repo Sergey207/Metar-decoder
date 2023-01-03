@@ -10,16 +10,17 @@
 
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QSize, Qt)
 from PySide6.QtGui import (QFont)
-from PySide6.QtWidgets import (QAbstractItemView, QComboBox,
-                               QHBoxLayout, QLabel, QLineEdit,
-                               QListWidget, QPushButton,
-                               QSizePolicy, QSpacerItem, QTableWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QComboBox, QHBoxLayout,
+                               QLabel, QLineEdit, QListWidget,
+                               QPushButton, QSizePolicy,
+                               QSpacerItem, QTableWidget, QVBoxLayout,
+                               QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(819, 676)
+        MainWindow.resize(1024, 768)
         MainWindow.setMinimumSize(QSize(0, 0))
         font = QFont()
         font.setFamilies([u"Calibri"])
@@ -30,6 +31,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setSpacing(7)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
