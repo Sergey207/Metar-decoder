@@ -118,7 +118,7 @@ app_locale = {
     'parallel': 'parallel',
     'visibility prefix': 'visibility prefix',
     'visibility changes': 'visibility changes',
-    'weather': 'weather',
+    'Weather': 'Weather',
     'RVR deposit': 'RVR deposit',
     'braking friction coefficient': 'braking friction coefficient',
     'intensivity': 'intensivity',
