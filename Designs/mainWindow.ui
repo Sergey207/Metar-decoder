@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>768</height>
+    <width>819</width>
+    <height>676</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -31,6 +31,14 @@
    <layout class="QHBoxLayout" name="horizontalLayout_9">
     <item>
      <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>10</pointsize>
+        <italic>true</italic>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="tabPosition">
        <enum>QTabWidget::North</enum>
       </property>
@@ -41,9 +49,9 @@
        <attribute name="title">
         <string>Metar Decoder</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
           <item>
            <widget class="QLabel" name="lblAirportCode">
             <property name="text">
@@ -54,150 +62,235 @@
           <item>
            <widget class="QLineEdit" name="edtAirportCode"/>
           </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="0,1,0">
           <item>
-           <layout class="QVBoxLayout" name="lytQuickBar">
-            <item>
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QTableWidget" name="tblResult">
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
+           <widget class="QPushButton" name="btnAddToQuickbar">
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
             </property>
-            <property name="selectionMode">
-             <enum>QAbstractItemView::NoSelection</enum>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
             </property>
-            <property name="textElideMode">
-             <enum>Qt::ElideNone</enum>
+            <property name="text">
+             <string/>
             </property>
-            <property name="verticalScrollMode">
-             <enum>QAbstractItemView::ScrollPerPixel</enum>
-            </property>
-            <property name="horizontalScrollMode">
-             <enum>QAbstractItemView::ScrollPerPixel</enum>
-            </property>
-            <property name="gridStyle">
-             <enum>Qt::SolidLine</enum>
-            </property>
-            <attribute name="verticalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
            </widget>
           </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="0,1">
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_5">
-              <item>
-               <widget class="QLabel" name="lblArrow">
-                <property name="minimumSize">
-                 <size>
-                  <width>180</width>
-                  <height>180</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>180</width>
-                  <height>180</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
+             <widget class="QListWidget" name="lstQuickbar">
+              <property name="maximumSize">
                <size>
-                <width>20</width>
-                <height>40</height>
+                <width>75</width>
+                <height>16777215</height>
                </size>
               </property>
-             </spacer>
+             </widget>
             </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,4">
+             <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
               <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>HPA</string>
+               <widget class="QTableWidget" name="tblResult">
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
                 </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::NoSelection</enum>
+                </property>
+                <property name="textElideMode">
+                 <enum>Qt::ElideNone</enum>
+                </property>
+                <property name="verticalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="horizontalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="gridStyle">
+                 <enum>Qt::SolidLine</enum>
+                </property>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="edtHPA"/>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QLabel" name="lblArrow">
+                  <property name="minimumSize">
+                   <size>
+                    <width>180</width>
+                    <height>180</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>180</width>
+                    <height>180</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_4">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,4">
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>NM</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="edtNM"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,4">
+                  <item>
+                   <widget class="QLabel" name="label_5">
+                    <property name="text">
+                     <string>M</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="edtM"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="1,4">
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="text">
+                     <string>KM</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="edtKM"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,4">
+                  <item>
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>HPA</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="edtHPA"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
+                  <item>
+                   <widget class="QLabel" name="label_3">
+                    <property name="text">
+                     <string>MM</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="edtMMRT"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>INCH</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="edtENCHRT"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
               <item>
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>MM</string>
+               <widget class="QLineEdit" name="edtMetarCode">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>10</pointsize>
+                  <italic>true</italic>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="edtMMRT"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
-              <item>
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>INCH</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="edtENCHRT"/>
+               <widget class="QComboBox" name="cmbLanguage"/>
               </item>
              </layout>
             </item>
            </layout>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="edtMetarCode">
-          <property name="font">
-           <font>
-            <family>Calibri</family>
-            <pointsize>8</pointsize>
-            <italic>true</italic>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -218,7 +311,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="cmbLanguage"/>
+             <widget class="QComboBox" name="rr"/>
             </item>
            </layout>
           </item>
@@ -232,7 +325,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QListWidget" name="lstQuickBar"/>
+             <widget class="QListWidget" name="sss"/>
             </item>
            </layout>
           </item>
@@ -1005,7 +1098,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="grpActions"/>
   <buttongroup name="grpDigits"/>
+  <buttongroup name="grpActions"/>
  </buttongroups>
 </ui>

@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1024, 768)
+        MainWindow.resize(819, 676)
         MainWindow.setMinimumSize(QSize(0, 0))
         font = QFont()
         font.setFamilies([u"Calibri"])
@@ -34,37 +34,56 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
+        font1 = QFont()
+        font1.setFamilies([u"Calibri"])
+        font1.setPointSize(10)
+        font1.setBold(True)
+        font1.setItalic(True)
+        self.tabWidget.setFont(font1)
         self.tabWidget.setTabPosition(QTabWidget.North)
         self.tabMetar = QWidget()
         self.tabMetar.setObjectName(u"tabMetar")
-        self.verticalLayout_4 = QVBoxLayout(self.tabMetar)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.verticalLayout_6 = QVBoxLayout(self.tabMetar)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.lblAirportCode = QLabel(self.tabMetar)
         self.lblAirportCode.setObjectName(u"lblAirportCode")
 
-        self.horizontalLayout.addWidget(self.lblAirportCode)
+        self.horizontalLayout_17.addWidget(self.lblAirportCode)
 
         self.edtAirportCode = QLineEdit(self.tabMetar)
         self.edtAirportCode.setObjectName(u"edtAirportCode")
 
-        self.horizontalLayout.addWidget(self.edtAirportCode)
+        self.horizontalLayout_17.addWidget(self.edtAirportCode)
+
+        self.btnAddToQuickbar = QPushButton(self.tabMetar)
+        self.btnAddToQuickbar.setObjectName(u"btnAddToQuickbar")
+        self.btnAddToQuickbar.setMinimumSize(QSize(24, 24))
+        self.btnAddToQuickbar.setMaximumSize(QSize(24, 24))
+
+        self.horizontalLayout_17.addWidget(self.btnAddToQuickbar)
 
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_17)
 
-        self.horizontalLayout_12 = QHBoxLayout()
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.lytQuickBar = QVBoxLayout()
-        self.lytQuickBar.setObjectName(u"lytQuickBar")
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.lstQuickbar = QListWidget(self.tabMetar)
+        self.lstQuickbar.setObjectName(u"lstQuickbar")
+        self.lstQuickbar.setMaximumSize(QSize(75, 16777215))
 
-        self.lytQuickBar.addItem(self.verticalSpacer_3)
+        self.verticalLayout_5.addWidget(self.lstQuickbar)
 
 
-        self.horizontalLayout_12.addLayout(self.lytQuickBar)
+        self.horizontalLayout_16.addLayout(self.verticalLayout_5)
 
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.tblResult = QTableWidget(self.tabMetar)
         self.tblResult.setObjectName(u"tblResult")
         self.tblResult.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -75,25 +94,75 @@ class Ui_MainWindow(object):
         self.tblResult.setGridStyle(Qt.SolidLine)
         self.tblResult.verticalHeader().setVisible(False)
 
-        self.horizontalLayout_12.addWidget(self.tblResult)
+        self.horizontalLayout_5.addWidget(self.tblResult)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.lblArrow = QLabel(self.tabMetar)
         self.lblArrow.setObjectName(u"lblArrow")
         self.lblArrow.setMinimumSize(QSize(180, 180))
         self.lblArrow.setMaximumSize(QSize(180, 180))
 
-        self.horizontalLayout_5.addWidget(self.lblArrow)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_2.addWidget(self.lblArrow)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer_4)
+
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.label_7 = QLabel(self.tabMetar)
+        self.label_7.setObjectName(u"label_7")
+
+        self.horizontalLayout_14.addWidget(self.label_7)
+
+        self.edtNM = QLineEdit(self.tabMetar)
+        self.edtNM.setObjectName(u"edtNM")
+
+        self.horizontalLayout_14.addWidget(self.edtNM)
+
+        self.horizontalLayout_14.setStretch(0, 1)
+        self.horizontalLayout_14.setStretch(1, 4)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_14)
+
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.label_5 = QLabel(self.tabMetar)
+        self.label_5.setObjectName(u"label_5")
+
+        self.horizontalLayout_12.addWidget(self.label_5)
+
+        self.edtM = QLineEdit(self.tabMetar)
+        self.edtM.setObjectName(u"edtM")
+
+        self.horizontalLayout_12.addWidget(self.edtM)
+
+        self.horizontalLayout_12.setStretch(0, 1)
+        self.horizontalLayout_12.setStretch(1, 4)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_12)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.label_6 = QLabel(self.tabMetar)
+        self.label_6.setObjectName(u"label_6")
+
+        self.horizontalLayout_13.addWidget(self.label_6)
+
+        self.edtKM = QLineEdit(self.tabMetar)
+        self.edtKM.setObjectName(u"edtKM")
+
+        self.horizontalLayout_13.addWidget(self.edtKM)
+
+        self.horizontalLayout_13.setStretch(0, 1)
+        self.horizontalLayout_13.setStretch(1, 4)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_13)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.verticalLayout_2.addItem(self.verticalSpacer)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -147,23 +216,35 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
 
 
-        self.horizontalLayout_12.addLayout(self.verticalLayout_2)
+        self.horizontalLayout_5.addLayout(self.verticalLayout_2)
 
-        self.horizontalLayout_12.setStretch(1, 1)
+        self.horizontalLayout_5.setStretch(0, 1)
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_12)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
 
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.edtMetarCode = QLineEdit(self.tabMetar)
         self.edtMetarCode.setObjectName(u"edtMetarCode")
-        font1 = QFont()
-        font1.setFamilies([u"Calibri"])
-        font1.setPointSize(8)
-        font1.setBold(True)
-        font1.setItalic(True)
         self.edtMetarCode.setFont(font1)
         self.edtMetarCode.setReadOnly(True)
 
-        self.verticalLayout_4.addWidget(self.edtMetarCode)
+        self.horizontalLayout_15.addWidget(self.edtMetarCode)
+
+        self.cmbLanguage = QComboBox(self.tabMetar)
+        self.cmbLanguage.setObjectName(u"cmbLanguage")
+
+        self.horizontalLayout_15.addWidget(self.cmbLanguage)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_15)
+
+
+        self.horizontalLayout_16.addLayout(self.verticalLayout_4)
+
+        self.horizontalLayout_16.setStretch(1, 1)
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_16)
 
         self.tabWidget.addTab(self.tabMetar, "")
         self.tabSettings = QWidget()
@@ -179,10 +260,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.lblLanguage)
 
-        self.cmbLanguage = QComboBox(self.tabSettings)
-        self.cmbLanguage.setObjectName(u"cmbLanguage")
+        self.rr = QComboBox(self.tabSettings)
+        self.rr.setObjectName(u"rr")
 
-        self.horizontalLayout_6.addWidget(self.cmbLanguage)
+        self.horizontalLayout_6.addWidget(self.rr)
 
         self.horizontalLayout_6.setStretch(0, 1)
         self.horizontalLayout_6.setStretch(1, 2)
@@ -196,10 +277,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addWidget(self.lblQuickbar)
 
-        self.lstQuickBar = QListWidget(self.tabSettings)
-        self.lstQuickBar.setObjectName(u"lstQuickBar")
+        self.sss = QListWidget(self.tabSettings)
+        self.sss.setObjectName(u"sss")
 
-        self.horizontalLayout_8.addWidget(self.lstQuickBar)
+        self.horizontalLayout_8.addWidget(self.sss)
 
         self.horizontalLayout_8.setStretch(0, 1)
         self.horizontalLayout_8.setStretch(1, 2)
@@ -489,7 +570,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
         self.lblAirportCode.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
+        self.btnAddToQuickbar.setText("")
         self.lblArrow.setText("")
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"NM", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"M", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"KM", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"HPA", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"MM", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"INCH", None))
