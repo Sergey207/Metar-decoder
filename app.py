@@ -4,7 +4,7 @@ import sys
 
 import requests
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton, QInputDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton
 
 from Designs.arrowLabel import ArrowLabel
 from Designs.mainWindow import Ui_MainWindow
@@ -13,7 +13,6 @@ from metar.metarEngine import Metar
 
 class Window(QMainWindow, Ui_MainWindow):
     lblArrow: ArrowLabel
-    EXPRESSION_SYMBOLS = '1234567890()^:*+-. '
 
     def __init__(self):
         super().__init__()
@@ -21,8 +20,6 @@ class Window(QMainWindow, Ui_MainWindow):
         self.setup_signals()
 
         self.isEditing = False
-        # if DEBUG:
-        #     self.edtAirportCode.setText('UUWW')
 
     def setup_ui(self):
         self.setupUi(self)
@@ -30,40 +27,22 @@ class Window(QMainWindow, Ui_MainWindow):
         self.cmbLanguage.addItems(("english", "russian"))
         self.cmbLanguage.setCurrentText(language)
 
-        self.lstQuickBar.addItems(quick_bar)
-        self.btnQuickbarMinus.setIcon(QIcon(str(APP_DIR.absolute() / 'icons' / 'Minus.png')))
-        self.btnQuickbarPlus.setIcon(QIcon(str(APP_DIR.absolute() / 'icons' / 'Plus.png')))
-
-        for airport_code in quick_bar[::-1]:
-            new_button = QPushButton(self)
-            new_button.setText(airport_code)
-            new_button.clicked.connect(self.onQuickBarButtonClick)
-            self.lytQuickBar.insertWidget(0, new_button)
+        self.lstQuickbar.addItems(quick_bar)
+        self.lstQuickbar.itemClicked.connect(lambda x: self.edtAirportCode.setText(x.text()))
 
         arr_label = ArrowLabel(self.lblArrow.width(), self.lblArrow.height())
         self.horizontalLayout_5.replaceWidget(self.lblArrow, arr_label)
         self.lblArrow.deleteLater()
         self.lblArrow = arr_label
 
-        self.tabWidget.setTabText(0, app_locale['Metar decoder'])
-        self.tabWidget.setTabText(1, app_locale['Calculator + settings'])
-        self.lblAirportCode.setText(app_locale['Airport code'])
-        self.lblLanguage.setText(app_locale['Language'])
-        self.lblQuickbar.setText(app_locale['Quickbar'])
-        self.btnSaveSettings.setText(app_locale['Save settings'])
+        self.retranslate_ui()
 
     def setup_signals(self):
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
         self.edtHPA.textChanged.connect(self.onQChanged)
         self.edtMMRT.textChanged.connect(self.onQChanged)
         self.edtENCHRT.textChanged.connect(self.onQChanged)
-        self.grpDigits.buttonClicked.connect(self.onDigitalClick)
-        self.grpActions.buttonClicked.connect(self.onActionClick)
-        self.btnQuickbarMinus.clicked.connect(self.onMinusClick)
-        self.btnQuickbarPlus.clicked.connect(self.onPlusClick)
         self.cmbLanguage.currentTextChanged.connect(self.onLanguageChanged)
-        self.btnSaveSettings.clicked.connect(self.onSaveSettingsClick)
-        self.edtExpression.returnPressed.connect(self.resolveExpression)
 
     def setup_table_size(self):
         self.tblResult.clear()
@@ -72,38 +51,9 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setHorizontalHeaderLabels((app_locale["Name"], app_locale["Value"]))
         self.tblResult.resizeColumnsToContents()
 
-    def check_expression(self) -> bool:
-        return all([i in self.EXPRESSION_SYMBOLS for i in self.edtExpression.text()])
-
-    def resolveExpression(self):
-        if not self.check_expression():
-            self.edtExpression.setText('Error!')
-            return
-        e = self.edtExpression.text()
-        e = e.replace(':', '/')
-        if '^' in e:
-            e = '(' + e
-            e = e.replace('^', ')**(')
-            e += ')'
-        if e != '':
-            self.edtExpression.setText(str(float(eval(e))))
-        else:
-            self.edtExpression.setText('0')
-
-    def onDigitalClick(self, sender: QPushButton):
-        if not isinstance(sender, QPushButton):
-            return
-        self.edtExpression.setText(self.edtExpression.text() + sender.text())
-
-    def onActionClick(self, sender: QPushButton):
-        if not isinstance(sender, QPushButton):
-            return
-        if sender == self.btnClear:
-            self.edtExpression.clear()
-        elif sender == self.btnRes:
-            self.resolveExpression()
-        else:
-            self.edtExpression.setText(self.edtExpression.text() + sender.text())
+    def retranslate_ui(self):
+        self.lblAirportCode.setText(app_locale['Airport code'])
+        self.updateMetar()
 
     def onQChanged(self):
         if self.isEditing:
@@ -145,28 +95,18 @@ class Window(QMainWindow, Ui_MainWindow):
     def onLanguageChanged(self):
         global language
         language = self.cmbLanguage.currentText()
+        self.onSaveSettingsClick()
 
     def onMinusClick(self):
-        for i in self.lstQuickBar.selectedItems():
-            for j in range(self.lytQuickBar.count() - 1):
-                item = self.lytQuickBar.itemAt(j).widget()
-                if item.text() == i.text():
-                    item.deleteLater()
-            if i.text() in quick_bar:
-                quick_bar.remove(i.text())
-            self.lstQuickBar.takeItem(self.lstQuickBar.row(i))
-
-    def onPlusClick(self):
-        text, ok = QInputDialog.getText(self, new_airport_code, new_airport)
-        if not ok:
-            return
-        text = text.upper()
-        quick_bar.append(text)
-        self.lstQuickBar.addItem(text)
-        new_button = QPushButton(self)
-        new_button.setText(text)
-        new_button.clicked.connect(self.onQuickBarButtonClick)
-        self.lytQuickBar.insertWidget(self.lytQuickBar.count() - 1, new_button)
+        pass
+        # for i in self.lstQuickBar.selectedItems():
+        #     for j in range(self.lytQuickBar.count() - 1):
+        #         item = self.lytQuickBar.itemAt(j).widget()
+        #         if item.text() == i.text():
+        #             item.deleteLater()
+        #     if i.text() in quick_bar:
+        #         quick_bar.remove(i.text())
+        #     self.lstQuickBar.takeItem(self.lstQuickBar.row(i))
 
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
@@ -189,7 +129,10 @@ class Window(QMainWindow, Ui_MainWindow):
             name_prefix = f" {i + 1}" if len(metar.wind) > 1 else ''
 
             to_show.append((app_locale['Wind direction'] + name_prefix, f"{wind.direction}°"))
-            to_show.append((app_locale['Wind speed'] + name_prefix, f"{wind.speed} {wind.unit_of_measurement}"))
+            wind_speed = f"{wind.speed} {wind.unit_of_measurement}"
+            if wind.unit_of_measurement == 'KT':
+                wind_speed += f' ({wind.speed * 0.51} m/c)'
+            to_show.append((app_locale['Wind speed'] + name_prefix, wind_speed))
             if wind.gust:
                 to_show.append((app_locale['Wind gust'] + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
             self.lblArrow.setDeg(wind.direction)
@@ -349,7 +292,6 @@ if __name__ == '__main__':
         EXE_DIR = pathlib.Path(sys.executable).parent
     else:
         EXE_DIR = APP_DIR
-    DEBUG = '.idea' in map(lambda x: x.name, APP_DIR.iterdir())
 
     DEFAULT_SETTINGS = {
         "language": "english",
