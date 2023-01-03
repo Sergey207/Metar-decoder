@@ -135,5 +135,12 @@ app_locale = {
     'Value': 'Значение',
     'Visibility': 'Видимость',
     'extend of contamination': 'Степень загрязнения',
-    'depth of deposit': 'depth of deposit'
+    'depth of deposit': 'depth of deposit',
+    'Metar decoder': 'Расшифровщик метара',
+    'Calculator + settings': 'Калькулятор + настройки',
+    'Language': 'Язык',
+    'Quickbar': 'Быстрая панель',
+    'Save settings': 'Сохранить настройки'
 }
+new_airport = 'Код аэропорта'
+new_airport_code = 'Новый код аэропорта'

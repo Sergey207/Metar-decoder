@@ -20,42 +20,54 @@ class ArrowLabel(QLabel):
         qp.setPen(QPen(QColor(0, 0, 0), 2))
         qp.setFont(QFont("Arial", 6))
 
-        we, he = w // 3, h // 3
-        qp.drawEllipse(w // 2 - we, h // 2 - he, we, he)
+        r = w // 3
+        qp.drawEllipse(QPoint(w // 2, h // 2), r, r)
 
-        qp.drawText(QPoint(w // 2 - 10, (h // 2 - he) - 10), '0')  # type: ignore
-        qp.drawText(QPoint(w // 2 - 20, (h // 2 + he) + 25), '180')  # type: ignore
-        qp.drawText(QPoint((w // 2 - we) - 38, (h // 2 + 10)), '270')  # type: ignore
-        qp.drawText(QPoint((w // 2 + we) + 10, (h // 2 + 10)), '90')  # type: ignore
+        qp.drawText(QPoint(w // 2 - 1, h // 2 - r - 5), '0')
+        qp.drawText(QPoint(w // 2 + r + 2, h // 2 + 3), '90')
+        qp.drawText(QPoint(w // 2 - 8, h // 2 + r + 10), '180')
+        qp.drawText(QPoint((w // 2 - r) - 15, (h // 2 + 5)), '270')
 
-        if self.deg is not None:
-            deg = radians(self.deg - 90)
-            deg2 = radians(self.deg + 90)
-            qp.drawLine(w // 2, h // 2,
-                        int((w // 2) + (we * cos(deg))),
-                        int((h // 2) + (he * sin(deg))))
-            if self.deg not in (0, 90, 180, 270):
-                if self.deg < 180 or self.deg > 330:
-                    new_x = int((w // 2) + ((we + 15) * cos(deg)))
-                    new_y = int((h // 2) + ((he + 15) * sin(deg)))
-                else:
-                    new_x = int((w // 2) + ((we + 35) * cos(deg)))
-                    new_y = int((h // 2) + ((he + 35) * sin(deg)))
-                qp.drawText(new_x, new_y, str(self.deg))
+        if self.deg is None:
+            return
 
-            qp.setPen(QPen(QColor(255, 0, 0), 4))
-            qp.drawLine(w // 2, h // 2,
-                        int((w // 2) + (we * cos(deg2))),
-                        int((h // 2) + (he * sin(deg2))))
-            d = self.deg + 180 if self.deg < 180 else self.deg - 180
-            if d not in (0, 90, 180, 270):
-                if d < 180 or d > 330:
-                    new_x = int((w // 2) + ((we + 15) * cos(deg2)))
-                    new_y = int((h // 2) + ((he + 15) * sin(deg2)))
-                else:
-                    new_x = int((w // 2) + ((we + 35) * cos(deg2)))
-                    new_y = int((h // 2) + ((he + 35) * sin(deg2)))
-                qp.drawText(new_x, new_y, str(d))
+        deg = radians(self.deg - 90)
+        self.draw_arrow(qp, deg, w, h, r)
+        if self.deg not in (0, 90, 180, 270):
+            self.draw_deg(qp, self.deg, w, r)
+
+        qp.setPen(QPen(QColor(255, 0, 0), 2))
+
+        deg = radians(self.deg + 90)
+        self.draw_arrow(qp, deg, w, h, r)
+        if self.deg not in (0, 90, 180, 270):
+            deg = self.deg + 180
+            if deg >= 360:
+                deg -= 360
+            self.draw_deg(qp, deg, w, r)
+
+    @staticmethod
+    def draw_arrow(qp, deg, w, h, r):
+        line_x, line_y = int((w // 2) + (r * cos(deg))), int((h // 2) + (r * sin(deg)))
+        qp.drawLine(w // 2, h // 2, line_x, line_y)
+        qp.drawLine(line_x, line_y,
+                    int((w // 2) + (r * cos(deg + .1) * .8)),
+                    int((h // 2) + (r * sin(deg + .1) * .8)))
+        qp.drawLine(line_x, line_y,
+                    int((w // 2) + (r * cos(deg - .1) * .8)),
+                    int((h // 2) + (r * sin(deg - .1) * .8)))
+
+    @staticmethod
+    def draw_deg(qp, deg, w, r):
+        length = len(str(deg))
+        rad = radians(-deg + 90)
+        c = w // 2
+        new_x = c + r * cos(rad) * (1 + length * .1)
+        new_y = c - r * sin(rad) * (1 + length * .1)
+        qp.drawText(new_x, new_y, str(deg))
 
     def setDeg(self, deg: int):
         self.deg = deg
+
+    def resetDeg(self):
+        self.deg = None

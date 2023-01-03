@@ -123,10 +123,10 @@ class TemperatureDewpoint:
 
 
 class Pressure:
-    units_of_measurement = {'Q': 'QNH', 'A': 'inHg'}
+    units_of_measurement = {'Q': 'HPA', 'A': 'inHg'}
 
     def __init__(self, unit_of_measurement, value):
-        self.value = value
+        self.value = str(int(value))
         if unit_of_measurement == 'A':
             self.value = format(int(self.value) / 100, '.2f')
         self.unit_of_measurement = self.units_of_measurement.get(unit_of_measurement)

@@ -108,6 +108,9 @@ value_error = "Value Error -> Error airport code"
 internet_error = "Internet Error -> Check your internet connection or Airport code"
 
 app_locale = {
+    'Airport code': 'Airport code (icao)',
+    'Airport name': 'Aiport name',
+    'Date and time': 'Date and time',
     'Wind direction': 'Wind direction',
     'Wind speed': 'Wind speed',
     'Wind gust': 'Wind gust',
@@ -132,5 +135,12 @@ app_locale = {
     'Value': 'Value',
     'Visibility': 'Visibility',
     'extend of contamination': 'extend of contamination',
-    'depth of deposit': 'depth of deposit'
+    'depth of deposit': 'depth of deposit',
+    'Metar decoder': 'Metar decoder',
+    'Calculator + settings': 'Calculator + settings',
+    'Language': 'Language',
+    'Quickbar': 'Quickbar',
+    'Save settings': 'Save settings'
 }
+new_airport = 'Airport code'
+new_airport_code = 'New airport code'

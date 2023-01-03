@@ -12,8 +12,9 @@ from PySide6.QtCore import (QCoreApplication, QMetaObject, QSize, Qt)
 from PySide6.QtGui import (QFont)
 from PySide6.QtWidgets import (QAbstractItemView, QButtonGroup, QComboBox,
                                QGridLayout, QHBoxLayout, QLabel,
-                               QLayout, QLineEdit, QListView, QPushButton, QSizePolicy, QSpacerItem, QTabWidget,
-                               QTableWidget, QVBoxLayout, QWidget)
+                               QLayout, QLineEdit, QListWidget, QPushButton, QSizePolicy, QSpacerItem,
+                               QTabWidget, QTableWidget, QVBoxLayout,
+                               QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -40,27 +41,29 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label = QLabel(self.tabMetar)
-        self.label.setObjectName(u"label")
+        self.lblAirportCode = QLabel(self.tabMetar)
+        self.lblAirportCode.setObjectName(u"lblAirportCode")
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.lblAirportCode)
 
         self.edtAirportCode = QLineEdit(self.tabMetar)
         self.edtAirportCode.setObjectName(u"edtAirportCode")
 
         self.horizontalLayout.addWidget(self.edtAirportCode)
 
+
         self.verticalLayout_4.addLayout(self.horizontalLayout)
 
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.lytQuickBar = QVBoxLayout()
         self.lytQuickBar.setObjectName(u"lytQuickBar")
         self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.lytQuickBar.addItem(self.verticalSpacer_3)
 
-        self.horizontalLayout_5.addLayout(self.lytQuickBar)
+
+        self.horizontalLayout_12.addLayout(self.lytQuickBar)
 
         self.tblResult = QTableWidget(self.tabMetar)
         self.tblResult.setObjectName(u"tblResult")
@@ -72,16 +75,21 @@ class Ui_MainWindow(object):
         self.tblResult.setGridStyle(Qt.SolidLine)
         self.tblResult.verticalHeader().setVisible(False)
 
-        self.horizontalLayout_5.addWidget(self.tblResult)
+        self.horizontalLayout_12.addWidget(self.tblResult)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.lblArrow = QLabel(self.tabMetar)
         self.lblArrow.setObjectName(u"lblArrow")
-        self.lblArrow.setMinimumSize(QSize(150, 150))
-        self.lblArrow.setMaximumSize(QSize(150, 150))
+        self.lblArrow.setMinimumSize(QSize(180, 180))
+        self.lblArrow.setMaximumSize(QSize(180, 180))
 
-        self.verticalLayout_2.addWidget(self.lblArrow)
+        self.horizontalLayout_5.addWidget(self.lblArrow)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -138,11 +146,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_2)
 
-        self.horizontalLayout_5.setStretch(1, 1)
+        self.horizontalLayout_12.addLayout(self.verticalLayout_2)
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_12.setStretch(1, 1)
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_12)
 
         self.edtMetarCode = QLineEdit(self.tabMetar)
         self.edtMetarCode.setObjectName(u"edtMetarCode")
@@ -159,33 +168,66 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tabMetar, "")
         self.tabSettings = QWidget()
         self.tabSettings.setObjectName(u"tabSettings")
-        self.horizontalLayout_8 = QHBoxLayout(self.tabSettings)
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_11 = QHBoxLayout(self.tabSettings)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.gridLayout_2 = QGridLayout()
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.label_5 = QLabel(self.tabSettings)
-        self.label_5.setObjectName(u"label_5")
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.lblLanguage = QLabel(self.tabSettings)
+        self.lblLanguage.setObjectName(u"lblLanguage")
 
-        self.gridLayout_2.addWidget(self.label_5, 0, 0, 1, 1)
+        self.horizontalLayout_6.addWidget(self.lblLanguage)
 
         self.cmbLanguage = QComboBox(self.tabSettings)
         self.cmbLanguage.setObjectName(u"cmbLanguage")
 
-        self.gridLayout_2.addWidget(self.cmbLanguage, 0, 1, 1, 1)
+        self.horizontalLayout_6.addWidget(self.cmbLanguage)
 
-        self.label_6 = QLabel(self.tabSettings)
-        self.label_6.setObjectName(u"label_6")
+        self.horizontalLayout_6.setStretch(0, 1)
+        self.horizontalLayout_6.setStretch(1, 2)
 
-        self.gridLayout_2.addWidget(self.label_6, 1, 0, 1, 1)
+        self.verticalLayout.addLayout(self.horizontalLayout_6)
 
-        self.lstQuickbar = QListView(self.tabSettings)
-        self.lstQuickbar.setObjectName(u"lstQuickbar")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.lblQuickbar = QLabel(self.tabSettings)
+        self.lblQuickbar.setObjectName(u"lblQuickbar")
 
-        self.gridLayout_2.addWidget(self.lstQuickbar, 1, 1, 1, 1)
+        self.horizontalLayout_8.addWidget(self.lblQuickbar)
 
-        self.verticalLayout.addLayout(self.gridLayout_2)
+        self.lstQuickBar = QListWidget(self.tabSettings)
+        self.lstQuickBar.setObjectName(u"lstQuickBar")
+
+        self.horizontalLayout_8.addWidget(self.lstQuickBar)
+
+        self.horizontalLayout_8.setStretch(0, 1)
+        self.horizontalLayout_8.setStretch(1, 2)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_8)
+
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_10.addItem(self.horizontalSpacer)
+
+        self.btnQuickbarMinus = QPushButton(self.tabSettings)
+        self.btnQuickbarMinus.setObjectName(u"btnQuickbarMinus")
+        self.btnQuickbarMinus.setMinimumSize(QSize(27, 27))
+        self.btnQuickbarMinus.setMaximumSize(QSize(27, 27))
+
+        self.horizontalLayout_10.addWidget(self.btnQuickbarMinus)
+
+        self.btnQuickbarPlus = QPushButton(self.tabSettings)
+        self.btnQuickbarPlus.setObjectName(u"btnQuickbarPlus")
+        self.btnQuickbarPlus.setMinimumSize(QSize(27, 27))
+        self.btnQuickbarPlus.setMaximumSize(QSize(27, 27))
+
+        self.horizontalLayout_10.addWidget(self.btnQuickbarPlus)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_10)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -198,13 +240,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.btnSaveSettings)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_7.addItem(self.horizontalSpacer_4)
+        self.horizontalLayout_7.addItem(self.horizontalSpacer_2)
+
 
         self.verticalLayout.addLayout(self.horizontalLayout_7)
 
-        self.horizontalLayout_8.addLayout(self.verticalLayout)
+
+        self.horizontalLayout_11.addLayout(self.verticalLayout)
 
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
@@ -413,18 +457,21 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.btnRS, 0, 1, 1, 1)
 
+
         self.verticalLayout_3.addLayout(self.gridLayout)
 
         self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_3.addItem(self.verticalSpacer_5)
 
-        self.horizontalLayout_8.addLayout(self.verticalLayout_3)
 
-        self.horizontalSpacer_3 = QSpacerItem(458, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalLayout_11.addLayout(self.verticalLayout_3)
 
-        self.horizontalLayout_8.addItem(self.horizontalSpacer_3)
+        self.horizontalSpacer_3 = QSpacerItem(422, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
+        self.horizontalLayout_11.addItem(self.horizontalSpacer_3)
+
+        self.horizontalLayout_11.setStretch(2, 1)
         self.tabWidget.addTab(self.tabSettings, "")
 
         self.horizontalLayout_9.addWidget(self.tabWidget)
@@ -441,15 +488,16 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
+        self.lblAirportCode.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
         self.lblArrow.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"HPA", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"MM", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"INCH", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMetar),
-                                  QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Language", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Quickbar", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabMetar), QCoreApplication.translate("MainWindow", u"Metar Decoder", None))
+        self.lblLanguage.setText(QCoreApplication.translate("MainWindow", u"Language", None))
+        self.lblQuickbar.setText(QCoreApplication.translate("MainWindow", u"Quickbar", None))
+        self.btnQuickbarMinus.setText("")
+        self.btnQuickbarPlus.setText("")
         self.btnSaveSettings.setText(QCoreApplication.translate("MainWindow", u"Save settings", None))
         self.btnLS.setText(QCoreApplication.translate("MainWindow", u"(", None))
         self.btnDel.setText(QCoreApplication.translate("MainWindow", u":", None))
@@ -471,7 +519,6 @@ class Ui_MainWindow(object):
         self.btnClear.setText(QCoreApplication.translate("MainWindow", u"C", None))
         self.btnDot.setText(QCoreApplication.translate("MainWindow", u".", None))
         self.btnRS.setText(QCoreApplication.translate("MainWindow", u")", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSettings),
-                                  QCoreApplication.translate("MainWindow", u"Calculator + Settings", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSettings), QCoreApplication.translate("MainWindow", u"Calculator + Settings", None))
     # retranslateUi
 
