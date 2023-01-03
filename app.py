@@ -122,17 +122,6 @@ class Window(QMainWindow, Ui_MainWindow):
         language = self.cmbLanguage.currentText()
         self.onSaveSettingsClick()
 
-    def onMinusClick(self):
-        pass
-        # for i in self.lstQuickBar.selectedItems():
-        #     for j in range(self.lytQuickBar.count() - 1):
-        #         item = self.lytQuickBar.itemAt(j).widget()
-        #         if item.text() == i.text():
-        #             item.deleteLater()
-        #     if i.text() in quick_bar:
-        #         quick_bar.remove(i.text())
-        #     self.lstQuickBar.takeItem(self.lstQuickBar.row(i))
-
     def onAirportCodeChanged(self):
         if len(self.edtAirportCode.text()) == 4:
             self.updateMetar()
@@ -169,10 +158,21 @@ class Window(QMainWindow, Ui_MainWindow):
             else:
                 name = app_locale['Visibility']
 
-            new_str = visibility.distance
+            if visibility.distance < 9999:
+                new_str = f'{visibility.distance} {visibility.unit_of_measurement}'
+                if visibility.unit_of_measurement == 'SM':
+                    new_str += f' ({visibility.distance * 1852} m)'
+            else:
+                new_str = '>10km'
+
             if visibility.direction:
                 new_str += f' {visibility.direction}'
             to_show.append((name, new_str))
+
+            if visibility.unit_of_measurement == 'm':
+                self.edtM.setText(str(visibility.distance))
+            elif visibility.unit_of_measurement == 'SM':
+                self.edtKM.setText(str(visibility.distance * 1.852))
 
         for i, rvr_weather in enumerate(metar.rvr_weather):
             name = f"{app_locale['RVR']} {rvr_weather.RVR_number}"
