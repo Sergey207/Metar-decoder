@@ -14,16 +14,22 @@ class Wind:
 
 class Visibility:
     def __init__(self, distance, direction):
+        self.unit_of_measurement = 'm'
         if distance == 'CAVOK':
             self.distance = ">10km"
         else:
             if distance.endswith('SM'):
-                distance = str(int(distance[:-2]) * 1609)
+                distance = distance[:-2]
+                self.unit_of_measurement = 'SM'
+
             self.distance = int(distance)
             if self.distance >= 9999:
                 self.distance = '>10km'
             else:
-                self.distance = str(self.distance) + ' m'
+                if self.unit_of_measurement == 'm':
+                    self.distance = str(self.distance) + ' m'
+                else:
+                    self.distance = str(self.distance) + f' KT ({int(self.distance) * 1609} m)'
         self.direction = direction if direction else None
 
     def __repr__(self):
