@@ -19,6 +19,9 @@ class Window(QMainWindow, Ui_MainWindow):
         self.setup_ui()
         self.setup_signals()
 
+        self.edtPressures = (self.edtHPA, self.edtMMRT, self.edtENCHRT)
+        self.edtDistance = (self.edtM, self.edtKM, self.edtNM)
+
         self.isEditing = False
 
     def setup_ui(self):
@@ -35,14 +38,19 @@ class Window(QMainWindow, Ui_MainWindow):
         self.lblArrow.deleteLater()
         self.lblArrow = arr_label
 
-        self.retranslate_ui()
+        self.lblAirportCode.setText(app_locale['Airport code'])
 
     def setup_signals(self):
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
-        self.edtHPA.textChanged.connect(self.onQChanged)
-        self.edtMMRT.textChanged.connect(self.onQChanged)
-        self.edtENCHRT.textChanged.connect(self.onQChanged)
         self.cmbLanguage.currentTextChanged.connect(self.onLanguageChanged)
+
+        self.edtHPA.textChanged.connect(self.onEdtConverterChanged)
+        self.edtMMRT.textChanged.connect(self.onEdtConverterChanged)
+        self.edtENCHRT.textChanged.connect(self.onEdtConverterChanged)
+
+        self.edtNM.textChanged.connect(self.onEdtConverterChanged)
+        self.edtKM.textChanged.connect(self.onEdtConverterChanged)
+        self.edtM.textChanged.connect(self.onEdtConverterChanged)
 
     def setup_table_size(self):
         self.tblResult.clear()
@@ -51,11 +59,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setHorizontalHeaderLabels((app_locale["Name"], app_locale["Value"]))
         self.tblResult.resizeColumnsToContents()
 
-    def retranslate_ui(self):
-        self.lblAirportCode.setText(app_locale['Airport code'])
-        self.updateMetar()
-
-    def onQChanged(self):
+    def onEdtConverterChanged(self):
         if self.isEditing:
             return
         self.isEditing = True
@@ -64,26 +68,47 @@ class Window(QMainWindow, Ui_MainWindow):
         if not isinstance(sender, QLineEdit):
             self.isEditing = False
             return
+
         text = sender.text().replace(',', '.')
         if text == '':
-            self.edtHPA.clear()
-            self.edtMMRT.clear()
-            self.edtENCHRT.clear()
+            if sender in self.edtPressures:
+                self.edtHPA.clear()
+                self.edtMMRT.clear()
+                self.edtENCHRT.clear()
+            elif sender in self.edtDistance:
+                self.edtM.clear()
+                self.edtKM.clear()
+                self.edtNM.clear()
+            self.isEditing = False
+            return
 
         try:
             text = float(text)
         except ValueError:
             self.isEditing = False
             return
-        if sender == self.edtHPA:
-            self.edtMMRT.setText(str(text * 0.750064))
-            self.edtENCHRT.setText(str(text * 0.02953))
-        elif sender == self.edtMMRT:
-            self.edtHPA.setText(str(text * 1.33322390232))
-            self.edtENCHRT.setText(str(text * 0.039370068943645))
-        elif sender == self.edtENCHRT:
-            self.edtHPA.setText(str(text * 33.86389))
-            self.edtMMRT.setText(str(text * 25.40000632032))
+
+        if sender in self.edtPressures:
+            if sender == self.edtHPA:
+                self.edtMMRT.setText(str(text * 0.750064))
+                self.edtENCHRT.setText(str(text * 0.02953))
+            elif sender == self.edtMMRT:
+                self.edtHPA.setText(str(text * 1.33322390232))
+                self.edtENCHRT.setText(str(text * 0.039370068943645))
+            elif sender == self.edtENCHRT:
+                self.edtHPA.setText(str(text * 33.86389))
+                self.edtMMRT.setText(str(text * 25.40000632032))
+        elif sender in self.edtDistance:
+            if sender == self.edtM:
+                self.edtKM.setText(str(text * 0.001))
+                self.edtNM.setText(str(text * 0.00062137119))
+            elif sender == self.edtKM:
+                self.edtM.setText(str(text * 1000))
+                self.edtNM.setText(str(text * 0.62137119224))
+            elif sender == self.edtNM:
+                self.edtM.setText(str(text * 1609.344))
+                self.edtKM.setText(str(text * 1.609344))
+
         self.isEditing = False
 
     def onQuickBarButtonClick(self):
