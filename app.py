@@ -346,7 +346,7 @@ def main():
 if __name__ == '__main__':
     APP_DIR = pathlib.Path(__file__).parent
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        EXE_DIR = pathlib.Path(getattr(sys, '_MEIPASS'))
+        EXE_DIR = pathlib.Path(sys.executable).parent
     else:
         EXE_DIR = APP_DIR
     DEBUG = '.idea' in map(lambda x: x.name, APP_DIR.iterdir())
