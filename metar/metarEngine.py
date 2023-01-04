@@ -10,6 +10,7 @@ from metar.metarConstants import weather_regular_expression, cloudiness_re
 class Metar:
     metars_server = 'https://metartaf.ru/'
     backup_metars_server = 'https://beta.aviationweather.gov/cgi-bin/data/metar.php'
+    trend_split = ('NOSIG', 'BECMG', 'TEMPO', 'NSW', 'FM', 'TL', 'AT')
 
     def __init__(self, airport_code: str, custom_server_data: dict[str, str] = None):
         if not custom_server_data:
@@ -22,7 +23,27 @@ class Metar:
             self.server_data = custom_server_data
 
         self.name = self.server_data['name']
-        self.metar = ' '.join(self.server_data['metar'].split())
+
+        metar = self.server_data['metar'].split()
+        self.metar = ''
+        self.trend = ''
+        self.remarks = ''
+        self.full_metar = ' '.join(metar)
+
+        for i in self.trend_split:
+            if i in metar:
+                index = metar.index(i)
+                self.metar = ' '.join(metar[:index])
+                self.trend = ' '.join(metar[index:])
+
+        if not self.metar:
+            if 'RMK' in metar:
+                index = metar.index('RMK')
+                self.metar = ' '.join(metar[:index])
+                self.remarks = ' '.join(metar[index:])
+            else:
+                self.metar = ' '.join(metar)
+
         self.taf = ' '.join(self.server_data['taf'].split())
 
         self.date_time = self.analyze_date_time()

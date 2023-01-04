@@ -340,7 +340,7 @@ class Window(QMainWindow, Ui_MainWindow):
             self.tblResult.setItem(index, 0, QTableWidgetItem(line[0]))
             self.tblResult.setItem(index, 1, QTableWidgetItem(line[1]))
 
-        self.edtMetarCode.setText(metar.metar)
+        self.edtMetarCode.setText(metar.full_metar)
         self.tblResult.resizeColumnsToContents()
 
 
