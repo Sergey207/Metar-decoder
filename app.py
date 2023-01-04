@@ -4,7 +4,7 @@ import sys
 
 import requests
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton, QListWidgetItem
 
 from Designs.arrowLabel import ArrowLabel
 from Designs.mainWindow import Ui_MainWindow
@@ -13,6 +13,9 @@ from metar.metarEngine import Metar
 
 class Window(QMainWindow, Ui_MainWindow):
     lblArrow: ArrowLabel
+    starOff: QIcon
+    starOn: QIcon
+    star_state: bool
 
     def __init__(self):
         super().__init__()
@@ -31,18 +34,24 @@ class Window(QMainWindow, Ui_MainWindow):
         self.cmbLanguage.setCurrentText(language)
 
         self.lstQuickbar.addItems(quick_bar)
-        self.lstQuickbar.itemClicked.connect(lambda x: self.edtAirportCode.setText(x.text()))
+        self.lstQuickbar.itemClicked.connect(self.onQuickBarButtonClick)
 
         arr_label = ArrowLabel(self.lblArrow.width(), self.lblArrow.height())
         self.horizontalLayout_5.replaceWidget(self.lblArrow, arr_label)
         self.lblArrow.deleteLater()
         self.lblArrow = arr_label
 
+        self.starOff = QIcon(f"{APP_DIR.absolute() / 'Icons' / 'StarOff.png'}")
+        self.starOn = QIcon(f"{APP_DIR.absolute() / 'Icons' / 'StarOn.png'}")
+        self.btnAddToQuickbar.setIcon(self.starOff)
+        self.star_state = False
+
         self.lblAirportCode.setText(app_locale['Airport code'])
 
     def setup_signals(self):
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
         self.cmbLanguage.currentTextChanged.connect(self.onLanguageChanged)
+        self.btnAddToQuickbar.clicked.connect(self.onAddToQuickbarClicked)
 
         self.edtHPA.textChanged.connect(self.onEdtConverterChanged)
         self.edtMMRT.textChanged.connect(self.onEdtConverterChanged)
@@ -111,23 +120,74 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.isEditing = False
 
-    def onQuickBarButtonClick(self):
-        sender = self.sender()
-        if not isinstance(sender, QPushButton):
+    def onQuickBarButtonClick(self, item: QListWidgetItem):
+        if not isinstance(item, QListWidgetItem):
             return
-        self.edtAirportCode.setText(sender.text())
+        self.edtAirportCode.setText(item.text())
+        self.check_star_state()
 
     def onLanguageChanged(self):
         global language
         language = self.cmbLanguage.currentText()
-        self.onSaveSettingsClick()
+        self.save_settings()
 
     def onAirportCodeChanged(self):
+        self.check_star_state()
         if len(self.edtAirportCode.text()) == 4:
             self.updateMetar()
 
+    def onAddToQuickbarClicked(self):
+        sender: QPushButton = self.sender()
+        if not isinstance(sender, QPushButton):
+            return
+        text = self.edtAirportCode.text().upper()
+
+        if self.star_state:
+            quick_bar.remove(text)
+            self.save_settings()
+            for i in range(self.lstQuickbar.count()):
+                if self.lstQuickbar.item(i).text() == text:
+                    self.lstQuickbar.takeItem(self.lstQuickbar.row(self.lstQuickbar.item(i)))
+                    break
+            for i in self.lstQuickbar.selectedItems():
+                i.setSelected(False)
+            self.set_star_state(False)
+        else:
+            if len(text) != 4:
+                return
+
+            text = text.upper()
+            quick_bar.append(text)
+            self.save_settings()
+
+            self.lstQuickbar.addItem(text)
+            for i in range(self.lstQuickbar.count()):
+                item = self.lstQuickbar.item(i)
+                item.setSelected(item.text() == self.edtAirportCode.text().upper())
+            self.set_star_state(True)
+        self.check_star_state()
+
+    def check_star_state(self):
+        for item in self.lstQuickbar.selectedItems():
+            if item.text() != self.edtAirportCode.text().upper():
+                item.setSelected(False)
+                continue
+            self.edtAirportCode.setText(item.text())
+            self.set_star_state(True)
+            return
+        for i in range(self.lstQuickbar.count()):
+            item = self.lstQuickbar.item(i)
+            if item.text() == self.edtAirportCode.text():
+                item.setSelected(True)
+                self.set_star_state(True)
+        self.set_star_state(False)
+
+    def set_star_state(self, state):
+        self.btnAddToQuickbar.setIcon(self.starOn if state else self.starOff)
+        self.star_state = state
+
     @staticmethod
-    def onSaveSettingsClick():
+    def save_settings():
         with (EXE_DIR / 'settings.json').open('w') as f:
             json.dump({'language': language, 'quick_bar': quick_bar}, f, indent=2)
 
@@ -145,7 +205,7 @@ class Window(QMainWindow, Ui_MainWindow):
             to_show.append((app_locale['Wind direction'] + name_prefix, f"{wind.direction}°"))
             wind_speed = f"{wind.speed} {wind.unit_of_measurement}"
             if wind.unit_of_measurement == 'KT':
-                wind_speed += f' ({wind.speed * 0.51} m/c)'
+                wind_speed += f' ({format(wind.speed * 0.51, ".2f")} m/c)'
             to_show.append((app_locale['Wind speed'] + name_prefix, wind_speed))
             if wind.gust:
                 to_show.append((app_locale['Wind gust'] + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
@@ -181,15 +241,11 @@ class Window(QMainWindow, Ui_MainWindow):
 
             if rvr_weather.visibility_prefix:
                 to_show.append((name + ' ' + app_locale["visibility prefix"],
-                                RVR_visibilty_prefixes.get(rvr_weather.visibility_prefix, not_found_message)
-                                ))
+                                RVR_visibilty_prefixes.get(rvr_weather.visibility_prefix, not_found_message)))
 
             if rvr_weather.visibility_changes:
                 to_show.append((name + ' ' + app_locale['visibility changes'],
-                                RVR_visibility_changements_prefixes.get(
-                                    rvr_weather.visibility_changes,
-                                    not_found_message)
-                                ))
+                                RVR_visibility_changements_prefixes.get(rvr_weather.visibility_changes, not_found_message)))
 
             if rvr_weather.RVR_weather:
                 to_show.append((name + ' ' + app_locale['weather'],
@@ -201,8 +257,7 @@ class Window(QMainWindow, Ui_MainWindow):
                 to_show.append((name + ' ' + app_locale['RVR deposit'], runway_deposit))
 
             if rvr_weather.extend_of_contamination:
-                extend_of_contamination = RVR_extends_of_contamination.get(rvr_weather.extend_of_contamination,
-                                                                           not_found_message)
+                extend_of_contamination = RVR_extends_of_contamination.get(rvr_weather.extend_of_contamination, not_found_message)
                 extend_of_contamination += f' ({rvr_weather.extend_of_contamination})'
                 to_show.append((name + ' ' + app_locale['extend of contamination'], extend_of_contamination))
 
@@ -219,19 +274,14 @@ class Window(QMainWindow, Ui_MainWindow):
                 to_show.append((name + ' ' + app_locale['intensivity'],
                                 intensivities.get(weather.intensivity, not_found_message)))
             if weather.descriptor:
-                to_show.append((name + ' ' + app_locale['descriptor'],
-                                descriptors.get(weather.descriptor, not_found_message)))
+                to_show.append((name + ' ' + app_locale['descriptor'], descriptors.get(weather.descriptor, not_found_message)))
             if weather.precipitations[0]:
-                to_show.append((name + ' ' + app_locale['precipitations'],
-                                precipitations.get(weather.precipitations[0], not_found_message)))
+                to_show.append((name + ' ' + app_locale['precipitations'], precipitations.get(weather.precipitations[0], not_found_message)))
             if weather.precipitations[1]:
-                to_show.append((name + ' precipitations',
-                                precipitations.get(weather.precipitations[1], not_found_message)))
+                to_show.append((name + ' precipitations', precipitations.get(weather.precipitations[1], not_found_message)))
             if weather.bad_visibility_weather_events:
                 to_show.append((name + ' ' + app_locale['bad visibility weather events'],
-                                bad_visibility_weather_events.get(
-                                    weather.bad_visibility_weather_events, not_found_message
-                                )))
+                                bad_visibility_weather_events.get(weather.bad_visibility_weather_events, not_found_message)))
             if weather.other_weather_events:
                 to_show.append((name + ' ' + app_locale['other weather events'],
                                 other_weather_events.get(weather.other_weather_events, not_found_message)))
