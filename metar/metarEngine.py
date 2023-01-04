@@ -25,24 +25,33 @@ class Metar:
         self.name = self.server_data['name']
 
         metar = self.server_data['metar'].split()
-        self.metar = ''
-        self.trend = ''
-        self.remarks = ''
         self.full_metar = ' '.join(metar)
+
+        self.metar = metar
+        self.trend = []
+        self.remarks = []
 
         for i in self.trend_split:
             if i in metar:
                 index = metar.index(i)
-                self.metar = ' '.join(metar[:index])
-                self.trend = ' '.join(metar[index:])
+                self.metar = metar[:index]
+                self.trend = metar[index:]
+                break
 
-        if not self.metar:
-            if 'RMK' in metar:
-                index = metar.index('RMK')
-                self.metar = ' '.join(metar[:index])
-                self.remarks = ' '.join(metar[index:])
-            else:
-                self.metar = ' '.join(metar)
+        if self.trend:
+            if 'RMK' in self.trend:
+                index = self.trend.index('RMK')
+                self.trend = self.trend[:index]
+                self.remarks = self.trend[index:]
+        else:
+            if 'RMK' in self.metar:
+                index = self.metar.index('RMK')
+                self.metar = metar[:index]
+                self.remarks = metar[index:]
+
+        self.metar = ' '.join(self.metar)
+        self.trend = ' '.join(self.trend)
+        self.remarks = ' '.join(self.remarks)
 
         self.taf = ' '.join(self.server_data['taf'].split())
 
@@ -55,7 +64,7 @@ class Metar:
         self.cloudiness = self.analyze_cloudiness()
         self.temperature_and_dewpoint = self.analyze_temperature_devpoint()
         self.pressure = self.analyze_pressure()
-        self.add_info = self.analyze_add_info()
+        self.trend = [self.trend]
 
     def get_server_data(self):
         response = requests.get(self.metars_server + self.airport_code + '.json')
@@ -116,14 +125,6 @@ class Metar:
         res = []
         for i in re.findall(r'([QA])(\d{4})', self.metar):
             res.append(Pressure(*i))
-        return res
-
-    def analyze_add_info(self):
-        res = []
-        for i in re.findall(r'RE', self.metar):
-            res.append({
-                # TODO
-            })
         return res
 
     def __str__(self):
