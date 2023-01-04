@@ -196,9 +196,10 @@ class Window(QMainWindow, Ui_MainWindow):
             return
         for i in range(self.lstQuickbar.count()):
             item = self.lstQuickbar.item(i)
-            if item.text() == self.edtAirportCode.text():
+            if item.text() == self.edtAirportCode.text().upper():
                 item.setSelected(True)
                 self.set_star_state(True)
+                return
         self.set_star_state(False)
 
     def set_star_state(self, state):
