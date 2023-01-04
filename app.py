@@ -3,6 +3,7 @@ import pathlib
 import sys
 
 import requests
+from PySide6.QtCore import QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton, QListWidgetItem
 
@@ -26,6 +27,10 @@ class Window(QMainWindow, Ui_MainWindow):
         self.edtDistance = (self.edtM, self.edtKM, self.edtNM)
 
         self.isEditing = False
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_event)
+        self.timer.start(60000)
+        self.minutes = 0
 
     def setup_ui(self):
         self.setupUi(self)
@@ -67,6 +72,12 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setRowCount(0)
         self.tblResult.setHorizontalHeaderLabels((app_locale["Name"], app_locale["Value"]))
         self.tblResult.resizeColumnsToContents()
+
+    def update_event(self):
+        self.minutes += 1
+        if self.minutes >= 15:
+            self.updateMetar()
+            self.minutes = 0
 
     def onEdtConverterChanged(self):
         if self.isEditing:
