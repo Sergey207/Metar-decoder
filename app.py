@@ -26,6 +26,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.setup_ui()
         self.setup_signals()
         self.setup_timers()
+        self.update_time_event()
 
         self.edtPressures = (self.edtHPA, self.edtMMRT, self.edtENCHRT)
         self.edtDistance = (self.edtM, self.edtKM, self.edtNM)
@@ -327,6 +328,9 @@ class Window(QMainWindow, Ui_MainWindow):
                 self.edtHPA.setText(pressure.value)
             if pressure.unit_of_measurement == 'inHg':
                 self.edtENCHRT.setText(pressure.value)
+
+        if metar.trend:
+            to_show.append((app_locale['Trend'], trends.get(metar.trend.split()[0], not_found_message)))
         return to_show
 
     def updateMetar(self):

@@ -140,7 +140,18 @@ app_locale = {
     'Calculator + settings': 'Calculator + settings',
     'Language': 'Language',
     'Quickbar': 'Quickbar',
-    'Save settings': 'Save settings'
+    'Save settings': 'Save settings',
+    'Trend': 'Trend'
 }
 new_airport = 'Airport code'
 new_airport_code = 'New airport code'
+
+trends = {
+    'NOSIG': 'No significant change',
+    'BECMG': 'Becoming',
+    'TEMPO': 'Temporary',
+    'NSW': 'No significant weather',
+    'FM': 'From',
+    'TL': 'Till',
+    'AT': 'At'
+}

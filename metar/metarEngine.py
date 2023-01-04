@@ -64,7 +64,6 @@ class Metar:
         self.cloudiness = self.analyze_cloudiness()
         self.temperature_and_dewpoint = self.analyze_temperature_devpoint()
         self.pressure = self.analyze_pressure()
-        self.trend = [self.trend]
 
     def get_server_data(self):
         response = requests.get(self.metars_server + self.airport_code + '.json')
