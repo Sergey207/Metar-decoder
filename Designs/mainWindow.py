@@ -93,6 +93,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.lblArrow)
 
+        self.lblText = QLabel(self.centralwidget)
+        self.lblText.setObjectName(u"lblText")
+        font1 = QFont()
+        font1.setFamilies([u"Calibri"])
+        font1.setPointSize(18)
+        font1.setBold(True)
+        font1.setItalic(True)
+        self.lblText.setFont(font1)
+        self.lblText.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.lblText)
+
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer_4)
@@ -214,12 +226,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.edtMetarCode = QLineEdit(self.centralwidget)
         self.edtMetarCode.setObjectName(u"edtMetarCode")
-        font1 = QFont()
-        font1.setFamilies([u"Calibri"])
-        font1.setPointSize(10)
-        font1.setBold(True)
-        font1.setItalic(True)
-        self.edtMetarCode.setFont(font1)
+        font2 = QFont()
+        font2.setFamilies([u"Calibri"])
+        font2.setPointSize(10)
+        font2.setBold(True)
+        font2.setItalic(True)
+        self.edtMetarCode.setFont(font2)
         self.edtMetarCode.setReadOnly(True)
 
         self.horizontalLayout_15.addWidget(self.edtMetarCode)
@@ -251,6 +263,7 @@ class Ui_MainWindow(object):
         self.lblAirportCode.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
         self.btnAddToQuickbar.setText("")
         self.lblArrow.setText("")
+        self.lblText.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"NM", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"M", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"KM", None))

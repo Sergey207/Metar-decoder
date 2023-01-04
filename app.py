@@ -1,3 +1,4 @@
+import datetime
 import json
 import pathlib
 import sys
@@ -17,20 +18,19 @@ class Window(QMainWindow, Ui_MainWindow):
     starOff: QIcon
     starOn: QIcon
     star_state: bool
+    timer_metars: QTimer
+    timer_time: QTimer
 
     def __init__(self):
         super().__init__()
         self.setup_ui()
         self.setup_signals()
+        self.setup_timers()
 
         self.edtPressures = (self.edtHPA, self.edtMMRT, self.edtENCHRT)
         self.edtDistance = (self.edtM, self.edtKM, self.edtNM)
 
         self.isEditing = False
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_event)
-        self.timer.start(60000)
-        self.minutes = 0
 
     def setup_ui(self):
         self.setupUi(self)
@@ -66,6 +66,15 @@ class Window(QMainWindow, Ui_MainWindow):
         self.edtKM.textChanged.connect(self.onEdtConverterChanged)
         self.edtM.textChanged.connect(self.onEdtConverterChanged)
 
+    def setup_timers(self):
+        self.timer_metars = QTimer()
+        self.timer_metars.timeout.connect(self.onAirportCodeChanged)
+        self.timer_metars.start(900000)
+
+        self.timer_time = QTimer()
+        self.timer_time.timeout.connect(self.update_time_event)
+        self.timer_time.start(1000)
+
     def setup_table_size(self):
         self.tblResult.clear()
         self.tblResult.setColumnCount(2)
@@ -73,11 +82,9 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setHorizontalHeaderLabels((app_locale["Name"], app_locale["Value"]))
         self.tblResult.resizeColumnsToContents()
 
-    def update_event(self):
-        self.minutes += 1
-        if self.minutes >= 15:
-            self.updateMetar()
-            self.minutes = 0
+    def update_time_event(self):
+        time_now = datetime.datetime.now()
+        self.lblText.setText(time_now.strftime("%H:%M"))
 
     def onEdtConverterChanged(self):
         if self.isEditing:
