@@ -93,17 +93,23 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.lblArrow)
 
-        self.lblText = QLabel(self.centralwidget)
-        self.lblText.setObjectName(u"lblText")
+        self.lblTimeUTC = QLabel(self.centralwidget)
+        self.lblTimeUTC.setObjectName(u"lblTimeUTC")
         font1 = QFont()
         font1.setFamilies([u"Calibri"])
         font1.setPointSize(18)
         font1.setBold(True)
         font1.setItalic(True)
-        self.lblText.setFont(font1)
-        self.lblText.setAlignment(Qt.AlignCenter)
+        self.lblTimeUTC.setFont(font1)
+        self.lblTimeUTC.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.verticalLayout_2.addWidget(self.lblText)
+        self.verticalLayout_2.addWidget(self.lblTimeUTC)
+
+        self.lblTimeZULU = QLabel(self.centralwidget)
+        self.lblTimeZULU.setObjectName(u"lblTimeZULU")
+        self.lblTimeZULU.setFont(font1)
+
+        self.verticalLayout_2.addWidget(self.lblTimeZULU)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -263,7 +269,8 @@ class Ui_MainWindow(object):
         self.lblAirportCode.setText(QCoreApplication.translate("MainWindow", u"Airport code:", None))
         self.btnAddToQuickbar.setText("")
         self.lblArrow.setText("")
-        self.lblText.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.lblTimeUTC.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.lblTimeZULU.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"NM", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"M", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"KM", None))
