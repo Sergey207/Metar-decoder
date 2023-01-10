@@ -4,6 +4,7 @@ import pathlib
 import sys
 
 import requests
+import zulu
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLineEdit, QPushButton, QListWidgetItem
@@ -84,8 +85,10 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.resizeColumnsToContents()
 
     def update_time_event(self):
-        time_now = datetime.datetime.now()
-        self.lblText.setText(time_now.strftime("%H:%M"))
+        zulu_time = zulu.now()
+        time_now = datetime.datetime.now().time()
+        self.lblTimeZULU.setText(zulu_time.strftime("ZULU: %H:%M"))
+        self.lblTimeUTC.setText(time_now.strftime(f"UTC: %H:%M"))
 
     def onEdtConverterChanged(self):
         if self.isEditing:
