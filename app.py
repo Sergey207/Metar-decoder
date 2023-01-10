@@ -149,6 +149,18 @@ class Window(QMainWindow, Ui_MainWindow):
                 self.edtMPS.setText(str(text * 0.27777))
                 self.edtKT.setText(str(text * 0.53995))
 
+        for edt in self.edtAll:
+            if edt == sender:
+                continue
+            text = edt.text()
+            if not text:
+                continue
+            text = float(text.replace(',', '.'))
+            if text == 0:
+                edt.setText('0')
+            else:
+                edt.setText(format(text, '.2f'))
+
         self.isEditing = False
 
     def onQuickBarButtonClick(self, item: QListWidgetItem):
