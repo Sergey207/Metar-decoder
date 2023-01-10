@@ -242,6 +242,15 @@ class Window(QMainWindow, Ui_MainWindow):
             if wind.gust:
                 to_show.append((app_locale['Wind gust'] + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
             self.lblArrow.setDeg(wind.direction)
+
+            match wind.unit_of_measurement:
+                case 'MPS':
+                    self.edtMPS.setText(str(wind.speed))
+                case 'KMH':
+                    self.edtKMH.setText(str(wind.speed))
+                case 'KT':
+                    self.edtKT.setText(str(wind.speed))
+
         self.lblArrow.repaint()
 
         for i, visibility in enumerate(metar.visibility):
@@ -262,9 +271,12 @@ class Window(QMainWindow, Ui_MainWindow):
             to_show.append((name, new_str))
 
             if visibility.unit_of_measurement == 'm':
-                self.edtM.setText(str(visibility.distance))
+                if visibility.distance == 9999:
+                    self.edtM.setText('10000')
+                else:
+                    self.edtM.setText(str(visibility.distance))
             elif visibility.unit_of_measurement == 'SM':
-                self.edtKM.setText(str(visibility.distance * 1.852))
+                self.edtKM.setText(str(visibility.distance))
 
         for i, rvr_weather in enumerate(metar.rvr_weather):
             name = f"{app_locale['RVR']} {rvr_weather.RVR_number}"
