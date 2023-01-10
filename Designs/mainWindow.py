@@ -30,9 +30,9 @@ class Ui_MainWindow(object):
         MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout = QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setSpacing(7)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_3.setSpacing(9)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.lblAirportCode = QLabel(self.centralwidget)
@@ -53,23 +53,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.btnAddToQuickbar)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.lstQuickbar = QListWidget(self.centralwidget)
         self.lstQuickbar.setObjectName(u"lstQuickbar")
         self.lstQuickbar.setMaximumSize(QSize(75, 16777215))
 
-        self.verticalLayout_5.addWidget(self.lstQuickbar)
+        self.horizontalLayout_6.addWidget(self.lstQuickbar)
 
-
-        self.horizontalLayout_6.addLayout(self.verticalLayout_5)
-
-        self.verticalLayout_4 = QVBoxLayout()
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.tblResult = QTableWidget(self.centralwidget)
@@ -84,14 +79,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.tblResult)
 
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.lblArrow = QLabel(self.centralwidget)
         self.lblArrow.setObjectName(u"lblArrow")
         self.lblArrow.setMinimumSize(QSize(180, 180))
         self.lblArrow.setMaximumSize(QSize(180, 180))
 
-        self.verticalLayout_2.addWidget(self.lblArrow)
+        self.verticalLayout.addWidget(self.lblArrow)
 
         self.lblTimeUTC = QLabel(self.centralwidget)
         self.lblTimeUTC.setObjectName(u"lblTimeUTC")
@@ -103,17 +98,72 @@ class Ui_MainWindow(object):
         self.lblTimeUTC.setFont(font1)
         self.lblTimeUTC.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.verticalLayout_2.addWidget(self.lblTimeUTC)
+        self.verticalLayout.addWidget(self.lblTimeUTC)
 
         self.lblTimeZULU = QLabel(self.centralwidget)
         self.lblTimeZULU.setObjectName(u"lblTimeZULU")
         self.lblTimeZULU.setFont(font1)
 
-        self.verticalLayout_2.addWidget(self.lblTimeZULU)
+        self.verticalLayout.addWidget(self.lblTimeZULU)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_5)
+
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.label_10 = QLabel(self.centralwidget)
+        self.label_10.setObjectName(u"label_10")
+
+        self.horizontalLayout_18.addWidget(self.label_10)
+
+        self.edtMPS = QLineEdit(self.centralwidget)
+        self.edtMPS.setObjectName(u"edtMPS")
+
+        self.horizontalLayout_18.addWidget(self.edtMPS)
+
+        self.horizontalLayout_18.setStretch(0, 1)
+        self.horizontalLayout_18.setStretch(1, 4)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_18)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.label_8 = QLabel(self.centralwidget)
+        self.label_8.setObjectName(u"label_8")
+
+        self.horizontalLayout_16.addWidget(self.label_8)
+
+        self.edtKT = QLineEdit(self.centralwidget)
+        self.edtKT.setObjectName(u"edtKT")
+
+        self.horizontalLayout_16.addWidget(self.edtKT)
+
+        self.horizontalLayout_16.setStretch(0, 1)
+        self.horizontalLayout_16.setStretch(1, 4)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_16)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.label_9 = QLabel(self.centralwidget)
+        self.label_9.setObjectName(u"label_9")
+
+        self.horizontalLayout_17.addWidget(self.label_9)
+
+        self.edtKMH = QLineEdit(self.centralwidget)
+        self.edtKMH.setObjectName(u"edtKMH")
+
+        self.horizontalLayout_17.addWidget(self.edtKMH)
+
+        self.horizontalLayout_17.setStretch(0, 1)
+        self.horizontalLayout_17.setStretch(1, 4)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_17)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_2.addItem(self.verticalSpacer_4)
+        self.verticalLayout.addItem(self.verticalSpacer_4)
 
         self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
@@ -130,7 +180,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_14.setStretch(0, 1)
         self.horizontalLayout_14.setStretch(1, 4)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_14)
+        self.verticalLayout.addLayout(self.horizontalLayout_14)
 
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
@@ -147,7 +197,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.setStretch(0, 1)
         self.horizontalLayout_12.setStretch(1, 4)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_12)
+        self.verticalLayout.addLayout(self.horizontalLayout_12)
 
         self.horizontalLayout_13 = QHBoxLayout()
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
@@ -164,11 +214,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13.setStretch(0, 1)
         self.horizontalLayout_13.setStretch(1, 4)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_13)
+        self.verticalLayout.addLayout(self.horizontalLayout_13)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
-        self.verticalLayout_2.addItem(self.verticalSpacer)
+        self.verticalLayout.addItem(self.verticalSpacer)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -185,7 +235,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setStretch(0, 1)
         self.horizontalLayout_4.setStretch(1, 4)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -202,7 +252,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setStretch(0, 1)
         self.horizontalLayout_2.setStretch(1, 4)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -219,14 +269,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setStretch(0, 1)
         self.horizontalLayout_3.setStretch(1, 4)
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_2)
+        self.horizontalLayout_5.addLayout(self.verticalLayout)
 
         self.horizontalLayout_5.setStretch(0, 1)
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
@@ -248,14 +298,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_15.addWidget(self.cmbLanguage)
 
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_15)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_15)
 
 
-        self.horizontalLayout_6.addLayout(self.verticalLayout_4)
+        self.horizontalLayout_6.addLayout(self.verticalLayout_2)
 
-        self.horizontalLayout_6.setStretch(1, 1)
 
-        self.verticalLayout.addLayout(self.horizontalLayout_6)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_6)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -271,6 +320,9 @@ class Ui_MainWindow(object):
         self.lblArrow.setText("")
         self.lblTimeUTC.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.lblTimeZULU.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"MPS", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"KT", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"KMH", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"NM", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"M", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"KM", None))

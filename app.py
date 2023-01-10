@@ -25,12 +25,15 @@ class Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setup_ui()
-        self.setup_signals()
-        self.setup_timers()
-        self.update_time_event()
 
         self.edtPressures = (self.edtHPA, self.edtMMRT, self.edtENCHRT)
         self.edtDistance = (self.edtM, self.edtKM, self.edtNM)
+        self.edtSpeeds = (self.edtMPS, self.edtKT, self.edtKMH)
+        self.edtAll = self.edtPressures + self.edtDistance + self.edtSpeeds
+
+        self.setup_signals()
+        self.setup_timers()
+        self.update_time_event()
 
         self.isEditing = False
 
@@ -60,13 +63,8 @@ class Window(QMainWindow, Ui_MainWindow):
         self.cmbLanguage.currentTextChanged.connect(self.onLanguageChanged)
         self.btnAddToQuickbar.clicked.connect(self.onAddToQuickbarClicked)
 
-        self.edtHPA.textChanged.connect(self.onEdtConverterChanged)
-        self.edtMMRT.textChanged.connect(self.onEdtConverterChanged)
-        self.edtENCHRT.textChanged.connect(self.onEdtConverterChanged)
-
-        self.edtNM.textChanged.connect(self.onEdtConverterChanged)
-        self.edtKM.textChanged.connect(self.onEdtConverterChanged)
-        self.edtM.textChanged.connect(self.onEdtConverterChanged)
+        for edt in self.edtAll:
+            edt.textChanged.connect(self.onEdtConverterChanged)
 
     def setup_timers(self):
         self.timer_metars = QTimer()
@@ -103,13 +101,14 @@ class Window(QMainWindow, Ui_MainWindow):
         text = sender.text().replace(',', '.')
         if text == '':
             if sender in self.edtPressures:
-                self.edtHPA.clear()
-                self.edtMMRT.clear()
-                self.edtENCHRT.clear()
+                for edt in self.edtPressures:
+                    edt.clear()
             elif sender in self.edtDistance:
-                self.edtM.clear()
-                self.edtKM.clear()
-                self.edtNM.clear()
+                for edt in self.edtDistance:
+                    edt.clear()
+            elif sender in self.edtSpeeds:
+                for edt in self.edtSpeeds:
+                    edt.clear()
             self.isEditing = False
             return
 
@@ -139,6 +138,16 @@ class Window(QMainWindow, Ui_MainWindow):
             elif sender == self.edtNM:
                 self.edtM.setText(str(text * 1609.344))
                 self.edtKM.setText(str(text * 1.609344))
+        elif sender in self.edtSpeeds:
+            if sender == self.edtMPS:
+                self.edtKT.setText(str(text * 1.94384))
+                self.edtKMH.setText(str(text * 3.6))
+            elif sender == self.edtKT:
+                self.edtMPS.setText(str(text * 0.5144))
+                self.edtKMH.setText(str(text * 1.85199))
+            elif sender == self.edtKMH:
+                self.edtMPS.setText(str(text * 0.27777))
+                self.edtKT.setText(str(text * 0.53995))
 
         self.isEditing = False
 

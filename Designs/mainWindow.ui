@@ -28,9 +28,9 @@
    <string>Metar Decoder</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
-     <number>7</number>
+     <number>9</number>
     </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -66,23 +66,19 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QListWidget" name="lstQuickbar">
-          <property name="maximumSize">
-           <size>
-            <width>75</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QListWidget" name="lstQuickbar">
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
           <item>
@@ -111,7 +107,7 @@
            </widget>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout">
             <item>
              <widget class="QLabel" name="lblArrow">
               <property name="minimumSize">
@@ -163,6 +159,61 @@
                <string>TextLabel</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,4">
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>MPS</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="edtMPS"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="1,4">
+              <item>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>KT</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="edtKT"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="1,4">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>KMH</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="edtKMH"/>
+              </item>
+             </layout>
             </item>
             <item>
              <spacer name="verticalSpacer_4">
