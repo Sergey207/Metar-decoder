@@ -3,8 +3,8 @@ import re
 
 import requests
 
-from metar.metarClasses import *
-from metar.metarConstants import weather_regular_expression, cloudiness_re
+from MetarEngine.metarClasses import *
+from MetarEngine.metarConstants import weather_regular_expression, cloudiness_re
 
 
 class Metar:

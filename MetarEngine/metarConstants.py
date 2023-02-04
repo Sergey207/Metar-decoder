@@ -1,4 +1,4 @@
-from metar.metarConstantsEnglish import bad_visibility_weather_events, \
+from MetarEngine.metarConstantsEnglish import bad_visibility_weather_events, \
     other_weather_events, cloudiness, precipitations, descriptors
 
 intensivity_re = [r'\-', r'\+', 'VC', '']

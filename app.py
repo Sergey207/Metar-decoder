@@ -11,7 +11,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLine
 
 from Designs.arrowLabel import ArrowLabel
 from Designs.mainWindow import Ui_MainWindow
-from metar.metarEngine import Metar
+from MetarEngine.metarEngine import Metar
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -435,7 +435,7 @@ if __name__ == '__main__':
     language = settings['language']
     quick_bar = settings['quick_bar']
     if language.lower() in ('ru', 'rus', 'russian'):
-        from metar.metarConstantsRussian import *
+        from MetarEngine.metarConstantsRussian import *
     else:
-        from metar.metarConstantsEnglish import *
+        from MetarEngine.metarConstantsEnglish import *
     main()
