@@ -2,6 +2,7 @@ import datetime
 import json
 import pathlib
 import sys
+from getpass import getuser
 
 import requests
 import zulu
@@ -232,7 +233,11 @@ class Window(QMainWindow, Ui_MainWindow):
 
     @staticmethod
     def save_settings():
-        with (EXE_DIR / 'settings.json').open('w') as f:
+        settings_path = pathlib.Path(f'C:/Users/{getuser()}/AppData/Local/MetarDecoder')
+        if not settings_path.exists():
+            settings_path.mkdir()
+        settings_path /= 'settings.json'
+        with settings_path.open('w') as f:
             json.dump({'language': language, 'quick_bar': quick_bar}, f, indent=2)
 
     def get_table_data(self, metar: Metar):
@@ -393,7 +398,10 @@ class Window(QMainWindow, Ui_MainWindow):
 
 
 def load_settings():
-    settings_path = EXE_DIR / 'settings.json'
+    settings_path = pathlib.Path(f'C:/Users/{getuser()}/AppData/Local/MetarDecoder')
+    if not settings_path.exists():
+        return DEFAULT_SETTINGS
+    settings_path /= 'settings.json'
     if not settings_path.exists():
         return DEFAULT_SETTINGS
     with settings_path.open() as f:
