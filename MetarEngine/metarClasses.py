@@ -1,9 +1,15 @@
 class Wind:
     def __init__(self, direction, speed, gust, unit_of_measurement):
-        self.direction = int(direction) if direction != "VRB" else "Variable"
+        """
+        :param direction: 10000 if Variable
+        :param speed: int
+        :param gust: bool
+        :param unit_of_measurement: MPS or KMH or KT
+        """
+        self.direction = int(direction) if direction != "VRB" else 10000
         self.speed = int(speed[-2:])
         self.speed_more_then_50mps = speed.startswith('P')
-        self.gust = int(gust[1:]) if gust else None
+        self.gust = int(gust[1:]) if gust else 0
         self.unit_of_measurement = unit_of_measurement
 
     def __repr__(self):
@@ -14,16 +20,19 @@ class Wind:
 
 class Visibility:
     def __init__(self, distance, direction):
+        """
+        :param distance: 10000 if CAVOK
+        :param direction: "" if there is no direction
+        """
         self.unit_of_measurement = 'm'
         if distance == 'CAVOK':
-            self.distance = 9999
+            self.distance = 10000
         else:
             if distance.endswith('SM'):
                 distance = distance[:-2]
                 self.unit_of_measurement = 'SM'
-
             self.distance = int(distance)
-        self.direction = direction if direction else None
+        self.direction = direction if direction else ""
 
     def __repr__(self):
         return f"Distance: {self.distance}, Direction: {self.direction}"
@@ -31,6 +40,13 @@ class Visibility:
 
 class RVRVisibility:
     def __init__(self, RVR_number, RVR_parallel, visibility_prefix, visibility, visibility_changes):
+        """
+        :param RVR_number: int
+        :param RVR_parallel: str
+        :param visibility_prefix: str
+        :param visibility: int
+        :param visibility_changes: str
+        """
         self.RVR_number = RVR_number
         self.RVR_parallel = RVR_parallel
         self.visibility_prefix = visibility_prefix

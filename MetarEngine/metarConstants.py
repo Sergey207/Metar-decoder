@@ -15,3 +15,4 @@ weather_regular_expression = f'({"|".join(intensivity_re)})' \
                              f'({"|".join(other_weather_events_re)})?'
 weather_regular_expression = r'\s' + weather_regular_expression + r'\s'
 cloudiness_re = '(' + '|'.join(cloudiness.keys()) + '|VV)' + r'(\d{3}|)'
+trend_start = ('NOSIG', 'BECMG', 'TEMPO', 'NSW', 'FM', 'TL', 'AT')
