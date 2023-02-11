@@ -81,7 +81,6 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.setColumnCount(2)
         self.tblResult.setRowCount(0)
         self.tblResult.setHorizontalHeaderLabels((app_locale["Name"], app_locale["Value"]))
-        self.tblResult.resizeColumnsToContents()
 
     def update_time_event(self):
         zulu_time = zulu.now()
@@ -230,6 +229,11 @@ class Window(QMainWindow, Ui_MainWindow):
     def set_star_state(self, state):
         self.btnAddToQuickbar.setIcon(self.starOn if state else self.starOff)
         self.star_state = state
+
+    def setup_columns_size(self):
+        self.tblResult.resizeColumnsToContents()
+        width = max(self.tblResult.width() - self.tblResult.columnWidth(0) - 2, self.tblResult.columnWidth(1))
+        self.tblResult.setColumnWidth(1, width)
 
     @staticmethod
     def save_settings():
@@ -381,9 +385,11 @@ class Window(QMainWindow, Ui_MainWindow):
             metar = Metar(self.edtAirportCode.text().upper())
         except ValueError:
             self.edtMetarCode.setText(value_error)
+            self.tblResult.clear()
             return
         except requests.RequestException:
             self.edtMetarCode.setText(internet_error)
+            self.tblResult.clear()
             return
 
         to_show = self.get_table_data(metar)
@@ -394,7 +400,11 @@ class Window(QMainWindow, Ui_MainWindow):
             self.tblResult.setItem(index, 1, QTableWidgetItem(line[1]))
 
         self.edtMetarCode.setText(metar.full_metar)
-        self.tblResult.resizeColumnsToContents()
+        self.setup_columns_size()
+
+    def resizeEvent(self, event) -> None:
+        super().resizeEvent(event)
+        self.setup_columns_size()
 
 
 def load_settings():
