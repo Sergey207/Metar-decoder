@@ -141,7 +141,8 @@ app_locale = {
     'Language': 'Language',
     'Quickbar': 'Quickbar',
     'Save settings': 'Save settings',
-    'Trend': 'Trend'
+    'Trend': 'Trend',
+    'Time': 'Time'
 }
 new_airport = 'Airport code'
 new_airport_code = 'New airport code'
@@ -154,4 +155,10 @@ trends = {
     'FM': 'From',
     'TL': 'Till',
     'AT': 'At'
+}
+
+trend_time = {
+    "FM": "From",
+    "TL": "To",
+    "AT": "At"
 }

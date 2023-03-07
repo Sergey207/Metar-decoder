@@ -377,6 +377,48 @@ class Window(QMainWindow, Ui_MainWindow):
 
         if metar.trend:
             to_show.append((app_locale['Trend'], trends.get(metar.trend.split()[0], not_found_message)))
+            if metar.trend_time:
+                trend_time_text = [f"{trend_time.get(i.type_of_trend_time)} {i.time.strftime('%H:%M')}" for i in metar.trend_time]
+                to_show.append((app_locale['Trend'] + '; ' + app_locale['Time'], ' '.join(trend_time_text)))
+
+            for i, wind in enumerate(metar.trend_wind):
+                name_prefix = f' {i + 1}' if len(metar.trend_wind) > 1 else ''
+
+                to_show.append((app_locale['Trend'] + '; ' + app_locale['Wind direction'] + name_prefix, f"{wind.direction}°"))
+                wind_speed = f"{wind.speed} {wind.unit_of_measurement}"
+                if wind.unit_of_measurement == 'KT':
+                    wind_speed += f' ({format(wind.speed * 0.51, ".2f")} m/c)'
+                to_show.append((app_locale['Trend'] + '; ' + app_locale['Wind speed'] + name_prefix, wind_speed))
+                if wind.gust:
+                    to_show.append((app_locale['Trend'] + '; ' + app_locale['Wind gust'] + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
+
+            for i, visibility in enumerate(metar.trend_visibility):
+                if len(metar.visibility) > 1:
+                    name = f"{app_locale['Trend']}; {app_locale['Visibility']} {i + 1}"
+                else:
+                    name = f"{app_locale['Trend']}; {app_locale['Visibility']}"
+
+                if visibility.distance < 9999:
+                    new_str = f'{visibility.distance} {visibility.unit_of_measurement}'
+                    if visibility.unit_of_measurement == 'SM':
+                        new_str += f' ({visibility.distance * 1852} m)'
+                else:
+                    new_str = '>10km'
+
+                if visibility.direction:
+                    new_str += f' {visibility.direction}'
+                to_show.append((name, new_str))
+
+            for i, clouds in enumerate(metar.trend_cloudiness):
+                if len(metar.trend_cloudiness) > 1:
+                    name = f'{app_locale["Trend"]}; {app_locale["Cloudiness"]} {i + 1}'
+                else:
+                    name = f"{app_locale['Trend']}; {app_locale['Cloudiness']}"
+                new_str = cloudiness.get(clouds.number_of_clouds, not_found_message)
+                if clouds.height_of_lower_bound:
+                    new_str = f'{app_locale["Height"]} {clouds.height_of_lower_bound} m; ' + new_str
+                to_show.append((name, new_str))
+
         return to_show
 
     def updateMetar(self):
