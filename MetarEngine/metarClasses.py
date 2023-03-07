@@ -1,3 +1,6 @@
+import datetime
+
+
 class Wind:
     def __init__(self, direction, speed, gust, unit_of_measurement):
         """
@@ -148,3 +151,13 @@ class Pressure:
 
     def __repr__(self):
         return f"{self.value} {self.unit_of_measurement}"
+
+
+class TrendTime:
+    def __init__(self, type_of_trend_time, hour, minute):
+        self.type_of_trend_time = type_of_trend_time
+        self.time = datetime.time(int(hour), int(minute))
+
+    def __repr__(self):
+        return f'{self.type_of_trend_time} -> {self.time}'
+

@@ -26,6 +26,7 @@ class Metar:
         self.full_metar = ' '.join(self.server_data['metar'].split())
         self.taf = ' '.join(self.server_data['taf'].split())
 
+        # trend
         self.date_time = analyze_date_time(self.metar)
         self.wind = analyze_wind_gust(self.metar)
         self.visibility = analyze_visibility(self.metar)
@@ -35,6 +36,12 @@ class Metar:
         self.cloudiness = analyze_cloudiness(self.metar)
         self.temperature_and_dewpoint = analyze_temperature_devpoint(self.metar)
         self.pressure = analyze_pressure(self.metar)
+
+        # trend
+        self.trend_time = analyze_time_of_trend(self.trend)
+        self.trend_wind = analyze_wind_gust(self.trend)
+        self.trend_visibility = analyze_visibility(self.trend)
+        self.trend_cloudiness = analyze_cloudiness(self.trend)
 
     def get_server_data(self):
         response = requests.get(self.metars_server + self.airport_code + '.json')

@@ -1,4 +1,3 @@
-import datetime
 import re
 
 from MetarEngine.metarClasses import *
@@ -40,6 +39,7 @@ def analyze_metar(metar: str) -> (str, str, str):
     return metar, trend, remarks
 
 
+# metar
 def analyze_date_time(metar):
     for i in re.findall(r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})', metar):
         return datetime.datetime(*map(int, i))
@@ -105,4 +105,12 @@ def analyze_pressure(metar):
     res = []
     for i in re.findall(r'([QA])(\d{4})', metar):
         res.append(Pressure(*i))
+    return res
+
+
+# trend
+def analyze_time_of_trend(metar):
+    res = []
+    for i in re.findall(r'(FM|TL|AT)(\d{2})(\d{2})', metar):
+        res.append(TrendTime(*i))
     return res
