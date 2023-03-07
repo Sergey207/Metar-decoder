@@ -141,7 +141,7 @@ app_locale = {
     'Language': 'Язык',
     'Quickbar': 'Быстрая панель',
     'Save settings': 'Сохранить настройки',
-    'Trend': 'Тренд'
+    'Trend': 'Прогноз'
 }
 new_airport = 'Код аэропорта'
 new_airport_code = 'Новый код аэропорта'
