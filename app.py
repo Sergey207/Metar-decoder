@@ -1,4 +1,3 @@
-import datetime
 import json
 import pathlib
 import sys
@@ -12,7 +11,9 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLine
 
 from Designs.arrowLabel import ArrowLabel
 from Designs.mainWindow import Ui_MainWindow
+from MetarEngine.metarEnLocalization import EnLocale
 from MetarEngine.metarEngine import Metar
+from tableGenerators import *
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -57,7 +58,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.btnAddToQuickbar.setIcon(self.starOff)
         self.star_state = False
 
-        self.lblAirportCode.setText(app_locale['Airport code'])
+        self.lblAirportCode.setText(app_locale.Airport_code)
 
     def setup_signals(self):
         self.edtAirportCode.textChanged.connect(self.onAirportCodeChanged)
@@ -80,7 +81,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tblResult.clear()
         self.tblResult.setColumnCount(2)
         self.tblResult.setRowCount(0)
-        self.tblResult.setHorizontalHeaderLabels((app_locale["Name"], app_locale["Value"]))
+        self.tblResult.setHorizontalHeaderLabels((app_locale.Name, app_locale))
 
     def update_time_event(self):
         zulu_time = zulu.now()
@@ -246,178 +247,40 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def get_table_data(self, metar: Metar):
         to_show: list[tuple[str, str]] = [
-            (app_locale['Airport code'], metar.airport_code),
-            (app_locale['Airport name'], metar.name),
-            (app_locale['Date and time'], metar.date_time.strftime("%d/%m/%Y %H:%M:%S"))
+            (app_locale.Airport_code, metar.airport_code),
+            (app_locale.Airport_name, metar.name),
+            (app_locale.Date_and_time, metar.date_time.strftime("%d/%m/%Y %H:%M:%S"))
         ]
 
         self.lblArrow.resetDeg()
-        for i, wind in enumerate(metar.wind):
-            name_prefix = f" {i + 1}" if len(metar.wind) > 1 else ''
-
-            to_show.append((app_locale['Wind direction'] + name_prefix, f"{wind.direction}°"))
-            wind_speed = f"{wind.speed} {wind.unit_of_measurement}"
-            if wind.unit_of_measurement == 'KT':
-                wind_speed += f' ({format(wind.speed * 0.51, ".2f")} m/c)'
-            to_show.append((app_locale['Wind speed'] + name_prefix, wind_speed))
-            if wind.gust:
-                to_show.append((app_locale['Wind gust'] + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
-            self.lblArrow.setDeg(wind.direction)
-
-            match wind.unit_of_measurement:
-                case 'MPS':
-                    self.edtMPS.setText(str(wind.speed))
-                case 'KMH':
-                    self.edtKMH.setText(str(wind.speed))
-                case 'KT':
-                    self.edtKT.setText(str(wind.speed))
-
+        to_show.extend(generate_wind(metar.wind, app_locale, self))
         self.lblArrow.repaint()
 
-        for i, visibility in enumerate(metar.visibility):
-            if len(metar.visibility) > 1:
-                name = f"{app_locale['Visibility']} {i + 1}"
-            else:
-                name = app_locale['Visibility']
+        to_show.extend(generate_visibility(metar.visibility, app_locale, self))
 
-            if visibility.distance < 9999:
-                new_str = f'{visibility.distance} {visibility.unit_of_measurement}'
-                if visibility.unit_of_measurement == 'SM':
-                    new_str += f' ({visibility.distance * 1852} m)'
-            else:
-                new_str = '>10km'
+        to_show.extend(generate_rvr_visibility(metar.rvr_visibility, app_locale))
 
-            if visibility.direction:
-                new_str += f' {visibility.direction}'
-            to_show.append((name, new_str))
+        to_show.extend(generate_rvr_weather(metar.rvr_weather, app_locale))
 
-            if visibility.unit_of_measurement == 'm':
-                if visibility.distance == 9999:
-                    self.edtM.setText('10000')
-                else:
-                    self.edtM.setText(str(visibility.distance))
-            elif visibility.unit_of_measurement == 'SM':
-                self.edtKM.setText(str(visibility.distance))
+        to_show.extend(generate_weather(metar.weather, app_locale))
 
-        for i, rvr_weather in enumerate(metar.rvr_weather):
-            name = f"{app_locale['RVR']} {rvr_weather.RVR_number}"
-            if rvr_weather.RVR_parallel:
-                name += f" {app_locale['parallel']} {RVR_prefixes.get(rvr_weather.RVR_parallel, not_found_message)}"
+        to_show.extend(generate_cloudiness(metar.cloudiness, app_locale))
 
-            if rvr_weather.visibility_prefix:
-                to_show.append((name + ' ' + app_locale["visibility prefix"],
-                                RVR_visibilty_prefixes.get(rvr_weather.visibility_prefix, not_found_message)))
+        to_show.extend(generate_temp_dewpoint(metar.temperature_and_dewpoint, app_locale))
 
-            if rvr_weather.visibility_changes:
-                to_show.append((name + ' ' + app_locale['visibility changes'],
-                                RVR_visibility_changements_prefixes.get(rvr_weather.visibility_changes, not_found_message)))
-
-            if rvr_weather.RVR_weather:
-                to_show.append((name + ' ' + app_locale['weather'],
-                                RVR_weathers.get(rvr_weather.RVR_weather, not_found_message)))
-
-            if rvr_weather.runway_deposit:
-                runway_deposit = RVR_deposits.get(rvr_weather.runway_deposit, not_found_message).capitalize()
-                runway_deposit += f' ({rvr_weather.runway_deposit})'
-                to_show.append((name + ' ' + app_locale['RVR deposit'], runway_deposit))
-
-            if rvr_weather.extend_of_contamination:
-                extend_of_contamination = RVR_extends_of_contamination.get(rvr_weather.extend_of_contamination, not_found_message)
-                extend_of_contamination += f' ({rvr_weather.extend_of_contamination})'
-                to_show.append((name + ' ' + app_locale['extend of contamination'], extend_of_contamination))
-
-            if rvr_weather.depth_of_deposit:
-                depth_of_deposit = RVR_deposits.get(rvr_weather.depth_of_deposit, not_found_message)
-                depth_of_deposit += f' ({rvr_weather.depth_of_deposit})'
-                to_show.append((name + ' ' + app_locale['depth of deposit'], depth_of_deposit))
-            to_show.append((name + ' ' + app_locale['braking friction coefficient'],
-                            str(rvr_weather.braking_friction_coeficient)))
-
-        for i, weather in enumerate(metar.weather):
-            name = f'{app_locale["Weather"]} {i + 1}' if len(metar.weather) > 1 else app_locale['Weather']
-            if weather.intensivity:
-                to_show.append((name + ' ' + app_locale['intensivity'],
-                                intensivities.get(weather.intensivity, not_found_message)))
-            if weather.descriptor:
-                to_show.append((name + ' ' + app_locale['descriptor'], descriptors.get(weather.descriptor, not_found_message)))
-            if weather.precipitations[0]:
-                to_show.append((name + ' ' + app_locale['precipitations'], precipitations.get(weather.precipitations[0], not_found_message)))
-            if weather.precipitations[1]:
-                to_show.append((name + ' precipitations', precipitations.get(weather.precipitations[1], not_found_message)))
-            if weather.bad_visibility_weather_events:
-                to_show.append((name + ' ' + app_locale['bad visibility weather events'],
-                                bad_visibility_weather_events.get(weather.bad_visibility_weather_events, not_found_message)))
-            if weather.other_weather_events:
-                to_show.append((name + ' ' + app_locale['other weather events'],
-                                other_weather_events.get(weather.other_weather_events, not_found_message)))
-
-        for i, clouds in enumerate(metar.cloudiness):
-            if len(metar.cloudiness) > 1:
-                name = f'{app_locale["Cloudiness"]} {i + 1}'
-            else:
-                name = app_locale['Cloudiness']
-            new_str = cloudiness.get(clouds.number_of_clouds, not_found_message)
-            if clouds.height_of_lower_bound:
-                new_str = f'{app_locale["Height"]} {clouds.height_of_lower_bound} m; ' + new_str
-            to_show.append((name, new_str))
-
-        for i, temperature_dewpoint in enumerate(metar.temperature_and_dewpoint):
-            name_prefix = f' {i + 1}' if len(metar.temperature_and_dewpoint) > 1 else ''
-            to_show.append((app_locale['Temperature'] + name_prefix, f'{temperature_dewpoint.temperature}°'))
-            to_show.append((app_locale['Dewpoint'] + name_prefix, f'{temperature_dewpoint.dewpoint}°'))
-
-        for i, pressure in enumerate(metar.pressure):
-            name_prefix = f' {i + 1}' if len(metar.pressure) > 1 else ''
-            to_show.append((app_locale['Pressure'] + name_prefix,
-                            f"{pressure.value} {pressure.unit_of_measurement}"))
-            if pressure.unit_of_measurement == 'HPA':
-                self.edtHPA.setText(pressure.value)
-            if pressure.unit_of_measurement == 'inHg':
-                self.edtENCHRT.setText(pressure.value)
+        to_show.extend(generate_pressure(metar.pressure, app_locale, self))
 
         if metar.trend:
-            to_show.append((app_locale['Trend'], trends.get(metar.trend.split()[0], not_found_message)))
+            to_show.append((app_locale.Trend, app_locale.trends.get(metar.trend.split()[0], app_locale.not_found_message)))
             if metar.trend_time:
-                trend_time_text = [f"{trend_time.get(i.type_of_trend_time)} {i.time.strftime('%H:%M')}" for i in metar.trend_time]
-                to_show.append((app_locale['Trend'] + '; ' + app_locale['Time'], ' '.join(trend_time_text)))
+                trend_time_text = [f"{app_locale.trend_time.get(i.type_of_trend_time)} {i.time.strftime('%H:%M')}" for i in metar.trend_time]
+                to_show.append((app_locale.Trend + '; ' + app_locale.time, ' '.join(trend_time_text)))
 
-            for i, wind in enumerate(metar.trend_wind):
-                name_prefix = f' {i + 1}' if len(metar.trend_wind) > 1 else ''
+            to_show.extend(generate_wind(metar.trend_wind, app_locale))
 
-                to_show.append((app_locale['Trend'] + '; ' + app_locale['Wind direction'] + name_prefix, f"{wind.direction}°"))
-                wind_speed = f"{wind.speed} {wind.unit_of_measurement}"
-                if wind.unit_of_measurement == 'KT':
-                    wind_speed += f' ({format(wind.speed * 0.51, ".2f")} m/c)'
-                to_show.append((app_locale['Trend'] + '; ' + app_locale['Wind speed'] + name_prefix, wind_speed))
-                if wind.gust:
-                    to_show.append((app_locale['Trend'] + '; ' + app_locale['Wind gust'] + name_prefix, f"{wind.gust} {wind.unit_of_measurement}"))
+            to_show.extend(generate_visibility(metar.visibility, app_locale))
 
-            for i, visibility in enumerate(metar.trend_visibility):
-                if len(metar.visibility) > 1:
-                    name = f"{app_locale['Trend']}; {app_locale['Visibility']} {i + 1}"
-                else:
-                    name = f"{app_locale['Trend']}; {app_locale['Visibility']}"
-
-                if visibility.distance < 9999:
-                    new_str = f'{visibility.distance} {visibility.unit_of_measurement}'
-                    if visibility.unit_of_measurement == 'SM':
-                        new_str += f' ({visibility.distance * 1852} m)'
-                else:
-                    new_str = '>10km'
-
-                if visibility.direction:
-                    new_str += f' {visibility.direction}'
-                to_show.append((name, new_str))
-
-            for i, clouds in enumerate(metar.trend_cloudiness):
-                if len(metar.trend_cloudiness) > 1:
-                    name = f'{app_locale["Trend"]}; {app_locale["Cloudiness"]} {i + 1}'
-                else:
-                    name = f"{app_locale['Trend']}; {app_locale['Cloudiness']}"
-                new_str = cloudiness.get(clouds.number_of_clouds, not_found_message)
-                if clouds.height_of_lower_bound:
-                    new_str = f'{app_locale["Height"]} {clouds.height_of_lower_bound} m; ' + new_str
-                to_show.append((name, new_str))
+            to_show.extend(generate_cloudiness(metar.trend_cloudiness, app_locale, is_trend=True))
 
         return to_show
 
@@ -426,11 +289,11 @@ class Window(QMainWindow, Ui_MainWindow):
         try:
             metar = Metar(self.edtAirportCode.text().upper())
         except ValueError:
-            self.edtMetarCode.setText(value_error)
+            self.edtMetarCode.setText(app_locale.internet_error)
             self.tblResult.clear()
             return
         except requests.RequestException:
-            self.edtMetarCode.setText(internet_error)
+            self.edtMetarCode.setText(app_locale.internet_error)
             self.tblResult.clear()
             return
 
@@ -495,7 +358,8 @@ if __name__ == '__main__':
     language = settings['language']
     quick_bar = settings['quick_bar']
     if language.lower() in ('ru', 'rus', 'russian'):
-        from MetarEngine.metarConstantsRussian import *
+        app_locale = RuLocale()
     else:
-        from MetarEngine.metarConstantsEnglish import *
+        app_locale = EnLocale()
+
     main()

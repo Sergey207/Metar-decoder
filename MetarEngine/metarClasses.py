@@ -45,8 +45,7 @@ class RVRVisibility:
     def __init__(self, RVR_number, RVR_parallel, visibility_prefix, visibility, visibility_changes):
         """
         :param RVR_number: int
-        :param RVR_parallel: str
-        :param visibility_prefix: str
+        :param RVR_parallel: str        :param visibility_prefix:
         :param visibility: int
         :param visibility_changes: str
         """

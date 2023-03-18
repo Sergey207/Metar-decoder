@@ -43,11 +43,11 @@ class Metar:
         self.trend_visibility = analyze_visibility(self.trend)
         self.trend_cloudiness = analyze_cloudiness(self.trend)
 
+    def __str__(self):
+        return self.full_metar
+
     def get_server_data(self):
         response = requests.get(self.metars_server + self.airport_code + '.json')
         if not response:
             raise requests.RequestException
         return response.json()
-
-    def __str__(self):
-        return self.metar
