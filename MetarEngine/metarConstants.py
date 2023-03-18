@@ -1,11 +1,10 @@
-from MetarEngine.metarConstantsEnglish import bad_visibility_weather_events, \
-    other_weather_events, cloudiness, precipitations, descriptors
+from MetarEngine.metarEnLocalization import EnLocale
 
 intensivity_re = [r'\-', r'\+', 'VC', '']
-descriptor_re = descriptors.keys()
-precipitation_re = precipitations.keys()
-bad_visibility_weather_events_re = bad_visibility_weather_events.keys()
-other_weather_events_re = other_weather_events.keys()
+descriptor_re = EnLocale.descriptors.keys()
+precipitation_re = EnLocale.precipitations.keys()
+bad_visibility_weather_events_re = EnLocale.bad_visibility_weather_events.keys()
+other_weather_events_re = EnLocale.other_weather_events.keys()
 
 weather_regular_expression = f'({"|".join(intensivity_re)})' \
                              f'({"|".join(descriptor_re)})?' \
@@ -14,5 +13,5 @@ weather_regular_expression = f'({"|".join(intensivity_re)})' \
                              f'({"|".join(bad_visibility_weather_events_re)})?' \
                              f'({"|".join(other_weather_events_re)})?'
 weather_regular_expression = r'\s' + weather_regular_expression + r'\s'
-cloudiness_re = '(' + '|'.join(cloudiness.keys()) + '|VV)' + r'(\d{3}|)'
+cloudiness_re = '(' + '|'.join(EnLocale.cloudiness.keys()) + '|VV)' + r'(\d{3}|)'
 trend_start = ('NOSIG', 'BECMG', 'TEMPO', 'NSW', 'FM', 'TL', 'AT')
