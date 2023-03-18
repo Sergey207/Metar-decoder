@@ -278,7 +278,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
             to_show.extend(generate_wind(metar.trend_wind, app_locale))
 
-            to_show.extend(generate_visibility(metar.visibility, app_locale))
+            to_show.extend(generate_visibility(metar.trend_visibility, app_locale))
 
             to_show.extend(generate_cloudiness(metar.trend_cloudiness, app_locale, is_trend=True))
 
