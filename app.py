@@ -11,7 +11,6 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLine
 
 from Designs.arrowLabel import ArrowLabel
 from Designs.mainWindow import Ui_MainWindow
-from MetarEngine.metarEnLocalization import EnLocale
 from MetarEngine.metarEngine import Metar
 from tableGenerators import *
 
@@ -233,8 +232,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def setup_columns_size(self):
         self.tblResult.resizeColumnsToContents()
-        width = max(self.tblResult.width() - self.tblResult.columnWidth(0) - 2, self.tblResult.columnWidth(1))
-        self.tblResult.setColumnWidth(1, width)
+        self.tblResult.setColumnWidth(1, self.tblResult.width() - self.tblResult.columnWidth(0))
 
     @staticmethod
     def save_settings():
@@ -253,34 +251,34 @@ class Window(QMainWindow, Ui_MainWindow):
         ]
 
         self.lblArrow.resetDeg()
-        to_show.extend(generate_wind(metar.wind, app_locale, self))
+        to_show.extend(generate_wind(metar.wind, app_locale, '', self))
         self.lblArrow.repaint()
 
-        to_show.extend(generate_visibility(metar.visibility, app_locale, self))
-
+        to_show.extend(generate_visibility(metar.visibility, app_locale, '', self))
         to_show.extend(generate_rvr_visibility(metar.rvr_visibility, app_locale))
-
         to_show.extend(generate_rvr_weather(metar.rvr_weather, app_locale))
-
         to_show.extend(generate_weather(metar.weather, app_locale))
-
         to_show.extend(generate_cloudiness(metar.cloudiness, app_locale))
-
         to_show.extend(generate_temp_dewpoint(metar.temperature_and_dewpoint, app_locale))
-
         to_show.extend(generate_pressure(metar.pressure, app_locale, self))
 
         if metar.trend:
             to_show.append((app_locale.Trend, app_locale.trends.get(metar.trend.split()[0], app_locale.not_found_message)))
             if metar.trend_time:
                 trend_time_text = [f"{app_locale.trend_time.get(i.type_of_trend_time)} {i.time.strftime('%H:%M')}" for i in metar.trend_time]
-                to_show.append((app_locale.Trend + '; ' + app_locale.time, ' '.join(trend_time_text)))
+                to_show.append((app_locale.Trend + '; ' + app_locale.Time, ' '.join(trend_time_text)))
+            to_show.extend(generate_wind(metar.trend_wind, app_locale, f'{app_locale.Trend}; '))
+            to_show.extend(generate_visibility(metar.trend_visibility, app_locale, f'{app_locale.Trend}; '))
+            to_show.extend(generate_cloudiness(metar.trend_cloudiness, app_locale, f'{app_locale.Trend}; '))
 
-            to_show.extend(generate_wind(metar.trend_wind, app_locale))
-
-            to_show.extend(generate_visibility(metar.trend_visibility, app_locale))
-
-            to_show.extend(generate_cloudiness(metar.trend_cloudiness, app_locale, is_trend=True))
+        if metar.taf:
+            to_show.append((f"{app_locale.TAF}; {app_locale.Date_and_time}", metar.taf_date_time.strftime("%d/%m/%Y %H:%M:%S")))
+            to_show.extend(generate_taf_action_time(metar.taf_action_time, metar.taf_date_time.month, app_locale))
+            to_show.extend(generate_wind(metar.taf_wind, app_locale, f'{app_locale.TAF}; '))
+            to_show.extend(generate_visibility(metar.taf_visibility, app_locale, f'{app_locale.TAF}; '))
+            to_show.extend(generate_weather(metar.taf_weather, app_locale, f'{app_locale.TAF}; '))
+            to_show.extend(generate_cloudiness(metar.taf_cloudiness, app_locale, f'{app_locale.TAF}; '))
+            to_show.extend(generate_taf_air_temperature(metar.taf_air_temperature, app_locale))
 
         return to_show
 

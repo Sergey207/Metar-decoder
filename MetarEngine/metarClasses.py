@@ -160,3 +160,25 @@ class TrendTime:
     def __repr__(self):
         return f'{self.type_of_trend_time} -> {self.time}'
 
+
+class ActionTime:
+    def __init__(self, start_day, start_time, end_day, end_time):
+        self.start_day = start_day
+        self.start_time = start_time
+        self.end_day = end_day
+        self.end_time = end_time
+
+    def __repr__(self):
+        return f'ActionTime: {self.start_day} {self.start_time} -> {self.end_day} {self.end_time}'
+
+
+class AirTemperature:
+    def __init__(self, minmax, temperature_sign, temperature, day, duration):
+        self.mx = minmax == 'X'
+        self.temperature = int(temperature)
+        self.temperature *= -1 if temperature_sign else 1
+        self.day = day
+        self.duration = duration
+
+    def __repr__(self):
+        return f"Air temperature: {'max' if self.mx else 'min'} {self.temperature}; {self.day} {self.duration}"

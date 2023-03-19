@@ -143,6 +143,13 @@ class RuLocale:
     Save_settings = 'Сохранить настройки'
     Trend = 'Прогноз'
     Time = 'Время'
+    TAF = 'TAF'
+    Action_time = 'Время действия'
+    Air_temperature = 'Температура воздуха'
+    Min = 'Минимум'
+    Max = 'Максимум'
+    Day = 'День'
+    Duration = 'Длительность'
 
     new_airport = 'Код аэропорта'
     new_airport_code = 'Новый код аэропорта'

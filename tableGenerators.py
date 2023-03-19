@@ -1,12 +1,12 @@
 from MetarEngine.metarClasses import *
+from MetarEngine.metarEnLocalization import EnLocale
 from MetarEngine.metarRuLocalization import RuLocale
 
 
-def generate_wind(winds: list[Wind], locale: RuLocale, app=None):
+def generate_wind(winds: list[Wind], locale: RuLocale | EnLocale, group_prefix: str, app=None):
     res = []
     for i, wind in enumerate(winds):
         name_prefix = f" {i + 1}" if len(winds) > 1 else ''
-        group_prefix = f"{locale.Trend}; " if app is None else ''
 
         res.append((group_prefix + locale.Wind_direction + name_prefix, f"{wind.direction}°"))
         wind_speed = f"{wind.speed} {wind.unit_of_measurement}"
@@ -29,11 +29,10 @@ def generate_wind(winds: list[Wind], locale: RuLocale, app=None):
     return res
 
 
-def generate_visibility(visibilities: list[Visibility], locale: RuLocale, app=None):
+def generate_visibility(visibilities: list[Visibility], locale: RuLocale | EnLocale, group_prefix: str, app=None):
     res = []
     for i, visibility in enumerate(visibilities):
         name_prefix = f'{locale.Visibility} {i + 1}' if len(visibilities) > 1 else locale.Visibility
-        group_prefix = f'{locale.Trend}; ' if app is None else ''
 
         if visibility.distance < 9999:
             new_str = f'{visibility.distance} {visibility.unit_of_measurement}'
@@ -57,55 +56,48 @@ def generate_visibility(visibilities: list[Visibility], locale: RuLocale, app=No
     return res
 
 
-def generate_rvr_visibility(rvr_visibilities: list[RVRVisibility], locale: RuLocale):
+def generate_rvr_name(rvr: RVRVisibility | RVRWeather, locale: RuLocale | EnLocale):
+    name = f"{locale.RVR} {rvr.RVR_number}"
+    if rvr.RVR_parallel:
+        name += f" {locale.Parallel} {locale.RVR_prefixes.get(rvr.RVR_parallel, locale.not_found_message)}"
+    name += '; '
+    return name
+
+
+def generate_rvr(rvr: RVRVisibility | RVRWeather, locale: RuLocale | EnLocale):
     res = []
-    for rvr_weather in rvr_visibilities:
-        name = f"{locale.RVR} {rvr_weather.RVR_number}"
-        if rvr_weather.RVR_parallel:
-            name += f" {locale.Parallel} {locale.RVR_prefixes.get(rvr_weather.RVR_parallel, locale.not_found_message)}"
-        name += '; '
+    name = generate_rvr_name(rvr, locale)
 
-        if rvr_weather.visibility_prefix:
-            res.append(
-                (
-                    f"{name} {locale.Visibility_prefix}",
-                    locale.RVR_visibilty_prefixes.get(rvr_weather.visibility_prefix, locale.not_found_message)
-                )
+    if rvr.visibility_prefix:
+        res.append(
+            (
+                f"{name} {locale.Visibility_prefix}",
+                locale.RVR_visibilty_prefixes.get(rvr.visibility_prefix, locale.not_found_message)
             )
+        )
 
-        if rvr_weather.visibility_changes:
-            res.append(
-                (
-                    f'{name} {locale.Visibility_changes}',
-                    locale.RVR_visibility_changements_prefixes.get(rvr_weather.visibility_changes, locale.not_found_message)
-                )
+    if rvr.visibility_changes:
+        res.append(
+            (
+                f'{name} {locale.Visibility_changes}',
+                locale.RVR_visibility_changements_prefixes.get(rvr.visibility_changes, locale.not_found_message)
             )
+        )
     return res
 
 
-def generate_rvr_weather(rvr_weathers: list[RVRWeather], locale: RuLocale):
+def generate_rvr_visibility(rvr_visibilities: list[RVRVisibility], locale: RuLocale | EnLocale):
+    res = []
+    for rvr_weather in rvr_visibilities:
+        res.extend(generate_rvr(rvr_weather, locale))
+    return res
+
+
+def generate_rvr_weather(rvr_weathers: list[RVRWeather], locale: RuLocale | EnLocale):
     res = []
     for i, rvr_weather in enumerate(rvr_weathers):
-        name = f"{locale.RVR} {rvr_weather.RVR_number}"
-        if rvr_weather.RVR_parallel:
-            name += f" {locale.Parallel} {locale.RVR_prefixes.get(rvr_weather.RVR_parallel, locale.not_found_message)}"
-        name += '; '
-
-        if rvr_weather.visibility_prefix:
-            res.append(
-                (
-                    f'{name} {locale.Visibility_prefix}',
-                    locale.RVR_visibilty_prefixes.get(rvr_weather.visibility_prefix, locale.not_found_message)
-                )
-            )
-
-        if rvr_weather.visibility_changes:
-            res.append(
-                (
-                    name + ' ' + locale.Visibility_changes,
-                    locale.RVR_visibility_changements_prefixes.get(rvr_weather.visibility_changes, locale.not_found_message)
-                )
-            )
+        res.extend(generate_rvr(rvr_weather, locale))
+        name = generate_rvr_name(rvr_weather, locale)
 
         if rvr_weather.RVR_weather:
             res.append(
@@ -136,10 +128,10 @@ def generate_rvr_weather(rvr_weathers: list[RVRWeather], locale: RuLocale):
     return res
 
 
-def generate_weather(weathers: list[Weather], locale: RuLocale):
+def generate_weather(weathers: list[Weather], locale: RuLocale | EnLocale, group_prefix: str = ''):
     res = []
     for i, weather in enumerate(weathers):
-        name = f'{locale.Weather} {i + 1}' if len(weathers) > 1 else locale.Weather
+        name = f'{group_prefix}{locale.Weather} {i + 1}' if len(weathers) > 1 else locale.Weather
         if weather.intensivity:
             res.append((name + ' ' + locale.Intensivity,
                         locale.intensivities.get(weather.intensivity, locale.not_found_message)))
@@ -161,11 +153,10 @@ def generate_weather(weathers: list[Weather], locale: RuLocale):
     return res
 
 
-def generate_cloudiness(clouds: list[Cloudiness], locale: RuLocale, is_trend=False):
+def generate_cloudiness(clouds: list[Cloudiness], locale: RuLocale | EnLocale, group_prefix: str = ''):
     res = []
     for i, cloud in enumerate(clouds):
         name_prefix = f'{locale.Cloudiness} {i + 1}' if len(clouds) > 1 else locale.Cloudiness
-        group_prefix = f'{locale.Trend}; ' if is_trend else ''
         new_str = locale.cloudiness.get(cloud.number_of_clouds, locale.not_found_message)
         if cloud.height_of_lower_bound:
             new_str = f'{locale.Height} {cloud.height_of_lower_bound} m; ' + new_str
@@ -173,7 +164,7 @@ def generate_cloudiness(clouds: list[Cloudiness], locale: RuLocale, is_trend=Fal
     return res
 
 
-def generate_temp_dewpoint(temperature_and_dewpoint: list[TemperatureDewpoint], locale: RuLocale):
+def generate_temp_dewpoint(temperature_and_dewpoint: list[TemperatureDewpoint], locale: RuLocale | EnLocale):
     res = []
     for i, temperature_dewpoint in enumerate(temperature_and_dewpoint):
         name_prefix = f' {i + 1}' if len(temperature_and_dewpoint) > 1 else ''
@@ -182,7 +173,7 @@ def generate_temp_dewpoint(temperature_and_dewpoint: list[TemperatureDewpoint], 
     return res
 
 
-def generate_pressure(pressures: list[Pressure], locale: RuLocale, app):
+def generate_pressure(pressures: list[Pressure], locale: RuLocale | EnLocale, app):
     res = []
     for i, pressure in enumerate(pressures):
         name_prefix = f' {i + 1}' if len(pressures) > 1 else ''
@@ -192,4 +183,29 @@ def generate_pressure(pressures: list[Pressure], locale: RuLocale, app):
             app.edtHPA.setText(pressure.value)
         if pressure.unit_of_measurement == 'inHg':
             app.edtENCHRT.setText(pressure.value)
+    return res
+
+
+def generate_taf_action_time(action_time: list[ActionTime], month: int | str, locale: RuLocale | EnLocale):
+    res = []
+    month = str(month).rjust(2, '0')
+    for at in action_time:
+        res.append(
+            (
+                f'{locale.TAF}; {locale.Action_time}',
+                f'{at.start_time}:00 {at.start_day}.{month} -> {at.end_time}:00 {at.end_day}.{month}'
+            )
+        )
+    return res
+
+
+def generate_taf_air_temperature(air_temperatures: list[AirTemperature], locale: RuLocale | EnLocale):
+    res = []
+    for at in air_temperatures:
+        res.append(
+            (
+                f'{locale.Trend}; {locale.Air_temperature}',
+                f'{locale.Max if at.mx else locale.Min} {at.temperature}; {locale.Day}: {at.day}; {locale.Duration}: {at.duration}'
+            )
+        )
     return res

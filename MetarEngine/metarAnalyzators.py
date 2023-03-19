@@ -114,3 +114,18 @@ def analyze_time_of_trend(metar):
     for i in re.findall(r'(FM|TL|AT)(\d{2})(\d{2})', metar):
         res.append(TrendTime(*i))
     return res
+
+
+# taf
+def analyze_action_time(metar):
+    res = []
+    for i in re.findall(r'(\d{2})(\d{2})/(\d{2})(\d{2})', metar):
+        res.append(ActionTime(*i))
+    return res
+
+
+def analyze_air_temperature(metar):
+    res = []
+    for i in re.findall(r'T(X|N)(M|)(\d{2})/(\d{2})(\d{2})Z', metar):
+        res.append(AirTemperature(*i))
+    return res

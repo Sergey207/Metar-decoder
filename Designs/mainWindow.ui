@@ -83,6 +83,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
           <item>
            <widget class="QTableWidget" name="tblResult">
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>

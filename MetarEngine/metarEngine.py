@@ -43,6 +43,21 @@ class Metar:
         self.trend_visibility = analyze_visibility(self.trend)
         self.trend_cloudiness = analyze_cloudiness(self.trend)
 
+        # TODO Remarks
+        # print(self.remarks)
+
+        # taf
+        self.taf, self.taf_trend, self.taf_remarks = analyze_metar(self.taf)
+
+        # print(self.taf)
+        self.taf_date_time = analyze_date_time(self.taf)
+        self.taf_action_time = analyze_action_time(self.taf)
+        self.taf_wind = analyze_wind_gust(self.taf)
+        self.taf_visibility = analyze_visibility(self.taf)
+        self.taf_weather = analyze_weather(self.taf)
+        self.taf_cloudiness = analyze_cloudiness(self.taf)
+        self.taf_air_temperature = analyze_air_temperature(self.taf)
+
     def __str__(self):
         return self.full_metar
 

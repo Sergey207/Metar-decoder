@@ -143,6 +143,13 @@ class EnLocale:
     Save_settings = 'Save settings'
     Trend = 'Trend'
     Time = 'Time'
+    TAF = 'TAF'
+    Action_time = 'Action time'
+    Air_temperature = 'Air temperature'
+    Min = 'Minimum'
+    Max = 'Maximum'
+    Day = 'Day'
+    Duration = 'Duration'
 
     new_airport = 'Airport code'
     new_airport_code = 'New airport code'

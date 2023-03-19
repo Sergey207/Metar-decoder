@@ -10,11 +10,10 @@
 
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QSize, Qt)
 from PySide6.QtGui import (QFont)
-from PySide6.QtWidgets import (QAbstractItemView, QComboBox, QHBoxLayout,
-                               QLabel, QLineEdit, QListWidget,
-                               QPushButton, QSizePolicy,
-                               QSpacerItem, QTableWidget, QVBoxLayout,
-                               QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QComboBox,
+                               QHBoxLayout, QLabel, QLineEdit,
+                               QListWidget, QPushButton,
+                               QSizePolicy, QSpacerItem, QTableWidget, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -69,6 +68,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.tblResult = QTableWidget(self.centralwidget)
         self.tblResult.setObjectName(u"tblResult")
+        self.tblResult.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tblResult.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContentsOnFirstShow)
         self.tblResult.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tblResult.setSelectionMode(QAbstractItemView.NoSelection)
         self.tblResult.setTextElideMode(Qt.ElideNone)
