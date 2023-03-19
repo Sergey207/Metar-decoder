@@ -131,7 +131,7 @@ def generate_rvr_weather(rvr_weathers: list[RVRWeather], locale: RuLocale | EnLo
 def generate_weather(weathers: list[Weather], locale: RuLocale | EnLocale, group_prefix: str = ''):
     res = []
     for i, weather in enumerate(weathers):
-        name = f'{group_prefix}{locale.Weather} {i + 1}' if len(weathers) > 1 else locale.Weather
+        name = f'{group_prefix}{locale.Weather} {i + 1}' if len(weathers) > 1 else f'{group_prefix}{locale.Weather}'
         if weather.intensivity:
             res.append((name + ' ' + locale.Intensivity,
                         locale.intensivities.get(weather.intensivity, locale.not_found_message)))
@@ -204,7 +204,7 @@ def generate_taf_air_temperature(air_temperatures: list[AirTemperature], locale:
     for at in air_temperatures:
         res.append(
             (
-                f'{locale.Trend}; {locale.Air_temperature}',
+                f'{locale.TAF}; {locale.Air_temperature}',
                 f'{locale.Max if at.mx else locale.Min} {at.temperature}; {locale.Day}: {at.day}; {locale.Duration}: {at.duration}'
             )
         )
