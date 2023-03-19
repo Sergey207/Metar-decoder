@@ -58,6 +58,8 @@ class Metar:
         self.taf_cloudiness = analyze_cloudiness(self.taf)
         self.taf_air_temperature = analyze_air_temperature(self.taf)
 
+        # TODO Trend in taf
+
     def __str__(self):
         return self.full_metar
 
